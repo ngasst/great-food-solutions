@@ -1,5 +1,7 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
 
+const BASEUNITTYTYPE = ['kg', 'l'];
+
 const schema = new Schema ({
     name: {
         type: String,
@@ -7,7 +9,8 @@ const schema = new Schema ({
         unique: false
     },
     baseUnit: {
-        type: Number,
+        type: String,
+        enum: BASEUNITTYTYPE,
         required: true,
         unique: false
     },
@@ -23,34 +26,13 @@ const schema = new Schema ({
             unique: false
         }
     },
-    ingredients: {
-        name: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        quantity: {
-            type: String,
-            required: true,
-            unique: false
-        },
-        price: {
-            type: Number,
-            required: true,
-            unique: false
-        }
+    ingredientId: {
+        type: SchemaTypes.ObjectId,
+        ref: 'Ingredient'
     },
-    clients: {
-        firstName: {
-            type: String,
-            required: true,
-            unique: false
-        },
-        surname: {
-            type: String,
-            required: true,
-            unique: false
-        }
+    clientId: {
+        type: SchemaTypes.ObjectId,
+        ref: 'Client'
     }
 });
 
