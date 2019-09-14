@@ -7,17 +7,17 @@ const schema = new Schema({
     },
     deliveryDay: {
         type: Date,
-        required: true,
+        required: true
     },
     restaurant: {
         type: SchemaTypes.ObjectId,
         ref: "Restaurant"
     },
-   
+
     quantity: {
-        type: number,
-        required: true,
-    },
+        type: Number,
+        required: true
+    }
 });
 
 module.exports.Order = model("Order", schema);
