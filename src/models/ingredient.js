@@ -2,18 +2,17 @@ const { Schema, model, SchemaTypes } = require("mongoose");
 
 const schema = new Schema({
     
-    IngredientId: {
+    ingredient: {
         type: SchemaTypes.ObjectId,
         ref: "Ingredient"
     },
-    Name: {
-        type: String,
-        length: 255, 
+    name: {
+        type: String, 
         required: true, 
         unique: true,
     
     },
-    Price: {
+    price: {
          type: Number,  
          required: true,
 
