@@ -5,32 +5,24 @@ const BASEUNITTYTYPE = ['kg', 'l'];
 const schema = new Schema ({
     name: {
         type: String,
-        required: true,
-        unique: false
+        required: true
     },
     baseUnit: {
         type: String,
         enum: BASEUNITTYTYPE,
-        required: true,
-        unique: false
+        required: true
     },
-    instructions: {
-        stepNumber: {
-            type: Number,
-            required: true,
-            unique: false
-        },
-        stepDescription: {
+    instructions: [
+        {
             type: String,
-            required: true,
-            unique: false
+            required: true
         }
-    },
-    ingredientId: {
+    ],
+    ingredient: {
         type: SchemaTypes.ObjectId,
         ref: 'Ingredient'
     },
-    clientId: {
+    client: {
         type: SchemaTypes.ObjectId,
         ref: 'Client'
     }
