@@ -9,22 +9,19 @@ const schema = new Schema({
         type: String,
         required: true,
         unique: true,
-        length: 255,
     },
     street: {
         type: String,
         required: true,
-        length: 255,
     },
     city: {
         type: String,
         required: true,
-        length: 255,  
     },
     zipCode: {
         type: String,
         required: true,
-        length: 4
+        maxlength: 4
     },
     clientId: {
         type: SchemaTypes.ObjectId,
