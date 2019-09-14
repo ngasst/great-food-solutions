@@ -15,9 +15,8 @@ const schema = new Schema({
     },
    
     quantity: {
-        type: Number,
+        type: number,
         required: true,
-        length: 4
     },
 });
 
