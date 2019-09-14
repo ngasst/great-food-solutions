@@ -3,17 +3,13 @@ const { Schema, model, SchemaTypes } = require("mongoose");
 const schema = new Schema({
     productionDay: {
         type: Date,
-        required: true,
-        unique: true,
-        length: 7
+        required: true
     },
     deliveryDay: {
         type: Date,
         required: true,
-        unique: true,
-        length: 7
     },
-    restaurantId: {
+    restaurant: {
         type: SchemaTypes.ObjectId,
         ref: "Restaurant"
     },
@@ -21,7 +17,6 @@ const schema = new Schema({
     quantity: {
         type: Number,
         required: true,
-        unique: true,
         length: 4
     },
 });
