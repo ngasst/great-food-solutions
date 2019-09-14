@@ -5,26 +5,18 @@ const { Order } = require("./order");
 const { Recipe } = require("./recipe");
 const { Restaurant } = require("./restaurant");
 function testModels() {
-    const promises = [
-        Bill.estimatedDocumentCount(),
-        Client.estimatedDocumentCount(),
-        Ingredient.estimatedDocumentCount(),
-        Order.estimatedDocumentCount(),
-        Restaurant.estimatedDocumentCount(),
-        Recipe.estimatedDocumentCount()
-    ];
+    const models = [Bill, Client, Ingredient, Order, Restaurant, Recipe];
+    const promises = models.map(model => ({
+        model,
+        promise: model.estimatedDocumentCount()
+    }));
 
     return new Promise((resolve, reject) => {
-        Promise.all(promises)
+        Promise.all(promises.map(prom => prom.promise))
             .then(counts => {
-                const collections = [
-                    "bills",
-                    "clients",
-                    "ingredients",
-                    "orders",
-                    "restaurants",
-                    "recipes"
-                ];
+                const collections = promises.map(
+                    prom => prom.model.collection.name
+                );
                 const mapped = collections.map((name, i) => ({
                     [name]: counts[i]
                 }));
