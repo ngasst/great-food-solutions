@@ -1,9 +1,9 @@
-const { Client } = require("../models");
+const { Order } = require("../models");
 
 function list(req, res) {
-    Client.find({})
-        .then(clients => {
-            res.json({ ok: true, payload: clients });
+    Order.find({})
+        .then(orders => {
+            res.json({ ok: true, payload: orders });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -18,11 +18,11 @@ function create(req, res) {
         });
     }
     const name = req.body.name;
-    const client = new Client({ name: name });
-    client
+    const order = new Order({ name: name });
+    order
         .save()
-        .then(client => {
-            res.json({ ok: true, payload: client });
+        .then(order => {
+            res.json({ ok: true, payload: order });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -30,9 +30,9 @@ function create(req, res) {
 }
 
 function remove(req, res) {
-    const client = req.params.id;
-    client.deleteOne({
-        _id: client
+    const order = req.params.id;
+    Order.deleteOne({
+        _id: order
     })
     .then(() => {
         res.json({ok:true, payload:null});
@@ -41,12 +41,11 @@ function remove(req, res) {
         res.json({ok:false, payload:err.message || "FAILED"})
     })
   }
-
 
   function put(req, res){
-    const client = req.params.id;
-    client.updateOne({
-        _id: client
+    const order = req.params.id;
+    Order.updateOne({
+        _id: order
     })
     .then(() => {
         res.json({ok:true, payload:null});
@@ -57,9 +56,10 @@ function remove(req, res) {
 
   }
 
-module.exports = {
+
+  module.exports = {
     list,
-    create, 
+    create,
     remove,
-    put
+    put,
 };
