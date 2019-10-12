@@ -1,4 +1,4 @@
-const { Bill, testModels } = require("../models");
+const { testModels } = require("../models");
 function registerGlobalRoutes(app) {
     // route registration
     app.get("/", (req, res) => {
