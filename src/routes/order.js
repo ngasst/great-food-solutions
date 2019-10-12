@@ -4,4 +4,10 @@ const { order } = require("../handlers");
 
 orderRouter.get("/", order.list);
 orderRouter.post("/", order.create);
-orderRouter.remove("/:id", order.remove);
+orderRouter.delete("/:id", order.remove);
+orderRouter.put("/", order.put);
+
+
+module.exports = {
+    orderRouter
+};

@@ -6,6 +6,8 @@ const { client } = require("../handlers");
 // LIST
 clientRouter.get("/", client.list);
 clientRouter.post("/", client.create);
+clientRouter.delete("/:id", client.remove);
+clientRouter.put("/", client.put);
 
 module.exports = {
     clientRouter
