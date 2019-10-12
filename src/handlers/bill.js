@@ -1,4 +1,6 @@
 const { Bill } = require("../models");
+const { dateIncrementor } = require ("../utils");
+const {format }= require("date-fns")
 
 function list(req, res) {
     Bill.find({})
@@ -11,19 +13,34 @@ function list(req, res) {
 }
 
 function create(req, res) {
-    if (!req.body.number) {
+    if (!req.body.restaurantId) {
         res.json({
             ok: false,
-            payload: 'Must provide an object like: {number: "day/month/year/num"}'
+            payload: 'Must provide an object like: {"name: XXX"}'
         });
     }
-    const number = req.body.number;
-    const bill = new Bill({ number: number });
-    bill
+    if (!req.body.clientID) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {"name : XXX"}'
+        });
+    }
+    if (!req.body.orders) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {"name"}'
+        });
+    }
+    dateIncrementor(bill, format(new Date(), "DD-MM-YY"), "number").then(number => {
+        const bill = new Bill({ number: number });
+        return bill
         .save()
-        .then(client => {
-            res.json({ ok: true, payload: bill });
-        })
+       
+    })
+    .then(bill => {
+        res.json({ ok: true, payload: bill });
+    })
+
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
         });

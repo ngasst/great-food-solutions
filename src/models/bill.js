@@ -6,7 +6,6 @@ const schema = new Schema({
         required: true,
         unique: true,
         length: 9
-        //day;month;year;+
     },
     clientId: {
         type: SchemaTypes.ObjectId,
