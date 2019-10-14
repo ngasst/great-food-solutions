@@ -13,6 +13,7 @@ function registerRoutes(app) {
     app.use("/client", clientRouter);
     app.use("/order", orderRouter);
     app.use("/ingredient", ingredientRouter);
+    app.use("/ingredients", ingredientRouter);
     //app.use("/recipe", recipeRouter);
 }
 

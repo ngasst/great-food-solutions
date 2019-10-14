@@ -31,29 +31,19 @@ function create(req, res) {
     }
 }
 
-function update(req, res) {
-    if(!req.body._id || typeof req.body._id !=="string" || !req.body.newValue || typeof req.body.newValue !=="string") {
+function patch(req, res) {
+    if(!req.body.id || typeof req.body.id !=="string" || !req.body.newName || typeof req.body.newName !=="string" || typeof req.body.newPrice !=="number") {
         res.json({ 
             ok: false,
             payload: 'Must provide a valid payload !'
         });
     } else {
-        const id = req.body._id;
-        const newValue = req.body.newValue;
-        Ingredient.findOne({_id: id})
-            .then( doc => {
-                if(doc) {
-                    return Ingredient.findByIdAndUpdate( {_id: id}, {$set: {name: newValue}}, {new: true} )
-                } else {
-                    return false;
-                }
-            })
+        const id = req.body.id;
+        const newName = req.body.newName;
+        const newPrice = req.body.newPrice;
+        Ingredient.findOneAndReplace({_id: id}, {name: newName, price: newPrice}, {new: true})
             .then(newDoc => {
-                if(!newDoc) {
-                    res.json({ ok: false, payload: `There is no ingredient found with id: "${id}" ! Please provide a valid ingredient's id.`})
-                } else {
                 res.json({ ok: true, payload: newDoc });
-                }
             })
             .catch(err => {
                 console.log(err);
@@ -83,6 +73,6 @@ function remove(req, res) {
 module.exports = {
     list,
     create,
-    update,
+    patch,
     remove
 }
