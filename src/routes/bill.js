@@ -14,5 +14,5 @@ module.exports = function (app) {
     app.route('./bill/:billId')
         .get(billRouter.read)
         .put(billRouter.update)
-        .delete(billRouter.delete);
+        .delete(billRouter.remove);
 }

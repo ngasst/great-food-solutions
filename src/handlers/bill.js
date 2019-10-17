@@ -3,9 +3,9 @@ const { dateIncrementor } = require("../utils");
 const { format } = require("date-fns")
 
 function list(req, res) {
-    Bill.find({})
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
+    Restaurant.find({})
+        .then(Restaurant => {
+            res.json({ ok: true, payload: Restaurant });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -66,14 +66,20 @@ function put(req, res) {
         });
 }
 
-function update(req, res) {
-    Bill.update({})
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
-        })
-        .catch(err => {
-            res.json({ ok: false, payload: err.message || "FAILED" });
-        });
+function update(req, res, next) {
+    const bill = req.dbbill;
+    Object.assign(bill, req.body);
+
+    bill.save()
+        .then((savedUser) => res.sendStatus(204),
+            (e) => next(e));
+}
+
+function remove(req, res, next) {
+    const bill = req.dbbill;
+    user.remove()
+        .then(() => res.sendStatus(204),
+            (e) => next(e));
 }
 
 
@@ -82,6 +88,7 @@ module.exports = {
     list,
     create,
     read,
+    put,
     update,
-    delete
+    remove
 };
