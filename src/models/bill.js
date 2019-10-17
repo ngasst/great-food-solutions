@@ -28,4 +28,6 @@ const schema = new Schema({
     ]
 });
 
+
+
 module.exports.Bill = model("Bill", schema);
