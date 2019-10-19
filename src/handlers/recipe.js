@@ -1,7 +1,8 @@
 const { Recipe } = require('../models');
 
 function list(req, res) {
-    Recipe.find({})
+    const recipe = req.params.id;
+    Recipe.find({_id: recipe})
         .then(recipe => {
             res.json({ ok: true, payload: recipe });
         })
@@ -12,7 +13,6 @@ function list(req, res) {
 
 function create(req, res) {
     const { name, baseUnit, instructions, ingredients, client } = req.body;
-    console.log(typeof baseUnit);
     if(!name || !baseUnit || !instructions || !ingredients || !client || Object.keys(req.body).length <= 1) {
         res.json({
             ok: false,

@@ -1,7 +1,8 @@
 const { Ingredient } = require('../models');
 
 function list(req, res) {
-    Ingredient.find({})
+    const ingredient = req.params.id;
+    Ingredient.find({_id: ingredient})
         .then(ingredients => {
             res.json({ ok: true, payload: ingredients });
         })
