@@ -2,7 +2,7 @@ const { registerGlobalRoutes } = require("./global");
 const { clientRouter } = require("./client");
 const { orderRouter } = require("./order");
 const { ingredientRouter } = require("./ingredient");
-//const { recipeRouter } = require('./recipe');
+const { recipeRouter } = require('./recipe');
 
 function registerRoutes(app) {
     // register routes here
@@ -14,7 +14,7 @@ function registerRoutes(app) {
     app.use("/order", orderRouter);
     app.use("/ingredient", ingredientRouter);
     app.use("/ingredients", ingredientRouter);
-    //app.use("/recipe", recipeRouter);
+    app.use("/recipes", recipeRouter);
 }
 
 module.exports = { registerRoutes };

@@ -11,45 +11,65 @@ function list(req, res) {
 }
 
 function create(req, res) {
-    if(!req.body.name || !req.body.price || typeof req.body.name !=="string" || typeof req.body.price !=="number") {
+    if(!req.body.name || typeof req.body.name !=="string") {
         res.json({
             ok: false,
-            payload: 'Must provide a valid payload !'
+            payload: 'Must provide a valid name !'
         });
-    } else {
-        const name = req.body.name;
-        const price = req.body.price;
-        const ingredient = new Ingredient({ name: name, price: price });
-        ingredient
-            .save()
-            .then(ingredient => {
-                res.json({ ok: true, payload: ingredient });
-            })
-            .catch(err => {
-                res.json({ok: false, payload: err || "FAILED" });
-            })
+        return;
     }
-}
-
-function patch(req, res) {
-    if(!req.body.id || typeof req.body.id !=="string" || !req.body.newName || typeof req.body.newName !=="string" || typeof req.body.newPrice !=="number") {
+    const name = req.body.name;
+    if(!Number(req.body.price)) {
         res.json({ 
             ok: false,
-            payload: 'Must provide a valid payload !'
+            payload: 'Must provide a valid price !'
         });
-    } else {
-        const id = req.body.id;
-        const newName = req.body.newName;
-        const newPrice = req.body.newPrice;
-        Ingredient.findOneAndReplace({_id: id}, {name: newName, price: newPrice}, {new: true})
-            .then(newDoc => {
-                res.json({ ok: true, payload: newDoc });
-            })
-            .catch(err => {
-                console.log(err);
-                res.json({ ok: false, payload: err.message || "FAILED" });
-            });
+        return;
     }
+    const price = req.body.price;
+    const ingredient = new Ingredient({name, price});
+    ingredient
+        .save()
+        .then(ingredient => {
+            res.json({ ok: true, payload: ingredient });
+        })
+        .catch(err => {
+            res.json({ok: false, payload: err.message || "FAILED" });
+        })
+};
+
+function update(req, res) {
+    const { name, price } = req.body;
+    if (!name || !price || Object.keys(req.body).length <= 1) {
+        res.json({ 
+            ok: false,
+            payload: 'All required fields are not provided !'
+        });
+        return;
+    }
+    if(typeof name !=="string") {
+        res.json({ 
+            ok: false,
+            payload: 'Must provide a valid name !'
+        });
+        return;
+    }
+    if(!Number(price)) {
+        res.json({ 
+            ok: false,
+            payload: 'Must provide a valid price !'
+        });
+        return;
+    }
+    const id = req.body.id;
+    Ingredient.findOneAndUpdate({_id: id}, {name, price}, {new: true})
+        .then(newDoc => {
+            res.json({ ok: true, payload: newDoc });
+        })
+        .catch(err => {
+            console.log(err);
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
 }
 
 function remove(req, res) {
@@ -73,6 +93,6 @@ function remove(req, res) {
 module.exports = {
     list,
     create,
-    patch,
+    update,
     remove
 }

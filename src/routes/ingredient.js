@@ -8,7 +8,7 @@ ingredientRouter.get('/', ingredient.list);
 // CREATE
 ingredientRouter.post('/', ingredient.create);
 // UPDATE
-ingredientRouter.patch('/', ingredient.patch);
+ingredientRouter.put('/', ingredient.update);
 // DELETE
 ingredientRouter.delete('/:id', ingredient.remove);
 
