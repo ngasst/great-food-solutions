@@ -1,4 +1,6 @@
 const { Order } = require("../models");
+const { ObjectID } = require("mongodb");
+const { parseISO, isValid } = require("date-fns");
 
 function list(req, res) {
     Order.find({})
@@ -11,14 +13,36 @@ function list(req, res) {
 }
 
 function create(req, res) {
-    if (!req.body.name) {
+    // make sure to checkout the schema to see what needs implemented!
+    // simulate restaurant ID
+    // TODO: Remove simulated ID later on
+    const restaurant = new ObjectID().toHexString();
+    const restaurant = new ObjectID().toHexString();
+    const productionDay = parseISO(req.body.productionDay);
+    if (!isValid(productionDay)) {
         res.json({
             ok: false,
-            payload: 'Must provide an object like: {name: "xxxx"}'
+            payload: 'Date format for "productionDay" is invalid!'
         });
     }
-    const name = req.body.name;
-    const order = new Order({ name: name });
+    const deliveryDay = parseISO(req.body.deliveryDay);
+    if (!isValid(deliveryDay)) {
+        res.json({
+            ok: false,
+            payload: 'Date format for "deliveryDay" is invalid!'
+        });
+    }
+
+    const quantity = req.body.quantity;
+    if (!Number(quantity)) {
+        res.json({ ok: false, payload: '"quantity" should be a number!' });
+    }
+    const order = new Order({
+        restaurant,
+        productionDay,
+        deliveryDay,
+        quantity
+    });
     order
         .save()
         .then(order => {
@@ -34,32 +58,45 @@ function remove(req, res) {
     Order.deleteOne({
         _id: order
     })
-    .then(() => {
-        res.json({ok:true, payload:null});
-    })
-    .catch(err => {
-        res.json({ok:false, payload:err.message || "FAILED"})
-    })
-  }
+        .then(() => {
+            res.json({ ok: true, payload: null });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
 
-  function put(req, res){
-    const order = req.params.id;
-    Order.updateOne({
-        _id: order
-    })
-    .then(() => {
-        res.json({ok:true, payload:null});
-    })
-    .catch(err => {
-        res.json({ok:false, payload:err.message || "FAILED"})
-    })
+function put(req, res) {
+    const restaurant = new ObjectID().toHexString();
+    const { deliveryDay, productionDay, quantity } = req.body;
+    const order = req.body.id;
+    if (
+        !restaurant ||
+        !deliveryDay ||
+        !productionDay ||
+        !quantity ||
+        Object.keys(req.body).length <= 1
+    ) {
+        res.json({ ok: false, payload: "Nothing to update!" });
+    }
+    Order.findOneAndUpdate(
+        {
+            _id: order
+        },
+        { restaurant, deliveryDay, productionDay, quantity },
+        { new: true }
+    )
+        .then(doc => {
+            res.json({ ok: true, payload: doc });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
 
-  }
-
-
-  module.exports = {
+module.exports = {
     list,
     create,
     remove,
-    put,
+    put
 };
