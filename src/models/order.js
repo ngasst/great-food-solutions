@@ -13,7 +13,6 @@ const schema = new Schema({
         type: SchemaTypes.ObjectId,
         ref: "Restaurant"
     },
-
     quantity: {
         type: Number,
         required: true
