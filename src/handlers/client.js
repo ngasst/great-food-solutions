@@ -44,12 +44,22 @@ function remove(req, res) {
 
 
   function put(req, res){
-    const client = req.params.id;
-    client.updateOne({
+    const client = req.body.id;
+    const { name } = req.body;
+    if (
+        !name||
+        Object.keys(req.body).length <= 1
+    ) {
+        res.json({ ok: false, payload: "Nothing to update!" });
+    }
+    Client.findOneAndUpdate({
         _id: client
-    })
-    .then(() => {
-        res.json({ok:true, payload:null});
+    },
+    { name },
+        { new: true }
+    )
+    .then((doc) => {
+        res.json({ok:true, payload:doc});
     })
     .catch(err => {
         res.json({ok:false, payload:err.message || "FAILED"})
