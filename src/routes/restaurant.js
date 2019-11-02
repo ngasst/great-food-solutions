@@ -4,15 +4,13 @@ const { restaurant } = require("../handlers");
 
 // define client routes and their handlers
 // LIST
-module.exports = function (app) {
-const restaurantRouter = require('../handlers/restaurant');
 
-app.route('./restaurant')
-    .get(restaurantRouter.list)
-    .post(restaurantRouter.create);
+restaurantRouter.get("/", restaurant.list);
+restaurantRouter.post("/", restaurant.create);
+restaurantRouter.get("/:id", restaurant.getOne);
+restaurantRouter.put("/", restaurant.put);
+restaurantRouter.delete("/:id", restaurant.remove);
 
-app.route('./restaurant/:restaurantId')
-    .get(restaurantRouter.read)
-    .put(restaurantRouter.update)
-    .delete(restaurantRouter.remove);
-}
+module.exports = {
+    restaurantRouter
+};

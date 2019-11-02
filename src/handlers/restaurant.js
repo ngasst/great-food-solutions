@@ -2,8 +2,8 @@ const { Restaurant } = require("../models");
 
 function list(req, res) {
     Restaurant.find({})
-        .then(Restaurant => {
-            res.json({ ok: true, payload: Restaurant });
+        .then(restaurants => {
+            res.json({ ok: true, payload: restaurants });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -16,11 +16,58 @@ function create(req, res) {
             ok: false,
             payload: 'Must provide an object like: {name: "xxxx"}'
         });
+        return;
     }
-    const name = req.body.name;
-    const restaurant = new Restaurant({ name: name });
+    if (!req.body.street) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {street: "xxxx"}'
+        });
+        return;
+    }
+    if (!req.body.city) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {city: "xxxx"}'
+        });
+        return;
+    }
+    if (!req.body.zipCode) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {zipCode: "4 numbers"}'
+        });
+        return;
+    }
+    if (!req.body.client) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {clientId: "xxxx"}'
+        });
+        return;
+    }
+    const { name, street, city, zipCode, client } = req.body;
+
+    const restaurant = new Restaurant({
+        name,
+        street,
+        city,
+        zipCode,
+        client
+    });
     restaurant
         .save()
+        .then(createdRestaurant => {
+            res.json({ ok: true, payload: createdRestaurant });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
+function getOne(req, res) {
+    const id = req.params.id;
+    Restaurant.findONe({ _id: id })
         .then(restaurant => {
             res.json({ ok: true, payload: restaurant });
         })
@@ -29,48 +76,46 @@ function create(req, res) {
         });
 }
 
-function read(req, res) {
-    Bill.read({})
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
-        })
-        .catch(err => {
-            res.json({ ok: false, payload: err.message || "FAILED" });
-        });
-}
-
 function put(req, res) {
-    Bill.put({})
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
+    const { name, street, city, zipCode, client, id } = req.body;
+    if (!name && !street && !city && !zipCode && !client) {
+        res.json({ ok: false, payload: "Nothing to update!" });
+    }
+
+    const udpate = {};
+
+    name && (update.name = name);
+    street && (update.street = street);
+    city && (update.city = city);
+    zipCode && (update.zipCode = zipCode);
+    client && (update.client = client);
+
+    Restaurant.findOneAndUpdate({ _id: id }, { ...update }, { new: true })
+        .then(restaurant => {
+            res.json({ ok: true, payload: restaurant });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
         });
 }
 
-function update(req, res, next) {
-    const bill = req.dbbill;
-    Object.assign(bill, req.body);
-
-    bill.save()
-        .then((savedUser) => res.sendStatus(204),
-            (e) => next(e));
+function remove(req, res) {
+    const id = req.params.id;
+    Restaurant.findOneAndDelete({
+        _id: id
+    })
+        .then(() => {
+            res.json({ ok: true, payload: null });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
 }
-
-function remove(req, res, next) {
-    const bill = req.dbUser;
-    user.remove()
-        .then(() => res.sendStatus(204),
-            (e) => next(e));
-}
-
 
 module.exports = {
     list,
     create,
-    read,
+    getOne,
     put,
-    update,
     remove
 };

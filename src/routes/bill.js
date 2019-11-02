@@ -1,18 +1,13 @@
 const express = require("express");
 const billRouter = express.Router();
+const { bill } = require("../handlers");
 
-// define bill routes and their handlers
-// LIST
+billRouter.get("/", bill.list);
+billRouter.post("/", bill.create);
+billRouter.get("/:id", bill.getOne);
+billRouter.put("/", bill.put);
+billRouter.delete("/:id", bill.remove);
 
-module.exports = function (app) {
-    const billRouter = require('../handlers/bill');
-
-    app.route('./bill')
-        .get(billRouter.list)
-        .post(billRouter.create);
-
-    app.route('./bill/:billId')
-        .get(billRouter.read)
-        .put(billRouter.update)
-        .delete(billRouter.remove);
-}
+module.exports = {
+    billRouter
+};

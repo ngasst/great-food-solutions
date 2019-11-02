@@ -13,9 +13,9 @@ async function dateIncrementor(model, base, field = "number") {
         // if none exist, start at one
         let value = `${base}-001`;
         // if some exist, increment by one then save
-        if (!!last) {
-            const val = last[field];
-            const num = val.split(val.lastIndexOf("-") + 1);
+        if (last) {
+            const val = last[field]; // document.number
+            const num = val.slice(val.lastIndexOf("-") + 1);
             const numb = parseInt(num);
             const increment = numb++;
             const str = getString(increment);

@@ -1,11 +1,11 @@
 const { Bill } = require("../models");
 const { dateIncrementor } = require("../utils");
-const { format } = require("date-fns")
+const { format } = require("date-fns");
 
 function list(req, res) {
-    Restaurant.find({})
-        .then(Restaurant => {
-            res.json({ ok: true, payload: Restaurant });
+    Bill.find({})
+        .then(bills => {
+            res.json({ ok: true, payload: bills });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -13,32 +13,42 @@ function list(req, res) {
 }
 
 function create(req, res) {
-    if (!req.body.restaurantId) {
+    if (!req.body.client) {
         res.json({
             ok: false,
-            payload: 'Must provide an object like: {"name: XXX"}'
+            payload: "Must provide client id"
         });
+        return;
     }
-    if (!req.body.clientID) {
+    if (!req.body.restaurant) {
         res.json({
             ok: false,
-            payload: 'Must provide an object like: {"name : XXX"}'
+            payload: "Must provide restaurant id"
         });
+        return;
     }
-    if (!req.body.orders) {
+    if (
+        !req.body.orders ||
+        (!Array.isArray(req.body.orders) || !req.body.orders.length)
+    ) {
         res.json({
             ok: false,
-            payload: 'Must provide an object like: {"name"}'
+            payload: "Must have an array of at least one order id"
         });
+        return;
     }
-    dateIncrementor(bill, format(new Date(), "DD-MM-YY"), "number").then(number => {
-        const bill = new Bill({ number: number });
-        return bill
-            .save()
-
-    })
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
+    dateIncrementor(Bill, format(new Date(), "dd-MM-yy"), "number")
+        .then(number => {
+            const bill = new Bill({
+                number,
+                restaurant: req.body.restaurant,
+                client: req.body.client,
+                orders: req.body.orders
+            });
+            return bill.save();
+        })
+        .then(createdBill => {
+            res.json({ ok: true, payload: createdBill });
         })
 
         .catch(err => {
@@ -46,8 +56,9 @@ function create(req, res) {
         });
 }
 
-function read(req, res) {
-    Bill.read({})
+function getOne(req, res) {
+    const id = req.params.id;
+    Bill.findOne({ _id: id })
         .then(bill => {
             res.json({ ok: true, payload: bill });
         })
@@ -57,38 +68,42 @@ function read(req, res) {
 }
 
 function put(req, res) {
-    Bill.put({})
-        .then(bill => {
-            res.json({ ok: true, payload: bill });
+    const { client, restaurant, orders, id } = req.body;
+
+    if (!client && !restaurant && !orders) {
+        res.json({ ok: false, payload: "Nothing to update" });
+        return;
+    }
+
+    const update = {};
+
+    client && (update.client = client);
+    restaurant && (update.restaurant = restaurant);
+    orders && (update.orders = orders);
+    Bill.findOneAndUpdate({ _id: id }, update, { new: true })
+        .then(updatedBill => {
+            res.json({ ok: true, payload: updatedBill });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
         });
 }
 
-function update(req, res, next) {
-    const bill = req.dbbill;
-    Object.assign(bill, req.body);
-
-    bill.save()
-        .then((savedUser) => res.sendStatus(204),
-            (e) => next(e));
-}
-
 function remove(req, res, next) {
-    const bill = req.dbbill;
-    user.remove()
-        .then(() => res.sendStatus(204),
-            (e) => next(e));
+    const id = req.params.id;
+    Bill.findOneAndDelete({ _id: id })
+        .then(() => {
+            res.json({ ok: true, payload: null });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
 }
-
-
 
 module.exports = {
     list,
     create,
-    read,
+    getOne,
     put,
-    update,
     remove
 };
