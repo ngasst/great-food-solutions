@@ -67,14 +67,14 @@ function update(req, res) {
         });
         return;
     }
-    if (typeof name !== "string") {
+    if (name && typeof name !== "string") {
         res.json({
             ok: false,
             payload: "Must provide a valid name !"
         });
         return;
     }
-    if (baseUnit !== "kg" && baseUnit !== "l") {
+    if (name && baseUnit !== "kg" && baseUnit !== "l") {
         res.json({
             ok: false,
             payload: 'The base unit must be eather "kg" or "l" !'

@@ -47,8 +47,9 @@ function remove(req, res) {
 function put(req, res) {
     const id = req.body.id;
     const { name } = req.body;
-    if (!name || Object.keys(req.body).length <= 1) {
+    if (!name || Object.keys(req.body).length < 1) {
         res.json({ ok: false, payload: "Nothing to update!" });
+        return;
     }
     Client.findOneAndUpdate(
         {

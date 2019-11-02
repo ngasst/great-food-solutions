@@ -82,7 +82,7 @@ function put(req, res) {
         res.json({ ok: false, payload: "Nothing to update!" });
     }
 
-    const udpate = {};
+    const update = {};
 
     name && (update.name = name);
     street && (update.street = street);

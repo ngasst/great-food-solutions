@@ -16,9 +16,9 @@ function registerRoutes(app) {
     app.use("/orders", orderRouter);
     app.use("/ingredients", ingredientRouter);
     app.use("/recipes", recipeRouter);
-    app.use("/client", clientRouter);
-    app.use("/restaurant", restaurantRouter);
-    app.use("/bill ", billRouter);
+    app.use("/clients", clientRouter);
+    app.use("/restaurants", restaurantRouter);
+    app.use("/bills", billRouter);
 }
 
 module.exports = { registerRoutes };
