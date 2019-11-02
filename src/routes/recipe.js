@@ -1,21 +1,19 @@
-const express = require('express');
-const recipesRouter = express.Router();
+const express = require("express");
 const recipeRouter = express.Router();
-const { recipes, recipe } = require('../handlers');
+const { recipe } = require("../handlers");
 
 // define client routes and their handlers
 // LIST
-recipesRouter.get('/', recipes.list);
-recipeRouter.get('/:id', recipe.list);
+recipeRouter.get("/", recipe.list);
+recipeRouter.get("/:id", recipe.getOne);
 // CREATE
-recipesRouter.post('/', recipes.create);
-recipeRouter.post('/', recipe.create);
+recipeRouter.post("/multiple", recipe.createMultiple);
+recipeRouter.post("/", recipe.create);
 // UPDATE
-recipeRouter.put('/', recipe.update);
+recipeRouter.put("/", recipe.update);
 // DELETE
-recipeRouter.delete('/:id', recipe.remove);
+recipeRouter.delete("/:id", recipe.remove);
 
 module.exports = {
-    recipesRouter,
     recipeRouter
-}
+};

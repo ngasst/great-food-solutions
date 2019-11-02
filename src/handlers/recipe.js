@@ -1,67 +1,80 @@
-const { Recipe } = require('../models');
+const { Recipe } = require("../models");
 
-function list(req, res) {
-    const recipe = req.params.id;
-    Recipe.find({_id: recipe})
+function getOne(req, res) {
+    const id = req.params.id;
+    Recipe.findOne({ _id: id })
         .then(recipe => {
             res.json({ ok: true, payload: recipe });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
-        })
+        });
 }
 
 function create(req, res) {
     const { name, baseUnit, instructions, ingredients, client } = req.body;
-    if(!name || !baseUnit || !instructions || !ingredients || !client || Object.keys(req.body).length <= 1) {
+    if (
+        !name ||
+        !baseUnit ||
+        !instructions ||
+        !ingredients ||
+        !client ||
+        Object.keys(req.body).length < 5
+    ) {
         res.json({
             ok: false,
-            payload: 'All required fields are not provided !'
+            payload: "All required fields are not provided !"
         });
         return;
     }
-    if(typeof name !=="string") {
+    if (typeof name !== "string") {
         res.json({
             ok: false,
-            payload: 'Must provide a valid name !'
+            payload: "Must provide a valid name !"
         });
         return;
     }
-    if(baseUnit !=="kg" && baseUnit !=="l") {
+    if (baseUnit !== "kg" && baseUnit !== "l") {
         res.json({
             ok: false,
             payload: 'The base unit must be eather "kg" or "l" !'
         });
         return;
     }
-    const recipe = new Recipe({name, baseUnit, instructions, ingredients, client});
+    const recipe = new Recipe({
+        name,
+        baseUnit,
+        instructions,
+        ingredients,
+        client
+    });
     recipe
         .save()
         .then(recipe => {
             res.json({ ok: true, payload: recipe });
         })
         .catch(err => {
-            res.json({ok: false, payload: err.message || "FAILED" });
-        })
-};
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
 
 function update(req, res) {
     const { name, baseUnit, instructions, ingredients, client } = req.body;
-    if (!name || !baseUnit || !instructions || !ingredients || !client || Object.keys(req.body).length <= 1) {
-        res.json({ 
+    if (!name && !baseUnit && !instructions && !ingredients && !client) {
+        res.json({
             ok: false,
-            payload: 'All required fields are not provided !'
+            payload: "Nothing to update!"
         });
         return;
     }
-    if(typeof name !=="string") {
-        res.json({ 
+    if (typeof name !== "string") {
+        res.json({
             ok: false,
-            payload: 'Must provide a valid name !'
+            payload: "Must provide a valid name !"
         });
         return;
     }
-    if(baseUnit !=="kg" && baseUnit !=="l") {
+    if (baseUnit !== "kg" && baseUnit !== "l") {
         res.json({
             ok: false,
             payload: 'The base unit must be eather "kg" or "l" !'
@@ -69,9 +82,18 @@ function update(req, res) {
         return;
     }
     const id = req.body.id;
-    Recipe.findOneAndUpdate({_id: id}, {name, baseUnit, instructions, ingredients, client}, {new: true})
-        .then(newDoc => {
-            res.json({ ok: true, payload: newDoc });
+
+    const update = {};
+
+    name && (update.name = name);
+    baseUnit && (update.baseUnit = baseUnit);
+    instructions && (update.instructions = instructions);
+    ingredients && (update.ingredients = ingredients);
+    client && (update.client = client);
+
+    Recipe.findOneAndUpdate({ _id: id }, { ...update }, { new: true })
+        .then(updatedDoc => {
+            res.json({ ok: true, payload: updatedDoc });
         })
         .catch(err => {
             console.log(err);
@@ -80,26 +102,88 @@ function update(req, res) {
 }
 
 function remove(req, res) {
-    if(!req.params.id || typeof req.params.id !=="string") {
-        res.json({ 
+    if (!req.params.id || typeof req.params.id !== "string") {
+        res.json({
             ok: false,
-            payload: 'Must provide a valid payload !'
+            payload: "Must provide a valid payload !"
         });
     } else {
         const id = req.params.id;
-        Recipe.findOneAndDelete( {_id: id} )
-        .then(deleted => {
-            res.json(deleted);
-        })
-        .catch(err => {
-            res.json({ ok: false, payload: err.message || "FAILED" });
-        })
+        Recipe.findOneAndDelete({ _id: id })
+            .then(() => {
+                res.json({ ok: true, payload: null });
+            })
+            .catch(err => {
+                res.json({ ok: false, payload: err.message || "FAILED" });
+            });
     }
 }
 
+function list(req, res) {
+    Recipe.find({})
+        .then(recipes => {
+            res.json({ ok: true, payload: recipes });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
+function createMultiple(req, res) {
+    const payload = req.body;
+
+    if (!Array.isArray(payload)) {
+        res.json({
+            ok: false,
+            payload:
+                "Please provide an array of recipes for a bulk recipe creation!"
+        });
+        return;
+    }
+
+    for (const doc of payload) {
+        if (
+            !doc.name ||
+            !doc.baseUnit ||
+            !doc.instructions ||
+            !doc.ingredients ||
+            !doc.client ||
+            Object.keys(doc).length < 5
+        ) {
+            res.json({
+                ok: false,
+                payload: "All required fields are not provided !"
+            });
+            return;
+        }
+        if (typeof doc.name !== "string") {
+            res.json({
+                ok: false,
+                payload: "Must provide a valid name !"
+            });
+            return;
+        }
+        if (doc.baseUnit !== "kg" && doc.baseUnit !== "l") {
+            res.json({
+                ok: false,
+                payload: 'The base unit must be eather "kg" or "l" !'
+            });
+            return;
+        }
+    }
+    Recipe.insertMany(payload)
+        .then(recipes => {
+            res.json({ ok: true, payload: recipes });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
 module.exports = {
     list,
     create,
     update,
-    remove
-}
+    remove,
+    getOne,
+    createMultiple
+};
