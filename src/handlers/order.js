@@ -13,17 +13,14 @@ function list(req, res) {
 }
 
 function create(req, res) {
-    // make sure to checkout the schema to see what needs implemented!
-    // simulate restaurant ID
-    // TODO: Remove simulated ID later on
-    const restaurant = new ObjectID().toHexString();
-    const restaurant = new ObjectID().toHexString();
+    // make sure to checkout the schema to see what needs implementing!
     const productionDay = parseISO(req.body.productionDay);
     if (!isValid(productionDay)) {
         res.json({
             ok: false,
             payload: 'Date format for "productionDay" is invalid!'
         });
+        return;
     }
     const deliveryDay = parseISO(req.body.deliveryDay);
     if (!isValid(deliveryDay)) {
@@ -31,22 +28,32 @@ function create(req, res) {
             ok: false,
             payload: 'Date format for "deliveryDay" is invalid!'
         });
+        return;
     }
 
     const quantity = req.body.quantity;
     if (!Number(quantity)) {
         res.json({ ok: false, payload: '"quantity" should be a number!' });
+        return;
     }
+
+    const restaurant = req.body.restaurant;
+    if (!Number(restaurant)) {
+        res.json({ ok: false, payload: '"restaurant" should be a number!' });
+        return;
+    }
+
     const order = new Order({
         restaurant,
         productionDay,
         deliveryDay,
         quantity
-    });
+    }); // since we made sure that our variables were named the same as the keys of the object,
+    // we can replace {keyName: keyName} by {keyName}
     order
         .save()
-        .then(order => {
-            res.json({ ok: true, payload: order });
+        .then(createdDoc => {
+            res.json({ ok: true, payload: createdDoc });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
@@ -54,9 +61,9 @@ function create(req, res) {
 }
 
 function remove(req, res) {
-    const order = req.params.id;
+    const id = req.params.id;
     Order.deleteOne({
-        _id: order
+        _id: id
     })
         .then(() => {
             res.json({ ok: true, payload: null });
@@ -67,25 +74,27 @@ function remove(req, res) {
 }
 
 function put(req, res) {
-    const restaurant = new ObjectID().toHexString();
-    const { deliveryDay, productionDay, quantity } = req.body;
-    const order = req.body.id;
-    if (
-        !restaurant ||
-        !deliveryDay ||
-        !productionDay ||
-        !quantity ||
-        Object.keys(req.body).length <= 1
-    ) {
+    const { deliveryDay, productionDay, quantity, restaurant } = req.body;
+    const id = req.body.id;
+    if (!restaurant && !deliveryDay && !productionDay && !quantity) {
         res.json({ ok: false, payload: "Nothing to update!" });
+        return;
     }
+
+    const update = {};
+
+    restaurant && (update.restaurant = restaurant);
+    deliveryDay && (update.deliveryDay = deliveryDay);
+    productionDay && (update.productionDay = productionDay);
+    (quantity || Number(quantity) === 0) && (update.quantity = quantity);
+
     Order.findOneAndUpdate(
         {
-            _id: order
+            _id: id
         },
-        { restaurant, deliveryDay, productionDay, quantity },
+        { ...update },
         { new: true }
-    )
+    ) // eauivalent to findOneAndUpdate({_id: id}, update, {new: true})
         .then(doc => {
             res.json({ ok: true, payload: doc });
         })

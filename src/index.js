@@ -3,9 +3,7 @@ const port = 3000;
 const app = express();
 const bp = require("body-parser");
 const { db } = require("./db");
-const { Bill, testModels } = require("./models");
-const { registerRoutes } = require("./routes"); // module.exports
-
+const { registerRoutes } = require("./routes"); 
 // register middleware
 app.use(bp.json());
 
