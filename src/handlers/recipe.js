@@ -74,7 +74,7 @@ function update(req, res) {
         });
         return;
     }
-    if (name && baseUnit !== "kg" && baseUnit !== "l") {
+    if (baseUnit && baseUnit !== "kg" && baseUnit !== "l") {
         res.json({
             ok: false,
             payload: 'The base unit must be eather "kg" or "l" !'
