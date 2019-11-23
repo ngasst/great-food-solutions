@@ -74,7 +74,7 @@ function update(req, res) {
         });
         return;
     }
-    if (name && baseUnit !== "kg" && baseUnit !== "l") {
+    if (baseUnit && baseUnit !== "kg" && baseUnit !== "l") {
         res.json({
             ok: false,
             payload: 'The base unit must be eather "kg" or "l" !'
@@ -110,7 +110,11 @@ function remove(req, res) {
     } else {
         const id = req.params.id;
         Recipe.findOneAndDelete({ _id: id })
-            .then(() => {
+            .then((deletedRecipe) => {
+                if(!deletedRecipe) {
+                    res.json({ ok: false, payload: "ID provided does not exist"});
+                    return;
+                }
                 res.json({ ok: true, payload: null });
             })
             .catch(err => {

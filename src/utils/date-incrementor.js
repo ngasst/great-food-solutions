@@ -38,3 +38,7 @@ function getString(num) {
         return `${numb}`;
     }
 }
+
+module.exports = {
+    dateIncrementor
+}

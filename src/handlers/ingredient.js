@@ -48,14 +48,14 @@ function update(req, res) {
         });
         return;
     }
-    if (typeof name !== "string") {
+    if (name && typeof name !== "string") {
         res.json({
             ok: false,
             payload: "Must provide a valid name !"
         });
         return;
     }
-    if (!Number(price)) {
+    if (price && !Number(price)) {
         res.json({
             ok: false,
             payload: "Must provide a valid price !"
@@ -63,7 +63,10 @@ function update(req, res) {
         return;
     }
     const id = req.body.id;
-    Ingredient.findOneAndUpdate({ _id: id }, { name, price }, { new: true })
+    const update = {};
+    name && (update.name = name);
+    price && (update.price = price);
+    Ingredient.findOneAndUpdate({ _id: id }, { ...update }, { new: true })
         .then(updatedDoc => {
             res.json({ ok: true, payload: updatedDoc });
         })
@@ -82,7 +85,11 @@ function remove(req, res) {
     } else {
         const id = req.params.id;
         Ingredient.findOneAndDelete({ _id: id })
-            .then(() => {
+            .then((deletedIngredient) => {
+                if(!deletedIngredient) {
+                    res.json({ ok: false, payload: "ID provided does not exist"});
+                    return;
+                }
                 res.json({ ok: true, payload: null });
             })
             .catch(err => {
