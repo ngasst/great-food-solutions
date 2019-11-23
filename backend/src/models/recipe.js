@@ -1,6 +1,6 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
 
-const BASEUNITTYTYPE = ['kg', 'l'];
+const BASEUNITTYTYPE = ["kg", "l"];
 
 const schema = new Schema({
     name: {
@@ -21,13 +21,13 @@ const schema = new Schema({
     ingredients: [
         {
             type: SchemaTypes.ObjectId,
-            ref: 'Ingredient'
+            ref: "Ingredient"
         }
     ],
     client: {
         type: SchemaTypes.ObjectId,
-        ref: 'Client'
+        ref: "Client"
     }
 });
 
-module.exports.Recipe = model('Recipe', schema);
+module.exports.Recipe = model("Recipe", schema);

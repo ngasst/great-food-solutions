@@ -29,7 +29,8 @@ function create(req, res) {
     }
     if (
         !req.body.orders ||
-        (!Array.isArray(req.body.orders) || !req.body.orders.length)
+        !Array.isArray(req.body.orders) ||
+        !req.body.orders.length
     ) {
         res.json({
             ok: false,
@@ -67,7 +68,7 @@ function getOne(req, res) {
         });
 }
 
-function put(req, res) {
+async function put(req, res) {
     const { client, restaurant, orders, id } = req.body;
 
     if (!client && !restaurant && !orders) {
@@ -79,7 +80,23 @@ function put(req, res) {
 
     client && (update.client = client);
     restaurant && (update.restaurant = restaurant);
-    orders && (update.orders = orders);
+
+    if (orders) {
+        const bill = await Bill.findOne({ _id: id });
+        const existingOrders = bill.orders || [];
+        let updatedOrders = [...orders, existingOrders];
+        updatedOrders = updatedOrders.reduce((acc, curr) => {
+            if (
+                !acc.find(
+                    elem => elem.order.toString() === curr.order.toString()
+                )
+            ) {
+                acc.push(order);
+            }
+            return acc;
+        }, []);
+        update.orders = updatedOrders;
+    }
     Bill.findOneAndUpdate({ _id: id }, update, { new: true })
         .then(updatedBill => {
             res.json({ ok: true, payload: updatedBill });
@@ -92,9 +109,9 @@ function put(req, res) {
 function remove(req, res, next) {
     const id = req.params.id;
     Bill.findOneAndDelete({ _id: id })
-        .then((deletedBill) => {
-            if(!deletedBill) {
-                res.json({ ok: false, payload: "ID provided does not exist"});
+        .then(deletedBill => {
+            if (!deletedBill) {
+                res.json({ ok: false, payload: "ID provided does not exist" });
                 return;
             }
             res.json({ ok: true, payload: null });

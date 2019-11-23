@@ -58,7 +58,7 @@ function create(req, res) {
         });
 }
 
-function update(req, res) {
+async function update(req, res) {
     const { name, baseUnit, instructions, ingredients, client } = req.body;
     if (!name && !baseUnit && !instructions && !ingredients && !client) {
         res.json({
@@ -87,9 +87,9 @@ function update(req, res) {
 
     name && (update.name = name);
     baseUnit && (update.baseUnit = baseUnit);
-    instructions && (update.instructions = instructions);
     ingredients && (update.ingredients = ingredients);
     client && (update.client = client);
+    instructions && (update.instructions = instructions);
 
     Recipe.findOneAndUpdate({ _id: id }, { ...update }, { new: true })
         .then(updatedDoc => {
@@ -110,9 +110,12 @@ function remove(req, res) {
     } else {
         const id = req.params.id;
         Recipe.findOneAndDelete({ _id: id })
-            .then((deletedRecipe) => {
-                if(!deletedRecipe) {
-                    res.json({ ok: false, payload: "ID provided does not exist"});
+            .then(deletedRecipe => {
+                if (!deletedRecipe) {
+                    res.json({
+                        ok: false,
+                        payload: "ID provided does not exist"
+                    });
                     return;
                 }
                 res.json({ ok: true, payload: null });

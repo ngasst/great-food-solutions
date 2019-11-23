@@ -70,9 +70,9 @@ function remove(req, res) {
     Order.findOneAndDelete({
         _id: id
     })
-        .then((deletedOrder) => {
-            if(!deletedOrder) {
-                res.json({ ok: false, payload: "ID provided does not exist"});
+        .then(deletedOrder => {
+            if (!deletedOrder) {
+                res.json({ ok: false, payload: "ID provided does not exist" });
                 return;
             }
             res.json({ ok: true, payload: null });
@@ -96,19 +96,23 @@ function put(req, res) {
     deliveryDay && (update.deliveryDay = deliveryDay);
     productionDay && (update.productionDay = productionDay);
     //recipes && (update.recipes = recipes);
-    if(recipes) {
-        Order.findOne({_id: id})
-            .then(({recipes: existingRecipes})=> {
-                let updatedRecipes = [...existingRecipes, ...recipes];
-                updatedRecipes = updatedRecipes.reduce((acc, curr, i) => {
-                    if(acc[i].recipe===curr.recipe) {
-                        acc[i] = curr;
-                    } else {
+    if (recipes) {
+        Order.findOne({ _id: id })
+            .lean()
+            .then(({ recipes: existingRecipes }) => {
+                const all = [...recipes, ...existingRecipes];
+                const updatedRecipes = all.reduce((acc, curr, i) => {
+                    const cond = !acc
+                        .map(elem => {
+                            return elem.recipe.toString();
+                        })
+                        .includes(curr.recipe.toString());
+                    if (cond) {
                         acc.push(curr);
                     }
                     return acc;
                 }, []);
-                return {...update, recipes: updatedRecipes};
+                return { ...update, recipes: updatedRecipes };
             })
             .then(update => {
                 Order.findOneAndUpdate(
@@ -122,9 +126,12 @@ function put(req, res) {
                         res.json({ ok: true, payload: doc });
                     })
                     .catch(err => {
-                        res.json({ ok: false, payload: err.message || "FAILED" });
+                        res.json({
+                            ok: false,
+                            payload: err.message || "FAILED"
+                        });
                     });
-            })
+            });
     } else {
         Order.findOneAndUpdate(
             {
@@ -139,7 +146,7 @@ function put(req, res) {
             .catch(err => {
                 res.json({ ok: false, payload: err.message || "FAILED" });
             });
-        }
+    }
 }
 
 module.exports = {
