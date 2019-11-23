@@ -4,6 +4,7 @@ import Client from './client';
 import Restaurant from './restaurant';
 import Recipe from './recipe';
 import Home from './home';
+import { Route, BrowserRouter, Switch, NavLink } from 'react-router-dom';
 
 class App extends Component {
     render() {
