@@ -33,10 +33,14 @@ function create(req, res) {
 
 function remove(req, res) {
     const id = req.params.id;
-    Client.deleteOne({
+    Client.findOneAndDelete({
         _id: id
     })
-        .then(() => {
+        .then((deletedClient) => {
+            if(!deletedClient) {
+                res.json({ ok: false, payload: "ID provided does not exist"});
+                return;
+            }
             res.json({ ok: true, payload: null });
         })
         .catch(err => {

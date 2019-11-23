@@ -11,6 +11,6 @@ const URI = `mongodb+srv://${CONFIG.username}:${CONFIG.pass}@gasst-free-6soje.mo
 module.exports.db = () => {
     return connect(
         URI,
-        { useNewUrlParser: true, useFindAndModify: true }
+        { useNewUrlParser: true, useFindAndModify: false }
     );
 };

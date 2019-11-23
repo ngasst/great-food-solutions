@@ -92,7 +92,11 @@ function put(req, res) {
 function remove(req, res, next) {
     const id = req.params.id;
     Bill.findOneAndDelete({ _id: id })
-        .then(() => {
+        .then((deletedBill) => {
+            if(!deletedBill) {
+                res.json({ ok: false, payload: "ID provided does not exist"});
+                return;
+            }
             res.json({ ok: true, payload: null });
         })
         .catch(err => {

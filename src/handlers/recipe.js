@@ -110,7 +110,11 @@ function remove(req, res) {
     } else {
         const id = req.params.id;
         Recipe.findOneAndDelete({ _id: id })
-            .then(() => {
+            .then((deletedRecipe) => {
+                if(!deletedRecipe) {
+                    res.json({ ok: false, payload: "ID provided does not exist"});
+                    return;
+                }
                 res.json({ ok: true, payload: null });
             })
             .catch(err => {

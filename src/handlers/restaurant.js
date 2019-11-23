@@ -104,7 +104,11 @@ function remove(req, res) {
     Restaurant.findOneAndDelete({
         _id: id
     })
-        .then(() => {
+        .then((deletedRestaurant) => {
+            if(!deletedRestaurant) {
+                res.json({ ok: false, payload: "ID provided does not exist"});
+                return;
+            }
             res.json({ ok: true, payload: null });
         })
         .catch(err => {

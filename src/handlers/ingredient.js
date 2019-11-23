@@ -85,7 +85,11 @@ function remove(req, res) {
     } else {
         const id = req.params.id;
         Ingredient.findOneAndDelete({ _id: id })
-            .then(() => {
+            .then((deletedIngredient) => {
+                if(!deletedIngredient) {
+                    res.json({ ok: false, payload: "ID provided does not exist"});
+                    return;
+                }
                 res.json({ ok: true, payload: null });
             })
             .catch(err => {
