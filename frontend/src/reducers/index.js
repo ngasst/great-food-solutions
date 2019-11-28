@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-export { billReducer } from "./bill";
-export { clientReducer } from "./client";
-export { ingredientReducer } from "./ingredient";
-export { orderReducer } from "./order";
-export { recipeReducer } from "./recipe";
-export { restaurantReducer } from "./restaurant";
+import { billReducer } from "./bill";
+import { clientReducer } from "./client";
+import { ingredientReducer } from "./ingredient";
+import { orderReducer } from "./order";
+import { recipeReducer } from "./recipe";
+import { restaurantReducer } from "./restaurant";
 
 export const allReducers = combineReducers({
     bill: billReducer,
@@ -13,4 +13,4 @@ export const allReducers = combineReducers({
     order: orderReducer,
     recipe: recipeReducer,
     restaurant: restaurantReducer
-})
+});

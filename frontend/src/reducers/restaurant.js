@@ -1,8 +1,8 @@
-export const restaurantReducer = (state={}, action) => {
+export const restaurantReducer = (state = {}, action) => {
     switch (action.type) {
         case "A":
-            return {...state, newState}
+            return { ...state, ...{} };
         default:
             return state;
     }
-}
+};

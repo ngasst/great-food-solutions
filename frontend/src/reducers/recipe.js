@@ -1,8 +1,8 @@
-export const recipeReducer = (state={}, action) => {
+export const recipeReducer = (state = {}, action) => {
     switch (action.type) {
         case "A":
-            return {...state, newState}
+            return { ...state, ...{} };
         default:
             return state;
     }
-}
+};

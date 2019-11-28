@@ -1,22 +1,20 @@
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
- 
-import Home from './pages/Home'
-import Client from './pages/Client'
-import Restaurant from './pages/Restaurant'
-import Recipe from './pages/Recipe'
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import Home from "./pages/home";
+import Client from "./pages/client";
+import Restaurant from "./pages/restaurant";
+import Recipe from "./pages/recipe";
 
- 
-export default function MainRouter () {
+export default function MainRouter() {
     return (
         <Router>
-            <div>
-                <Route exact path="/" component={Home}/>
-                <Route path="/client" component={Client}/>
-                <Route path="/restaurant" component={Restaurant}/>
-                <Route path="/recipe" component={Recipe}/>
-            </div>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/client" component={Client} />
+                <Route exact path="/restaurant" component={Restaurant} />
+                <Route exact path="/recipe" component={Recipe} />
+            </Switch>
         </Router>
-    )
+    );
 }
