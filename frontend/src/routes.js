@@ -11,7 +11,7 @@ export default function MainRouter() {
         <Router>
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/client" component={Client} />
+                <Route path="/client" component={Client} />
                 <Route exact path="/restaurant" component={Restaurant} />
                 <Route exact path="/recipe" component={Recipe} />
             </Switch>

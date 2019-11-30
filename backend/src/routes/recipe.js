@@ -5,6 +5,7 @@ const { recipe } = require("../handlers");
 // define client routes and their handlers
 // LIST
 recipeRouter.get("/", recipe.list);
+recipeRouter.get("/clients/:id", recipe.listByClient);
 recipeRouter.get("/:id", recipe.getOne);
 // CREATE
 recipeRouter.post("/multiple", recipe.createMultiple);

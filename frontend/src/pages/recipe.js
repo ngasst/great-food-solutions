@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Row, Col, ListGroup } from 'react-bootstrap';
-import { RecipeDetails } from './recipeDetails';
+import { Link } from 'react-router-dom';
 import { client } from '../utils/http';
  
 export default function Recipe() {
@@ -11,8 +10,8 @@ export default function Recipe() {
 
     function getRecipes() {
         client.get("/recipes")
-            .then(res  => {
-                setState({...state,recipes: res.data.payload})})
+            .then(({ data: { payload } }) => {
+                setState({...state, recipes: payload})})
             .catch(err => {
                 console.error(err);
             })
@@ -21,28 +20,24 @@ export default function Recipe() {
     return (
         <div>
             <h1>Recipe</h1>
-            <Tab.Container id="list-group-tabs-example">
-                <Row>
-                    <Col sm={4}>
-                        <ListGroup>
-                        {state.recipes.map(recipe => (
-                            <ListGroup.Item action href={`#${recipe._id}`} key={recipe._id}>
-                            {recipe.name}
-                            </ListGroup.Item>
-                        ))}
-                        </ListGroup>
-                    </Col>
-                    <Col sm={8}>
-                        <Tab.Content>
-                        {state.recipes.map(recipe => (
-                            <Tab.Pane eventKey={`#${recipe._id}`} key={recipe._id}>
-                                <RecipeDetails recipe={recipe} />
-                            </Tab.Pane>
-                        ))}
-                        </Tab.Content>
-                    </Col>
-                </Row>
-            </Tab.Container>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Recipe name</td>
+                        <td>Client list</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {state.recipes.map(recipe => 
+                        (
+                        <tr key={recipe._id}>
+                            <td>{recipe.name}</td>
+                            <td><Link className="link-router" to={`/client/${recipe.client._id}`}>{recipe.client.name}</Link></td>
+                        </tr>
+                        )
+                    )}
+                </tbody>
+            </table>
         </div>
     )
 }

@@ -30,7 +30,6 @@ export function RecipeDetails({recipe}) {
                     <th>Client</th>
                     <th>Ingredients</th>
                     <th>Instructions</th>
-                    <th>Order</th>
                 </tr>
             </thead>
             <tbody>

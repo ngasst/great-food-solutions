@@ -3,8 +3,6 @@ const { Recipe } = require("../models");
 function getOne(req, res) {
     const id = req.params.id;
     Recipe.findOne({ _id: id })
-        .populate("client")
-        .populate("ingredients")
         .then(recipe => {
             res.json({ ok: true, payload: recipe });
         })
@@ -130,6 +128,21 @@ function remove(req, res) {
 
 function list(req, res) {
     Recipe.find({})
+        .populate("client")
+        .populate("ingredients")
+        .then(recipes => {
+            res.json({ ok: true, payload: recipes });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
+function listByClient(req, res) {
+    const clientID = req.params.id
+    Recipe.find({client: clientID})
+        .populate("client")
+        .populate("ingredients")
         .then(recipes => {
             res.json({ ok: true, payload: recipes });
         })
@@ -190,6 +203,7 @@ function createMultiple(req, res) {
 }
 module.exports = {
     list,
+    listByClient,
     create,
     update,
     remove,
