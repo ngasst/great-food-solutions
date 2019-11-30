@@ -1,6 +1,26 @@
 {
-    "scripts": {
-        "start": "npx concurrently -kill-others \"cd ./frontend && npm run start\" \"cd ./backend && npm run start\"",
-        "dev": "npx concurrently -kill-others \"cd ./frontend && npm run start\" \"cd ./backend && npm run dev\""
-    }
+  "scripts": {
+    "start": "npx concurrently -kill-others \"cd ./frontend && npm run start\" \"cd ./backend && npm run start\"",
+    "dev": "npx concurrently -kill-others \"cd ./frontend && npm run start\" \"cd ./backend && npm run dev\""
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "styled-components": "^4.4.1"
+  },
+  "name": "great-food-solutions",
+  "description": "A starter app for GFS's production management system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngasst/great-food-solutions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngasst/great-food-solutions/issues"
+  },
+  "homepage": "https://github.com/ngasst/great-food-solutions#readme"
 }
