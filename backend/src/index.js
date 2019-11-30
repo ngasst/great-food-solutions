@@ -2,10 +2,13 @@ const express = require("express");
 const port = 5000;
 const app = express();
 const bp = require("body-parser");
+var cors = require('cors');
 const { db } = require("./db");
 const { registerRoutes } = require("./routes");
+ 
 // register middleware
 app.use(bp.json());
+app.use(cors());
 
 // route registration
 registerRoutes(app);

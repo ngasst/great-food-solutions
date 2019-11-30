@@ -5,7 +5,8 @@ const { ingredient } = require("../handlers");
 // define client routes and their handlers
 // LIST
 ingredientRouter.get("/", ingredient.list);
-ingredientRouter.get("/:id", ingredient.getOne);
+//ingredientRouter.get("/:id", ingredient.getOne);
+ingredientRouter.get("/:ids", ingredient.getSome);
 // CREATE
 ingredientRouter.post("/multiple", ingredient.createMultiple);
 ingredientRouter.post("/", ingredient.create);
