@@ -108,6 +108,18 @@ function list(req, res) {
         });
 }
 
+function getSome(req, res) {
+    const ids = req.params.ids.split(",");
+    console.log(typeof ids, ids);
+    Ingredient.find({_id: ids})
+        .then(ingredients => {
+            res.json({ ok: true, payload: ingredients });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
 function createMultiple(req, res) {
     const payload = req.body;
     if (!Array.isArray(payload)) {
@@ -153,6 +165,7 @@ function createMultiple(req, res) {
 
 module.exports = {
     list,
+    getSome,
     create,
     update,
     remove,

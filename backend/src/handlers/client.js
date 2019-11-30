@@ -1,5 +1,16 @@
 const { Client } = require("../models");
 
+function getOne(req, res) {
+    const id = req.params.id;
+    Client.findOne({ _id: id })
+        .then(client => {
+            res.json({ ok: true, payload: client });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
 function list(req, res) {
     Client.find({})
         .then(clients => {
@@ -71,6 +82,7 @@ function put(req, res) {
 }
 
 module.exports = {
+    getOne,
     list,
     create,
     remove,
