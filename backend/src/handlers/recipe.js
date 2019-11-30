@@ -3,6 +3,8 @@ const { Recipe } = require("../models");
 function getOne(req, res) {
     const id = req.params.id;
     Recipe.findOne({ _id: id })
+        .populate("client")
+        .populate("ingredients")
         .then(recipe => {
             res.json({ ok: true, payload: recipe });
         })
