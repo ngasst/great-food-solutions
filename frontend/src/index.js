@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import { allReducers } from "./reducers";
 import "./index.css";
 import App from "./App";
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const store = createStore(allReducers);
 ReactDOM.render(
