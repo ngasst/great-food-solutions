@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Form, Col, ButtonToolbar, Button } from 'react-bootstrap';
-import { client as http } from '../utils/http';
+import React, { useState, useEffect } from "react";
+import { Table, Form, Col, ButtonToolbar, Button } from "react-bootstrap";
+import { client as http } from "../utils/http";
 
-export function RecipeDetails({recipe}) {
+export function RecipeDetails({ recipe }) {
     const [client, setClient] = useState({});
     const [ingredients, setIngredients] = useState([]);
-    useEffect(()=> {
+    useEffect(() => {
         getRecipe();
-    },[])
+    }, []);
 
     function getRecipe() {
         const rID = recipe._id;
         http.get(`/recipes/${rID}`)
-        .then(({ data: { payload } })  => {
-            console.log(payload)
-            setClient(payload.client);
-            setIngredients(payload.ingredients);
-        })
-        .catch(err => {
-            console.error(err);
-        })
+            .then(({ data: { payload } }) => {
+                console.log(payload);
+                setClient(payload.client);
+                setIngredients(payload.ingredients);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     return (
@@ -38,34 +38,34 @@ export function RecipeDetails({recipe}) {
                     <td>{client.name}</td>
                     <td>
                         <ul>
-                        {ingredients.map((ingredient,i) => (
-                            <li key={i}>{ingredient.name}</li>
-                        ))}
+                            {ingredients.map((ingredient, i) => (
+                                <li key={i}>{ingredient.name}</li>
+                            ))}
                         </ul>
                     </td>
                     <td>
                         <ol>
-                        {recipe.instructions.map((instructions,i) => (
-                            <li key={i}>{instructions}</li>
-                        ))}
+                            {recipe.instructions.map((instructions, i) => (
+                                <li key={i}>{instructions}</li>
+                            ))}
                         </ol>
                     </td>
                     <td>
-                    <Form>
-                        <Form.Row>
-                            <Col>
-                                <Form.Control placeholder="Quantity" />
-                            </Col>
-                            <Col>
-                                <ButtonToolbar>
-                                    <Button variant="primary">Order</Button>
-                                </ButtonToolbar>
-                            </Col>
-                        </Form.Row>
-                    </Form>
+                        <Form>
+                            <Form.Row>
+                                <Col>
+                                    <Form.Control placeholder="Quantity" />
+                                </Col>
+                                <Col>
+                                    <ButtonToolbar>
+                                        <Button variant="primary">Order</Button>
+                                    </ButtonToolbar>
+                                </Col>
+                            </Form.Row>
+                        </Form>
                     </td>
                 </tr>
             </tbody>
         </Table>
-    )
+    );
 }
