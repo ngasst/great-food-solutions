@@ -9,7 +9,10 @@ import "./header.css";
 const HeaderBox = styled.div`
 background-image: url('${({ bgUrl }) => bgUrl}');
 height: 65px;
-`
+`;
+
+
+
 const HeaderTitle = styled.h1`
 left: 5.21%;
 right: 5.21%;
@@ -21,7 +24,7 @@ font-weight: 500;
 font-size: 20px;
 line-height: 20px;
 text-align: center;
-padding-top:20px;
+padding-top:15px;
 letter-spacing: 0.22em;
 text-transform: uppercase;
 font-variant: small-caps;
@@ -29,10 +32,6 @@ color: #FFFFFF;
 `;
 
 const HeaderUndertitle = styled.h1`
-left: 5.21%;
-right: 5.21%;
-top: 61.54%;
-bottom: 23.08%;
 font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 500;
