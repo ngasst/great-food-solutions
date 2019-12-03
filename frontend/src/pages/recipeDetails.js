@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Form, Col, ButtonToolbar, Button } from 'react-bootstrap';
-import { client } from '../utils/http';
+import { client as http } from '../utils/http';
 
 export function RecipeDetails({recipe}) {
-    const [state, setState] = useState({client:{}, ingredients:[]});
+    const [client, setClient] = useState({});
+    const [ingredients, setIngredients] = useState([]);
     useEffect(()=> {
-        getClient();
-        getIngredients();
+        getRecipe();
     },[])
 
-    function getClient() {
-        client.get(`/clients/${recipe.client}`)
-        .then(res  => {
-            console.log(res)
-            setState({...state, client: res.data.payload})})
-        .catch(err => {
-            console.error(err);
+    function getRecipe() {
+        const rID = recipe._id;
+        http.get(`/recipes/${rID}`)
+        .then(({ data: { payload } })  => {
+            console.log(payload)
+            setClient(payload.client);
+            setIngredients(payload.ingredients);
         })
-    }
-
-    function getIngredients() {
-        client.get(`/ingredients/${recipe.ingredients}`)
-        .then(res  => {
-            console.log(res)
-            setState({...state, ingredients: res.data.payload})})
         .catch(err => {
             console.error(err);
         })
@@ -33,22 +26,19 @@ export function RecipeDetails({recipe}) {
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>Name</th>
                     <th>Base unit</th>
                     <th>Client</th>
                     <th>Ingredients</th>
                     <th>Instructions</th>
-                    <th>Order</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{recipe.name}</td>
                     <td>{recipe.baseUnit}</td>
-                    <td>{state.client.name}</td>
+                    <td>{client.name}</td>
                     <td>
                         <ul>
-                        {state.ingredients.map((ingredient,i) => (
+                        {ingredients.map((ingredient,i) => (
                             <li key={i}>{ingredient.name}</li>
                         ))}
                         </ul>
