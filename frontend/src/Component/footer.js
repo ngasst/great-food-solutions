@@ -10,7 +10,7 @@ const MyList = styled.ul`
 `;
 
 
-export default function Footer() {
+export function Footer() {
     return (
         <div className="fixed-bottom">
             <Container fluid className="text-center text-md-left">
