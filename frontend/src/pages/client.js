@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { client as http } from '../utils/http';
+import App from "../Component/App";
  
 export default function Client() {
     const [recipes, setRecipes] = useState([]);
@@ -22,6 +23,8 @@ export default function Client() {
     }
 
     return (
+        <>
+        <App />
         <div>
             <h1>Client</h1>
             <table>
@@ -71,5 +74,6 @@ export default function Client() {
                 </tbody>
             </table>
         </div>
-    )
+        </>
+    );
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../utils/http';
+import App from '../Component/App';
+
  
 export default function Recipe() {
     const [state, setState] = useState({recipes:[]});
@@ -18,6 +20,8 @@ export default function Recipe() {
     }
 
     return (
+        <>
+        <App />
         <div>
             <h1>Recipe</h1>
             <table>
@@ -39,5 +43,6 @@ export default function Recipe() {
                 </tbody>
             </table>
         </div>
+        </>
     )
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Table, Form, Col, ButtonToolbar, Button } from "react-bootstrap";
 import { client as http } from "../utils/http";
+import App from '../Component/App';
+
 
 export function RecipeDetails({ recipe }) {
     const [client, setClient] = useState({});
@@ -23,6 +25,8 @@ export function RecipeDetails({ recipe }) {
     }
 
     return (
+        <>
+        <App />
         <Table striped bordered hover>
             <thead>
                 <tr>
@@ -67,5 +71,6 @@ export function RecipeDetails({ recipe }) {
                 </tr>
             </tbody>
         </Table>
+        </>
     );
 }
