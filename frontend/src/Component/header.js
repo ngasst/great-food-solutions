@@ -56,7 +56,7 @@ export function Header() {
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="/">
                     <img className="gfs_img" src={GFS} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -75,7 +75,7 @@ export function Header() {
                                 Ajouter client
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="">Commandes</Nav.Link>
+                        <Nav.Link href="Order">Commandes</Nav.Link>
                         <NavDropdown
                             title="Production"
                             id="collasible-nav-dropdown"
@@ -88,10 +88,10 @@ export function Header() {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="">Note d'envoi</Nav.Link>
-                        <Nav.Link href="">Facturation</Nav.Link>
+                        <Nav.Link href="Bill">Facturation</Nav.Link>
                     </Nav>
                     <buttonToolbar>
-                        <Button variant="primary">DECONNECTION</Button>
+                        <Button variant="secondary">DECONNECTION</Button>
                     </buttonToolbar>
                 </Navbar.Collapse>
             </Navbar>

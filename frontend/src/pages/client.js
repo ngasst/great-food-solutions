@@ -71,5 +71,5 @@ export default function Client() {
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
