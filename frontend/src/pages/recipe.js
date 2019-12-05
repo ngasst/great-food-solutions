@@ -28,7 +28,7 @@ export default function Recipe() {
                     </tr>
                 </thead>
                 <tbody>
-                    {state.recipes.map(recipe => 
+                    {state.recipes && state.recipes.map(recipe => 
                         (
                         <tr key={recipe._id}>
                             <td>{recipe.name}</td>

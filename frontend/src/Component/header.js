@@ -1,5 +1,6 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import GFS from "../Assets/image/GFS.png";
 import styled from "styled-components";
 import GFS_header from "../Assets/image/Bg_01.png";
@@ -41,7 +42,17 @@ const HeaderUndertitle = styled.h1`
     color: #ffffff;
 `;
 
-export default function Header() {
+export function Header() {
+    const history = useHistory();
+    const redirectToClient = () => {
+        history.push("/client");
+    }
+    const redirectToRecipe = () => {
+        history.push("/recipe");
+    }
+    const redirectToIngredient = () => {
+        history.push("/ingredient");
+    }
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
@@ -52,11 +63,11 @@ export default function Header() {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
                         <NavDropdown title="GFS" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="">Clients</NavDropdown.Item>
-                            <NavDropdown.Item href="">
+                            <NavDropdown.Item href="" onClick={redirectToClient}>Clients</NavDropdown.Item>
+                            <NavDropdown.Item href="" onClick={redirectToRecipe}>
                                 Recettes
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="">
+                            <NavDropdown.Item href="" onClick={redirectToIngredient}>
                                 Ingrédients
                             </NavDropdown.Item>
                             <NavDropdown.Divider />

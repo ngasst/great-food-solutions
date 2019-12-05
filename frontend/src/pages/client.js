@@ -4,7 +4,10 @@ import { client as http } from '../utils/http';
 export default function Client() {
     const [recipes, setRecipes] = useState([]);
     useEffect(()=>{
-        getRecipes();
+        const clientID = window.location.pathname.split("/")[2];
+        if(clientID) {
+            getRecipes();
+        } return;
     },[])
 
     function getRecipes() {
