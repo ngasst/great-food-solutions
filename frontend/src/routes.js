@@ -7,12 +7,14 @@ import Recipe from "./pages/recipe";
 import Order from "./pages/order";
 import Bill from "./pages/bill";
 import Ingredient from "./pages/ingredient";
+import ClientForm from "./Component/client-form";
 
 export default function MainRouter() {
     return (
         <>
+            <Route exact path="/client/create" component={ClientForm} />
             <Route exact path="/" component={Home} />
-            <Route path="/client" component={Client} />
+            <Route exact path="/client" component={Client} />
             <Route exact path="/restaurant" component={Restaurant} />
             <Route exact path="/recipe" component={Recipe} />
             <Route exact path="/bill" component={Bill} />
