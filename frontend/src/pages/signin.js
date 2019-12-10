@@ -16,10 +16,11 @@ export const SignIn = ({history}) => {
         e.preventDefault();
         const path = "/auth/signin";
         client.post(path, state)
-            .then(({data : { token } } ) => {
+            .then(({ data } ) => {
                 const action = {
                     type: "AUTH",
-                    token 
+                    token: data.token,
+                    message: "Signed in !" 
                 }
                 dispatch(action);
                 history.push("/recipe");
