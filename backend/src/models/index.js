@@ -5,6 +5,7 @@ const { Ingredient } = require("./ingredient");
 const { Order } = require("./order");
 const { Restaurant } = require("./restaurant");
 const { testModels } = require("./test.models.js");
+const { User } = require("./user");
 
 module.exports = {
     Bill,
@@ -13,5 +14,6 @@ module.exports = {
     Ingredient,
     Order,
     Restaurant,
-    testModels
+    testModels,
+    User
 };
