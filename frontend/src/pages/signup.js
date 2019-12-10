@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {Form, Col, Row, Button } from 'react-bootstrap';
 import { client } from '../utils/http';
 
 export const SignUp = ({history}) => {
     const [state, setState] = useState({});
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         const name = e.target.name;
@@ -18,8 +20,12 @@ export const SignUp = ({history}) => {
             password: state.password
         }
         client.post(path, body)
-            .then(({data: {message}}) => {
-                console.log(message);
+            .then(({ data: { message } }) => {
+                const action = {
+                    type: "AUTH",
+                    message 
+                }
+                dispatch(action);
                 history.push("/signin");
             })
             .catch(err => {

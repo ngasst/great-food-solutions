@@ -2,6 +2,7 @@ import MainRouter from "./routes";
 import React, { Component } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { Shell } from "./pages/shell";
+import { PopUp } from "./Component/popup";
 
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
                     <Switch>
                         <MainRouter />
                     </Switch>
+                    <PopUp />
                 </Shell>
             </BrowserRouter>
         )
