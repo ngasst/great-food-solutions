@@ -4,6 +4,7 @@ const ingredient = require("./ingredient");
 const recipe = require("./recipe");
 const restaurant = require("./restaurant");
 const bill = require("./bill");
+const user = require("./user");
 
 module.exports = {
     order,
@@ -11,5 +12,6 @@ module.exports = {
     ingredient,
     recipe,
     restaurant,
-    bill
+    bill,
+    user
 };

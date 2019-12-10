@@ -5,6 +5,7 @@ const { ingredientRouter } = require("./ingredient");
 const { recipeRouter } = require("./recipe");
 const { restaurantRouter } = require("./restaurant");
 const { billRouter } = require("./bill");
+const { userRouter } = require("./user");
 
 function registerRoutes(app) {
     // register routes here
@@ -19,6 +20,9 @@ function registerRoutes(app) {
     app.use("/clients", clientRouter);
     app.use("/restaurants", restaurantRouter);
     app.use("/bills", billRouter);
+
+    // authentication & registration routes
+    app.use("/auth", userRouter);
 }
 
 module.exports = { registerRoutes };

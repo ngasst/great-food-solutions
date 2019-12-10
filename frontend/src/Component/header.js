@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Button, ButtonToolbar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GFS from "../Assets/image/GFS.png";
 import styled from "styled-components";
@@ -57,7 +57,7 @@ export function Header() {
         <div>
             <Navbar className="bg-light justify-content-between navbar">
                 <Navbar.Brand href="/">
-                    <img className="gfs_img" src={GFS} />
+                    <img className="gfs_img" src={GFS} alt="" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
@@ -90,9 +90,9 @@ export function Header() {
                         <Nav.Link href="">Note d'envoi</Nav.Link>
                         <Nav.Link href="Bill">Facturation</Nav.Link>
                     </Nav>
-                    <buttonToolbar>
+                    <ButtonToolbar>
                         <Button variant="secondary">DECONNECTION</Button>
-                    </buttonToolbar>
+                    </ButtonToolbar>
                 </Navbar.Collapse>
             </Navbar>
             <HeaderBox bgUrl={GFS_header}>

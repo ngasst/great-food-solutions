@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { client as http } from '../utils/http';
  
 export default function Client() {
     const [recipes, setRecipes] = useState([]);
+    const { id } = useParams();
     useEffect(()=>{
-        const clientID = window.location.pathname.split("/")[2];
-        if(clientID) {
+        if(id) {
             getRecipes();
         } return;
     },[])
 
     function getRecipes() {
-        const clientID = window.location.pathname.split("/")[2];
-        http.get(`/recipes/clients/${clientID}`)
+        http.get(`/recipes/clients/${id}`)
             .then(({ data: { payload } }) => {
                 setRecipes(payload);
             })

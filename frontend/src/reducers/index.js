@@ -5,6 +5,7 @@ import { ingredientReducer } from "./ingredient";
 import { orderReducer } from "./order";
 import { recipeReducer } from "./recipe";
 import { restaurantReducer } from "./restaurant";
+import { authReducer } from "./auth";
 
 export const allReducers = combineReducers({
     bill: billReducer,
@@ -12,5 +13,6 @@ export const allReducers = combineReducers({
     ingredient: ingredientReducer,
     order: orderReducer,
     recipe: recipeReducer,
-    restaurant: restaurantReducer
+    restaurant: restaurantReducer,
+    auth:  authReducer
 });
