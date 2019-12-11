@@ -1,35 +1,35 @@
 {
-    "name": "great-food-solutions",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "dependencies": {
-        "bcrypt": "^3.0.7",
-        "cors": "^2.8.5",
-        "date-fns": "^2.5.1",
-        "express": "^4.17.1",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.7.5",
-        "passport": "^0.4.0",
-        "passport-jwt": "^4.0.0",
-        "passport-local": "^1.0.0"
-    },
-    "devDependencies": {
-        "nodemon": "^1.19.1"
-    },
-    "scripts": {
-        "start": "node src/index.js",
-        "dev": "nodemon src/index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ngasst/great-food-solutions.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/ngasst/great-food-solutions/issues"
-    },
-    "homepage": "https://github.com/ngasst/great-food-solutions#readme"
+  "name": "great-food-solutions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "cors": "^2.8.5",
+    "date-fns": "^2.5.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.5",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngasst/great-food-solutions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngasst/great-food-solutions/issues"
+  },
+  "homepage": "https://github.com/ngasst/great-food-solutions#readme",
+  "description": ""
 }

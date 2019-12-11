@@ -9,12 +9,12 @@ import Bill from './pages/bill';
 import Ingredient from './pages/ingredient';
 import { SignIn } from './pages/signin';
 import { SignUp } from './pages/signup';
-import ClientForm from './Component/client-form';
+import ClientForm from './pages/client-form';
 
 export default function MainRouter() {
   return (
     <>
-      <Route exact path="/client/create" component={ClientForm} />
+      <Route exact path="/client-form" component={ClientForm} />
       <Route exact path="/" component={Home} />
       <Route exact path="/client/:id" component={Client} />
       <Route exact path="/client" component={Client} />

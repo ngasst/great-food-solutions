@@ -5,9 +5,13 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { Col } from 'react-bootstrap';
 
+const margin ='3em'
+
+
+
+
 class ClientForm extends Component {
   render() {
-    console.log('lklkdfjslkfdjfslkjflskjdfslkjfs')
     return (
       <Form>
         <Form.Row>

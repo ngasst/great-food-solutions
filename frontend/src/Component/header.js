@@ -53,6 +53,13 @@ export function Header() {
     const redirectToIngredient = () => {
         history.push("/ingredient");
     }
+    const redirectToOrder = () => {
+        history.push("/order");
+    }
+    const redirectToClientForm = () => {
+        history.push("/client-form");
+    }
+
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
@@ -71,11 +78,11 @@ export function Header() {
                                 Ingrédients
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
+                            <NavDropdown.Item href="" onClick={redirectToClientForm}>
                                 Ajouter client
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="Order">Commandes</Nav.Link>
+                        <Nav.Link href="" onClick={redirectToOrder}>Commandes</Nav.Link>
                         <NavDropdown
                             title="Production"
                             id="collasible-nav-dropdown"
