@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Form, Col, ButtonToolbar, Button } from "react-bootstrap";
 import { client as http } from "../utils/http";
 
-export function RecipeDetails({ recipe }) {
+export default function RecipeDetails({ recipe }) {
     const [client, setClient] = useState({});
     const [ingredients, setIngredients] = useState([]);
     useEffect(() => {
@@ -23,7 +23,8 @@ export function RecipeDetails({ recipe }) {
     }
 
     return (
-        <Table striped bordered hover>
+
+        <Table striped bordered hover className="mb-3">
             <thead>
                 <tr>
                     <th>Base unit</th>

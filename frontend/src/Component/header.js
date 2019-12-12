@@ -53,13 +53,37 @@ export function Header() {
     const redirectToIngredient = () => {
         history.push("/ingredient");
     }
-    const redirectToOrder = () => {
-        history.push("/order");
-    }
     const redirectToClientForm = () => {
         history.push("/client-form");
     }
-
+    const redirectToOrder = () => {
+        history.push("/order");
+    }
+    const redirectToOrderForm = () => {
+        history.push("/order-form");
+    }
+    const redirectToProduction = () => {
+        history.push("/production");
+    }
+    const redirectToIngredientDayList = () => {
+        history.push("/ingredientDayList");
+    }
+    const redirectToTracability = () => {
+        history.push("/tracability");
+    }
+    const redirectToDelivery = () => {
+        history.push("/delivery");
+    }
+    const redirectToDeliveryForm = () => {
+        history.push("/delivery-form");
+    }
+    const redirectToBill = () => {
+        history.push("/Bill");
+    }
+    const redirectToSingIn = () => {
+        history.push("/Signin");
+    }
+    
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
@@ -69,8 +93,11 @@ export function Header() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
+
                         <NavDropdown title="GFS" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="" onClick={redirectToClient}>Clients</NavDropdown.Item>
+                            <NavDropdown.Item href="" onClick={redirectToClient}>
+                                Clients
+                            </NavDropdown.Item>
                             <NavDropdown.Item href="" onClick={redirectToRecipe}>
                                 Recettes
                             </NavDropdown.Item>
@@ -82,23 +109,46 @@ export function Header() {
                                 Ajouter client
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="" onClick={redirectToOrder}>Commandes</Nav.Link>
-                        <NavDropdown
-                            title="Production"
-                            id="collasible-nav-dropdown"
-                        >
-                            <NavDropdown.Item href="">
+
+                        <NavDropdown title="Commandes" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="" onClick={redirectToOrder}>
+                                Commande
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="" onClick={redirectToOrderForm}>
+                                Ajouter Commande
+                            </NavDropdown.Item>
+                        </NavDropdown>
+
+                        <NavDropdown title="Production" id="collasible-nav-dropdown" >
+                            <NavDropdown.Item href="" onClick={redirectToProduction}>
+                                Production
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="" onClick={redirectToIngredientDayList}>
                                 Liste d'Ingrédients
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="">
+                            <NavDropdown.Item href="" onClick={redirectToTracability}>
                                 Tracabilité
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="">Note d'envoi</Nav.Link>
-                        <Nav.Link href="Bill">Facturation</Nav.Link>
+
+                        <NavDropdown title="Note d'envoi" id="collasible-nav-dropdown" >
+                            <NavDropdown.Item href="" onClick={redirectToDelivery}>
+                                Note d'envoi
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="" onClick={redirectToDeliveryForm}>
+                                Ajout de note d'envoi
+                            </NavDropdown.Item>
+                        </NavDropdown>
+
+                        <NavDropdown title="Factures" id="collasible-nav-dropdown" >
+                            <NavDropdown.Item href="" onClick={redirectToBill}>
+                                Facturation
+                            </NavDropdown.Item>
+                        </NavDropdown>
+
                     </Nav>
                     <ButtonToolbar>
-                        <Button variant="secondary">DECONNECTION</Button>
+                        <Button variant="secondary" onClick={redirectToSingIn}>DECONNECTION</Button>
                     </ButtonToolbar>
                 </Navbar.Collapse>
             </Navbar>
