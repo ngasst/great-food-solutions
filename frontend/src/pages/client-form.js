@@ -69,7 +69,6 @@ class ClientForm extends Component {
   render() {
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-  <p>{JSON.stringify(this.state)}</p>
         <h1> Création d'un nouveau client</h1>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridName">
