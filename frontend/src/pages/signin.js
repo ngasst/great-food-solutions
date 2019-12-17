@@ -3,10 +3,20 @@ import { useDispatch } from 'react-redux';
 import { Form, Col, Row, Button } from 'react-bootstrap';
 import { client } from '../utils/http';
 import styled from 'styled-components';
+
 const BoxForm = styled(Form)`
   align-items: center;
-  margin: 60px;
-  padding: 15px;
+  margin: auto;
+  margin-top: 70px;
+  padding: 50px;
+  width: 50%;
+  border: 5px solid;
+  border-color: rgba(239, 66, 35, 0.75);
+  border-radius: 10px 100px / 120px;
+`;
+
+const Titre = styled.h1`
+  margin-top: 50px;
 `;
 export const SignIn = ({ history }) => {
   const [state, setState] = useState({});
@@ -37,40 +47,45 @@ export const SignIn = ({ history }) => {
   };
 
   return (
-    <BoxForm onSubmit={handleSubmit}>
-      <Form.Group as={Row} controlId="formHorizontalEmail">
-        <Form.Label column sm={2}>
-          Email
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            onChange={handleChange}
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} controlId="formHorizontalPassword">
-        <Form.Label column sm={2}>
-          Password
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            onChange={handleChange}
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Col sm={{ span: 10, offset: 2 }}>
-          <Button type="submit">Sign in</Button>
-        </Col>
-      </Form.Group>
-    </BoxForm>
+    <>
+      <Titre> Bienvenu</Titre>
+      <BoxForm onSubmit={handleSubmit}>
+        <Form.Group as={Row} controlId="formHorizontalEmail">
+          <Form.Label column sm={2}>
+            Email
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              onChange={handleChange}
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="formHorizontalPassword">
+          <Form.Label column sm={2}>
+            Password
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              onChange={handleChange}
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row}>
+          <Col sm={{ span: 10, offset: 2 }}>
+            <Button variant="secondary" type="submit">
+              Sign in
+            </Button>
+          </Col>
+        </Form.Group>
+      </BoxForm>
+    </>
   );
 };

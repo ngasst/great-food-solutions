@@ -3,5 +3,12 @@ $theme-colors: (
     "primary": rgb(239, 66, 35),
     "secondary": rgba(239, 66, 35, 0.75)
     );
+
+    $h1: (
+    margin: 50px
+);
     
     @import '~bootstrap/scss/bootstrap.scss';
+
+
+

@@ -7,7 +7,10 @@ import { Col } from 'react-bootstrap';
 
 const StyledForm = styled(Form)`
 margin: 45px;
-margin-block-start: 1em;
+margin-block-start: 2.5em;
+border: solid;
+padding: 45px;
+border-color: rgba(239, 66, 35, 0.75);
 `;
 
 
@@ -65,11 +68,11 @@ class ClientForm extends Component {
 
           </Form.Row>
 
-          <Form.Group id="formGridCheckbox" style={{textAlign: 'center'}}>
+          <Form.Group id="formGridCheckbox">
             <Form.Check type="checkbox" label="Confirmer" />
           </Form.Group>
 
-          <Button variant="secondary" type="submit" style={{texlignLast: 'center'}}>
+          <Button variant="secondary" type="submit" style={{marginRight: "auto"}}>
             Ajouter Client
         </Button>
       </StyledForm>
