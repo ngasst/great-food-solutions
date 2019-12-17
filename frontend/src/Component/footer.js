@@ -22,46 +22,46 @@ export function Footer() {
             <Wrapper fluid className="text-center text-md-left" fixed-bottom>
                 <Row className="bg-light justify-content-between">
                     <Col>
-                        <Navbar.Brand href="/">
+                        <Navbar.Brand href="/" style={{fontSize: "1vw"}}>
                             Great Food Solutions
                     </Navbar.Brand>
-                        <p>
+                        <p style={{fontSize: "1vw"}}>
                             Great Food solutions delivers quality food to the world,
                             offering exceptional services and exclusive recipes.
                     </p>
                     </Col>
                     <Col>
-                        <h5>View</h5>
+                        <h5 style={{fontSize: "1vw"}}>View</h5>
                         <MyList>
                             <li>
-                                <a href="Recipe">Recipe</a>
+                                <a href="Recipe" style={{fontSize: "1vw"}}>Recipe</a>
                             </li>
                             <li>
-                                <a href="client">Client</a>
+                                <a href="client" style={{fontSize: "1vw"}}>Client</a>
                             </li>
                             <li>
-                                <a href="order">Order</a>
+                                <a href="order" style={{fontSize: "1vw"}}>Order</a>
                             </li>
                         </MyList>
                     </Col>
                     <Col>
-                            <h5>Create</h5>
+                            <h5 style={{fontSize: "1vw"}}>Create</h5>
                             <MyList>
                                 <li>
-                                    <a href="Recipe">Recipe</a>
+                                    <a href="Recipe" style={{fontSize: "1vw"}}>Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="client">Client</a>
+                                    <a href="client" style={{fontSize: "1vw"}}>Client</a>
                                 </li>
                                 <li>
-                                    <a href="order">Order</a>
+                                    <a href="order" style={{fontSize: "1vw"}}>Order</a>
                                 </li>
                             </MyList>
                     </Col>
                 </Row>
                 <Row  className="bg-secondary" style={{height: "26px"}}>
                     <Col align="center">
-                        <p>@GreatFoodSolutions 2019-2020</p>
+                        <p style={{fontSize: "1vw"}}>@GreatFoodSolutions 2019-2020</p>
                     </Col>
                 </Row>
             </Wrapper>
