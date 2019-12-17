@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { client as http } from '../utils/http';
- 
+import ListGroup from 'react-bootstrap/ListGroup';
+import styled from 'styled-components';
+
+
 export default function Client() {
     const [recipes, setRecipes] = useState([]);
     const { id } = useParams();
-    useEffect(()=>{
-        if(id) {
+    useEffect(() => {
+        if (id) {
             getRecipes();
         } return;
-    },[])
+    }, [])
 
     function getRecipes() {
         http.get(`/recipes/clients/${id}`)
@@ -21,55 +24,70 @@ export default function Client() {
             })
     }
 
+    const Table = styled.form` 
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  text-align: center;
+  margin-block-start: 2.5em;
+  padding: 30px;
+`;
+
+    const TitleList = styled(ListGroup)`
+font-style: italic ;
+font-size: 30px;
+`;
+
     return (
-        <div>
-            <h1>Client</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Actif</td>
-                        <td>Recette</td>
-                        <td>Ingredients</td>
-                        <td>Instructions</td>
-                        <td>Emballage</td>
-                        <td>HPP</td>
-                        <td>Prix</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {recipes.map(recipe => 
-                        (
-                        <tr key={recipe._id}>
-                            <td>
+        <>
+            <Table>
+                <h1>Client</h1>
+
+                <TitleList horizontal>
+                    <ListGroup.Item style={{ width: "50%" }}> Actif </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> Recette</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> Ingrédient </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> Instructions</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> Emballage </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> HPP</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "50%" }}> Prix</ListGroup.Item>
+                </TitleList>
+                <ListGroup>
+                {recipes.map(recipe =>
+                    (<>
+                        <ListGroup horizontal key={recipe._id}>
+                            <ListGroup.Item style={{ width: "50%" }} >
                                 <input type="checkbox" name="isActif" checked />
-                            </td>
-                            <td>{recipe.name}</td>
-                            <td>
+                            </ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>{recipe.name}</ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>
                                 <ul>
-                                {recipe.ingredients.map((ingredient,i) => 
-                                    (
-                                        <li key={i}>{ingredient.name}</li>
-                                    )
-                                )}
+                                    {recipe.ingredients.map((ingredient, i) =>
+                                        (
+                                            <li key={i}>{ingredient.name}</li>
+                                        )
+                                    )}
                                 </ul>
-                            </td>
-                            <td>
+                            </ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>
                                 <ol>
-                                {recipe.instructions.map((instruction,i) => 
-                                    (
-                                        <li key={i}>{instruction}</li>
-                                    )
-                                )}
+                                    {recipe.instructions.map((instruction, i) =>
+                                        (
+                                            <li key={i}>{instruction}</li>
+                                        )
+                                    )}
                                 </ol>
-                            </td>
-                            <td>To Be Defined</td>
-                            <td>To Be Defined</td>
-                            <td>To Be Calculated</td>
-                        </tr>
-                        )
-                    )}
-                </tbody>
-            </table>
-        </div>
-    );
-}
+                            </ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>To Be Defined</ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>To Be Defined</ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}>To Be Calculated</ListGroup.Item>
+                        </ListGroup>
+                    </>
+                    )
+                )}
+                </ListGroup>
+            </Table>
+        </>
+    )}
+

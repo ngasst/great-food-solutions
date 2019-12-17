@@ -32,12 +32,25 @@ export const SignIn = ({ history }) => {
     }
 
     const BoxForm = styled(Form)`
+
 align-items: center; 
-margin: 60px;
-padding: 15px;
+margin: auto;
+margin-top: 70px;
+padding: 50px;
+width: 50%;
+border: 5px solid;
+border-color: rgba(239, 66, 35, 0.75);
+border-radius: 10px 100px / 120px;
 `;
 
+const Titre = styled.h1`
+margin-top: 50px;
+`;
+
+
     return (
+        <>
+        <Titre> Bienvenu</Titre>
         <BoxForm onSubmit={handleSubmit}>
             <Form.Group as={Row} controlId="formHorizontalEmail">
                 <Form.Label column sm={2}>
@@ -57,9 +70,10 @@ padding: 15px;
             </Form.Group>
             <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 2 }}>
-                    <Button type="submit">Sign in</Button>
+                    <Button variant="secondary" type="submit">Sign in</Button>
                 </Col>
             </Form.Group>
         </BoxForm>
+        </>
     )
 }

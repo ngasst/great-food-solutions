@@ -9,11 +9,17 @@ const MyList = styled.ul`
     font-size: 12px;
 `;
 
+const Wrapper = styled.form`
+position: absolute;
+width: 100%;
+height: 2rem;
+bottom: 0;
+`;
 
 export function Footer() {
     return (
-        <div className="fixed-bottom">
-            <Container fluid className="text-center text-md-left">
+        <div>
+            <Wrapper fluid className="text-center text-md-left" fixed-bottom>
                 <Row className="bg-light justify-content-between">
                     <Col>
                         <Navbar.Brand href="/">
@@ -53,12 +59,12 @@ export function Footer() {
                             </MyList>
                     </Col>
                 </Row>
-                <Row  className="bg-secondary" >
+                <Row  className="bg-secondary" style={{height: "26px"}}>
                     <Col align="center">
                         <p>@GreatFoodSolutions 2019-2020</p>
                     </Col>
                 </Row>
-            </Container>
+            </Wrapper>
             </div>
     );
 }
