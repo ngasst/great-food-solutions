@@ -96,7 +96,66 @@ export function Header() {
             )
         }
     }
-    
+
+    const navBar = () => {
+        if(token) {
+            return (
+                <Nav className="mr-auto">
+                    <NavDropdown title="GFS" id="collasible-nav-dropdown">
+                        <NavDropdown.Item href="" onClick={redirectToClient}>
+                            Clients
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToRecipe}>
+                            Recettes
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToIngredient}>
+                            Ingrédients
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="" onClick={redirectToClientForm}>
+                            Ajouter client
+                        </NavDropdown.Item>
+                    </NavDropdown>
+
+                    <NavDropdown title="Commandes" id="collasible-nav-dropdown">
+                        <NavDropdown.Item href="" onClick={redirectToOrder}>
+                            Commande
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToOrderForm}>
+                            Ajouter Commande
+                        </NavDropdown.Item>
+                    </NavDropdown>
+
+                    <NavDropdown title="Production" id="collasible-nav-dropdown" >
+                        <NavDropdown.Item href="" onClick={redirectToProduction}>
+                            Production
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToIngredientDayList}>
+                            Liste d'Ingrédients
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToTracability}>
+                            Tracabilité
+                        </NavDropdown.Item>
+                    </NavDropdown>
+
+                    <NavDropdown title="Note d'envoi" id="collasible-nav-dropdown" >
+                        <NavDropdown.Item href="" onClick={redirectToDelivery}>
+                            Note d'envoi
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToDeliveryForm}>
+                            Ajout de note d'envoi
+                        </NavDropdown.Item>
+                    </NavDropdown>
+
+                    <NavDropdown title="Factures" id="collasible-nav-dropdown" >
+                        <NavDropdown.Item href="" onClick={redirectToBill}>
+                            Facturation
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            )
+        }
+    }
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
@@ -105,61 +164,7 @@ export function Header() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto">
-
-                        <NavDropdown title="GFS" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="" onClick={redirectToClient}>
-                                Clients
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToRecipe}>
-                                Recettes
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToIngredient}>
-                                Ingrédients
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="" onClick={redirectToClientForm}>
-                                Ajouter client
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <NavDropdown title="Commandes" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="" onClick={redirectToOrder}>
-                                Commande
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToOrderForm}>
-                                Ajouter Commande
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <NavDropdown title="Production" id="collasible-nav-dropdown" >
-                            <NavDropdown.Item href="" onClick={redirectToProduction}>
-                                Production
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToIngredientDayList}>
-                                Liste d'Ingrédients
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToTracability}>
-                                Tracabilité
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <NavDropdown title="Note d'envoi" id="collasible-nav-dropdown" >
-                            <NavDropdown.Item href="" onClick={redirectToDelivery}>
-                                Note d'envoi
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="" onClick={redirectToDeliveryForm}>
-                                Ajout de note d'envoi
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <NavDropdown title="Factures" id="collasible-nav-dropdown" >
-                            <NavDropdown.Item href="" onClick={redirectToBill}>
-                                Facturation
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                    </Nav>
+                    {navBar()}
                     {coDeco()}
                 </Navbar.Collapse>
             </Navbar>

@@ -40,7 +40,7 @@ export const SignIn = ({ history }) => {
         };
         dispatch(action);
         localStorage.setItem("token", data.token);
-        history.push('/client');
+        history.push('/');
       })
       .catch(err => {
         console.error(err);
