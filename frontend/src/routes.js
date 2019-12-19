@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { requireAuth, requireNoAuth } from './HOCs';
 import Home from './pages/home';
 import Client from './pages/client';
 import Restaurant from './pages/restaurant';
@@ -22,24 +23,24 @@ import ClientForm from './pages/client-form';
 export default function MainRouter() {
   return (
     <>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/client/:id" component={Client} />
-      <Route exact path="/client" component={Client} />
-      <Route exact path="/client-form" component={ClientForm} />
-      <Route exact path="/restaurant" component={Restaurant} />
-      <Route exact path="/recipe" component={Recipe} />
-      <Route exact path="/recipeDetails" component={RecipeDetails} />
-      <Route exact path="/bill" component={Bill} />
-      <Route exact path="/ingredient" component={Ingredient} />
-      <Route exact path="/ingredient-form" component={IngredientForm} />
-      <Route exact path="/ingredient-day-list" component={IngredientDayList} />
-      <Route exact path="/production" component={Production} />
-      <Route exact path="/order" component={Order} />
-      <Route exact path="/delivery" component={Delivery} />
-      <Route exact path="/delivery-form" component={DeliveryForm} />
-      <Route exact path="/tracability" component={Tracability} />
-      <Route exact path="/signin" component={SignIn} />
-      <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/" component={requireAuth(Home)} />
+      <Route exact path="/client/:id" component={requireAuth(Client)} />
+      <Route exact path="/client" component={requireAuth(Client)} />
+      <Route exact path="/client-form" component={requireAuth(ClientForm)} />
+      <Route exact path="/restaurant" component={requireAuth(Restaurant)} />
+      <Route exact path="/recipe" component={requireAuth(Recipe)} />
+      <Route exact path="/recipeDetails" component={requireAuth(RecipeDetails)} />
+      <Route exact path="/bill" component={requireAuth(Bill)} />
+      <Route exact path="/ingredient" component={requireAuth(Ingredient)} />
+      <Route exact path="/ingredient-form" component={requireAuth(IngredientForm)} />
+      <Route exact path="/ingredient-day-list" component={requireAuth(IngredientDayList)} />
+      <Route exact path="/production" component={requireAuth(Production)} />
+      <Route exact path="/order" component={requireAuth(Order)} />
+      <Route exact path="/delivery" component={requireAuth(Delivery)} />
+      <Route exact path="/delivery-form" component={requireAuth(DeliveryForm)} />
+      <Route exact path="/tracability" component={requireAuth(Tracability)} />
+      <Route exact path="/signin" component={requireNoAuth(SignIn)} />
+      <Route exact path="/signup" component={requireNoAuth(SignUp)} />
     </>
   );
 }

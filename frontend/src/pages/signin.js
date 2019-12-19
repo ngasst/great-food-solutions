@@ -39,7 +39,8 @@ export const SignIn = ({ history }) => {
           message: 'Signed in !',
         };
         dispatch(action);
-        history.push('/recipe');
+        localStorage.setItem("token", data.token);
+        history.push('/client');
       })
       .catch(err => {
         console.error(err);

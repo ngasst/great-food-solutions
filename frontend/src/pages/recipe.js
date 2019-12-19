@@ -46,13 +46,12 @@ font-size: 30px;
                     <ListGroup.Item style={{width: "65%"}}> Client</ListGroup.Item>
                 </TitleList>
                 <ListGroup>
-                    {state.recipes && state.recipes.map(recipe =>
-                        (<>
-                            <ListGroup horizontal variant="flush">
-                                <ListGroup.Item style={{width: "60%"}}>{recipe.name}</ListGroup.Item>
-                                <ListGroup.Item style={{width: "60%"}}><Link className="link-router" to={`/client/${recipe.client._id}`}>{recipe.client.name}</Link></ListGroup.Item>
-                            </ListGroup>
-                        </>
+                    {state.recipes && state.recipes.map((recipe, i) =>
+                        (
+                        <ListGroup key={i} horizontal variant="flush">
+                            <ListGroup.Item style={{width: "60%"}}>{recipe.name}</ListGroup.Item>
+                            <ListGroup.Item style={{width: "60%"}}><Link className="link-router" to={`/client/${recipe.client._id}`}>{recipe.client.name}</Link></ListGroup.Item>
+                        </ListGroup>
                         )
                     )}
                 </ListGroup>
