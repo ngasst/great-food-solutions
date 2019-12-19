@@ -1,5 +1,8 @@
 import React from "react";
-import { Nav, Navbar, NavDropdown, Button, ButtonToolbar } from "react-bootstrap";
+import { useSelector } from 'react-redux';
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Connection } from './connection';
+import { Deconnection } from './deconnection';
 import { useHistory } from "react-router-dom";
 import GFS from "../Assets/image/GFS.png";
 import styled from "styled-components";
@@ -44,6 +47,7 @@ const HeaderUndertitle = styled.h1`
 
 export function Header() {
     const history = useHistory();
+    const token = useSelector(state => state.auth.token);
     const redirectToClient = () => {
         history.push("/client");
     }
@@ -80,8 +84,17 @@ export function Header() {
     const redirectToBill = () => {
         history.push("/Bill");
     }
-    const redirectToSingIn = () => {
-        history.push("/Signin");
+
+    const coDeco = () => {
+        if(token) {
+            return (
+                <Deconnection />
+            )
+        } else {
+            return (
+            <Connection />
+            )
+        }
     }
     
     return (
@@ -147,9 +160,7 @@ export function Header() {
                         </NavDropdown>
 
                     </Nav>
-                    <ButtonToolbar>
-                        <Button variant="secondary" onClick={redirectToSingIn}>DECONNECTION</Button>
-                    </ButtonToolbar>
+                    {coDeco()}
                 </Navbar.Collapse>
             </Navbar>
             <HeaderBox bgUrl={GFS_header}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Col, Row, Container } from "react-bootstrap";
+import { Navbar, Col, Row } from "react-bootstrap";
 import styled from "styled-components";
 
 const MyList = styled.ul`
