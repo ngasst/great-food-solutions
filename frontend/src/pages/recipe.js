@@ -41,16 +41,16 @@ font-size: 30px;
             <Table>
             <h1>Liste des recettes chez GFS</h1>
 
-                <TitleList horizontal variant="flush">
-                    <ListGroup.Item style={{width: "65%"}}> Recettes </ListGroup.Item>
-                    <ListGroup.Item style={{width: "65%"}}> Client</ListGroup.Item>
+                <TitleList horizontal>
+                    <ListGroup.Item style={{width: "65%"}} variant="flush"> Recettes </ListGroup.Item>
+                    <ListGroup.Item style={{width: "65%"}} variant="flush"> Client</ListGroup.Item>
                 </TitleList>
                 <ListGroup>
                     {state.recipes && state.recipes.map((recipe, i) =>
                         (
-                        <ListGroup key={i} horizontal variant="flush">
-                            <ListGroup.Item style={{width: "60%"}}>{recipe.name}</ListGroup.Item>
-                            <ListGroup.Item style={{width: "60%"}}><Link className="link-router" to={`/client/${recipe.client._id}`}>{recipe.client.name}</Link></ListGroup.Item>
+                        <ListGroup key={i} horizontal>
+                            <ListGroup.Item style={{width: "60%"}} variant="flush">{recipe.name}</ListGroup.Item>
+                            <ListGroup.Item style={{width: "60%"}} variant="flush"><Link className="link-router" to={`/client/${recipe.client._id}`}>{recipe.client.name}</Link></ListGroup.Item>
                         </ListGroup>
                         )
                     )}

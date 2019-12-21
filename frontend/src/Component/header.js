@@ -12,6 +12,7 @@ import "./header.css";
 const HeaderBox = styled.div`
 background-image: url('${({ bgUrl }) => bgUrl}');
 height: 65px;
+margin-bottom: 45px;
 `;
 
 const HeaderTitle = styled.h1`
@@ -115,6 +116,12 @@ export function Header() {
                         <NavDropdown.Item href="" onClick={redirectToClientForm}>
                             Ajouter client
                         </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={""}>
+                            Ajouter Recette
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={""}>
+                            Ajouter ingrédient
+                        </NavDropdown.Item>
                     </NavDropdown>
 
                     <NavDropdown title="Commandes" id="collasible-nav-dropdown">
@@ -156,6 +163,7 @@ export function Header() {
             )
         }
     }
+
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">
