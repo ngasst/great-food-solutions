@@ -1,6 +1,7 @@
 import React from 'react';
 import * as dateFns from 'date-fns';
 import './calendar.css';
+import styled from 'styled-components';
 
 class Calendar extends React.Component {
   state = {
@@ -109,13 +110,25 @@ class Calendar extends React.Component {
     });
   };
 
+
+
+
   render() {
+ const Wrapper= styled.div`
+height: 100%;
+width: 80%;
+text-align: center;
+margin: auto;
+`;
+
     return (
+      <Wrapper>
       <div className="calendar">
         {this.renderHeader()}
         {this.renderDays()}
         {this.renderCells()}
       </div>
+      </Wrapper>
     );
   }
 }

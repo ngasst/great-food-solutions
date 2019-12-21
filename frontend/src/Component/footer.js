@@ -10,16 +10,16 @@ const MyList = styled.ul`
 `;
 
 const Wrapper = styled.form`
-position: absolute;
-width: 100%;
-height: 2rem;
-bottom: 0;
+flex-shrink: auto;
+margin-top: 20px;
+
 `;
 
 export function Footer() {
+    
     return (
         <div>
-            {/* <Wrapper fluid className="text-center text-md-left" fixed-bottom>
+            {<Wrapper fluid className="text-center text-md-left" fixed-bottom>
                 <Row className="bg-light justify-content-between">
                     <Col>
                         <Navbar.Brand href="/" style={{fontSize: "1vw"}}>
@@ -64,7 +64,7 @@ export function Footer() {
                         <p style={{fontSize: "1vw"}}>@GreatFoodSolutions 2019-2020</p>
                     </Col>
                 </Row>
-            </Wrapper> */}
+            </Wrapper> }
             </div>
     );
 }
