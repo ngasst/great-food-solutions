@@ -1,6 +1,6 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
 
-const BASEUNITTYTYPE = ["kg", "l"];
+const BASEUNITTYPE = ["kg", "l"];
 
 const schema = new Schema({
     name: {
@@ -9,7 +9,7 @@ const schema = new Schema({
     },
     baseUnit: {
         type: String,
-        enum: BASEUNITTYTYPE,
+        enum: BASEUNITTYPE,
         required: true
     },
     instructions: [
@@ -20,8 +20,11 @@ const schema = new Schema({
     ],
     ingredients: [
         {
-            type: SchemaTypes.ObjectId,
-            ref: "Ingredient"
+ingredient:{
+    type: SchemaTypes.ObjectId,
+    ref: "Ingredient"
+},
+quantity: Number,
         }
     ],
     client: {
