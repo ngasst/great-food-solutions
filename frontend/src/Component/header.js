@@ -61,6 +61,12 @@ export function Header() {
     const redirectToClientForm = () => {
         history.push("/client-form");
     }
+    const redirectToRecipeForm = () => {
+        history.push("/recipe-form");
+    }
+    const redirectToIngredientForm = () => {
+        history.push("/ingredient-form");
+    }
     const redirectToOrder = () => {
         history.push("/order");
     }
@@ -116,10 +122,10 @@ export function Header() {
                         <NavDropdown.Item href="" onClick={redirectToClientForm}>
                             Ajouter client
                         </NavDropdown.Item>
-                        <NavDropdown.Item href="" onClick={""}>
+                        <NavDropdown.Item href="" onClick={redirectToRecipeForm}>
                             Ajouter Recette
                         </NavDropdown.Item>
-                        <NavDropdown.Item href="" onClick={""}>
+                        <NavDropdown.Item href="" onClick={redirectToIngredientForm}>
                             Ajouter ingrédient
                         </NavDropdown.Item>
                     </NavDropdown>
