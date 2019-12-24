@@ -31,8 +31,8 @@ class ClientForm extends Component {
   }
 
   handleChange(e) {
-   let name = e.target.name;
-   this.setState({...this.state, [name]: e.target.value});
+    let name = e.target.name;
+    this.setState({...this.state, [name]: e.target.value});
   };
 
   handleSubmit(e) {
@@ -69,7 +69,7 @@ class ClientForm extends Component {
   render() {
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <h1> Création d'un nouveau client</h1>
+        <h1>Création d'un nouveau client</h1>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridName">
             <Form.Label>Nom</Form.Label>
