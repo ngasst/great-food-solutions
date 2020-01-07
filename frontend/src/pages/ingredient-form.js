@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import Input from 'react-bootstrap/InputGroup';
 
- 
+
 const StyledForm = styled(Form)`
 margin: 45px;
 margin-block-start: 2.5em;
@@ -14,12 +15,12 @@ padding: 45px;
 border-color: rgba(239, 66, 35, 0.75);
 `;
 
-class IngredientForm extends Component {
-    render() {
+
+function IngredientForm() {
         return (
-            <StyledForm onSubmit={this.handleSubmit}>
-        <h1> Création d'un nouvel ingrédient</h1>
-            
+            <>
+                <h1> Création d'un nouvel ingrédient</h1>
+    
                 <Form.Row>
                     <Form.Group as={Col} controlId="nomIngredient">
                         <Form.Label>Nom de l'ingrédient</Form.Label>
@@ -60,15 +61,9 @@ class IngredientForm extends Component {
                         <Form.Control type="text" name="brandName" placeholder="Marque" />
                     </Form.Group>
                 </Form.Row>
+                </>
 
-                <Button variant="primary" type="submit">
-                    Ajouter Ingrédient
-  </Button>
-  </StyledForm>
 
         )
-    }
-};
-
-
+    };
 export default connect()(IngredientForm);
