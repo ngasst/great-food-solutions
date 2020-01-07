@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import Input from 'react-bootstrap/InputGroup';
+import { Col } from 'react-bootstrap';
 
+const Wrapper = styled.div`
+  height: auto;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+​
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+    input {
+      margin: 1rem 0;
+    }
+  }
+`;
 
 const StyledForm = styled(Form)`
 margin: 45px;
@@ -15,10 +31,10 @@ padding: 45px;
 border-color: rgba(239, 66, 35, 0.75);
 `;
 
-
-function IngredientForm() {
+function IngredientForm () {
         return (
-            <>
+            <Wrapper>
+            <StyledForm>
                 <h1> Création d'un nouvel ingrédient</h1>
     
                 <Form.Row>
@@ -61,9 +77,10 @@ function IngredientForm() {
                         <Form.Control type="text" name="brandName" placeholder="Marque" />
                     </Form.Group>
                 </Form.Row>
-                </>
+                </StyledForm>
+                </Wrapper>
 
 
         )
     };
-export default connect()(IngredientForm);
+export default IngredientForm;

@@ -12,13 +12,14 @@ import Ingredient from './pages/ingredient';
 import { SignIn } from './pages/signin';
 import { SignUp } from './pages/signup';
 import RecipeDetails from './pages/recipeDetails';
-import IngredientForm from './pages/ingredient-form';
 import IngredientDayList from './pages/ingredient-day-list';
 import Production from './pages/production';
 import Delivery from './pages/delivery';
 import DeliveryForm from './pages/delivery-form';
 import Tracability from './pages/tracability';
 import ClientForm from './pages/client-form';
+import RecipeForm from './pages/recipe-form';
+import IngredientForm from './pages/ingredient-form';
 
 
 export default function MainRouter() {
@@ -42,6 +43,9 @@ export default function MainRouter() {
       <Route exact path="/tracability" component={requireAuth(Tracability)} />
       <Route exact path="/signin" component={requireNoAuth(SignIn)} />
       <Route exact path="/signup" component={requireNoAuth(SignUp)} />
+      <Route exact path="/recipe-form" component={requireAuth(RecipeForm)} />
+
+
     </>
   );
 }
