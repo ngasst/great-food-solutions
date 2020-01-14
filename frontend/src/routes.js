@@ -2,10 +2,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { requireAuth, requireNoAuth } from './HOCs';
 import Home from './pages/home';
-import Client from './pages/client';
+import ClientList from './pages/client-list';
 import Restaurant from './pages/restaurant';
-import Recipe from './pages/recipe';
+import RecipeList from './pages/recipe-list';
+import { Client } from './pages/client';
 import RecipeClient from './pages/recipe-client';
+import RestaurantClient from './pages/restaurant-client';
 import Order from './pages/order';
 import Bill from './pages/bill';
 import Ingredient from './pages/ingredient';
@@ -25,11 +27,13 @@ export default function MainRouter() {
   return (
     <>
       <Route exact path="/" component={requireAuth(Home)} />
-      <Route exact path="/client/:id" component={requireAuth(RecipeClient)} />
-      <Route exact path="/client" component={requireAuth(Client)} />
+      <Route exact path="/client/:id" component={requireAuth(Client)} />
+      <Route exact path="/client/:id/recipes" component={requireAuth(RecipeClient)} />
+      <Route exact path="/client/:id/restaurants" component={requireAuth(RestaurantClient)} />
+      <Route exact path="/clientlist" component={requireAuth(ClientList)} />
       <Route exact path="/client-form" component={requireAuth(ClientForm)} />
       <Route exact path="/restaurant" component={requireAuth(Restaurant)} />
-      <Route exact path="/recipe" component={requireAuth(Recipe)} />
+      <Route exact path="/recipelist" component={requireAuth(RecipeList)} />
       <Route exact path="/recipeDetails" component={requireAuth(RecipeDetails)} />
       <Route exact path="/bill" component={requireAuth(Bill)} />
       <Route exact path="/ingredient" component={requireAuth(Ingredient)} />

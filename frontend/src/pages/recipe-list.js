@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-export default function Recipe() {
+export default function RecipeList() {
     const [state, setState] = useState({ recipes: [] });
     useEffect(() => {
         getRecipes();

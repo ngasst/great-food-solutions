@@ -11,7 +11,7 @@ export default function RecipeClient() {
     useEffect(() => {
         if (id) {
             getRecipes();
-        } return;
+        }
     }, [])
 
     function getRecipes() {
@@ -42,7 +42,7 @@ font-size: 30px;
     return (
         <>
             <Table>
-                <h1>Client</h1>
+                <h1>{recipes[0] && recipes[0].client.name}</h1>
 
                 <TitleList horizontal>
                     <ListGroup.Item style={{ width: "50%" }}> Actif </ListGroup.Item>
