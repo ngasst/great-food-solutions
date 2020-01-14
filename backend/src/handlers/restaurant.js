@@ -76,6 +76,18 @@ function getOne(req, res) {
         });
 }
 
+function listByClient(req, res) {
+    const clientID = req.params.id
+    Restaurant.find({client: clientID})
+        .populate("client")
+        .then(restaurants => {
+            res.json({ ok: true, payload: restaurants });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+}
+
 function put(req, res) {
     const { name, street, city, zipCode, client, id } = req.body;
     if (!name && !street && !city && !zipCode && !client) {
@@ -118,6 +130,7 @@ function remove(req, res) {
 
 module.exports = {
     list,
+    listByClient,
     create,
     getOne,
     put,

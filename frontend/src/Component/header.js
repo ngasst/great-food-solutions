@@ -49,10 +49,10 @@ export function Header() {
     const history = useHistory();
     const token = useSelector(state => state.auth.token);
     const redirectToClient = () => {
-        history.push("/client");
+        history.push("/clientlist");
     }
     const redirectToRecipe = () => {
-        history.push("/recipe");
+        history.push("/recipelist");
     }
     const redirectToIngredient = () => {
         history.push("/ingredient");

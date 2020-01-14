@@ -6,6 +6,7 @@ const { restaurant } = require("../handlers");
 // LIST
 
 restaurantRouter.get("/", restaurant.list);
+restaurantRouter.get("/clients/:id", restaurant.listByClient);
 restaurantRouter.post("/", restaurant.create);
 restaurantRouter.get("/:id", restaurant.getOne);
 restaurantRouter.put("/", restaurant.put);
