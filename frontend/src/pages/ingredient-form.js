@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
-import { Col } from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 
 const Wrapper = styled.div`
   height: auto;
@@ -32,27 +31,128 @@ border-color: rgba(239, 66, 35, 0.75);
 `;
 
 function IngredientForm () {
+
+    const [name, setName] = useState([]);
+    function addName(e) {
+        e.preventDefault();
+        setName([...name, '']);
+    }
+    function handleChange(e, index) {
+        e.preventDefault();
+        const value = e.target.value;
+        const updateName = name.map((element, i) => {
+            if (i === index) {
+                return value;
+            } else return element;
+        });
+        setName(updateName);
+    }
+    function removeName(e, i) {
+        e.preventDefault();
+        setName(name.filter((el, idx) => idx !== i));
+    }
+
+    const [Category, setCategory] = useState([]);
+    function addCategory(e) {
+        e.preventDefault();
+        setQuantity([...quantity, '']);
+    }
+    function handleChange(e, index) {
+        e.preventDefault();
+        const value = e.target.value;
+        const updatedcategory = Category.map((element, i) => {
+            if (i === index) {
+                return value;
+            } else return element;
+        });
+        setCategory(updatedCategory);
+    }
+    function removeCategory(e, i) {
+        e.preventDefault();
+        setQuantity(quantity.filter((el, idx) => idx !== i));
+    }
+
+
+    const [quantity, setQuantity] = useState([]);
+
+    function addQuantity(e) {
+        e.preventDefault();
+        setQuantity([...quantity, '']);
+    }
+
+    function handleChange(e, index) {
+        e.preventDefault();
+        const value = e.target.value;
+        const updateQuantity = quantity.map((element, i) => {
+            if (i === index) {
+                return value;
+            } else return element;
+        });
+
+        setQuantity(updateQuantity);
+    }
+
+    function removeQuantity(e, i) {
+        e.preventDefault();
+        setQuantity(quantity.filter((el, idx) => idx !== i));
+    }
+
+    const [price, setPrice] = useState([]);
+
+    function addPrice(e) {
+        e.preventDefault();
+        setPrice([...price, '']);
+    }
+
+    function handleChange(e, index) {
+        e.preventDefault();
+        const value = e.target.value;
+        const updatePrice = price.map((element, i) => {
+            if (i === index) {
+                return value;
+            } else return element;
+        });
+
+        setPrice(updatePrice);
+    }
+
+    function removePrice(e, i) {
+        e.preventDefault();
+        setPrice(price.filter((el, idx) => idx !== i));
+    }
+
+
         return (
             <Wrapper>
             <StyledForm>
                 <h1> Création d'un nouvel ingrédient</h1>
-    
                 <Form.Row>
                     <Form.Group as={Col} controlId="nomIngredient">
                         <Form.Label>Nom de l'ingrédient</Form.Label>
-                        <Form.Control type="text" name="ingredientName" placeholder="Nom de l'ingrédient" />
+                    {ingredient.map((ingredient, index) => (
+
+                            <form
+                                type="text"
+                                onChange={e => handleChange(e, index)}
+                                value={ingredient}
+                            />
+                    ))}
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="categoryIngredient">
                         <Form.Label>Catégorie</Form.Label>
-                        <Form.Control type="text" name="categoryName" placeholder="Catégorie" >
+                        {ingredient.map((category, index) => (
+
+                        <form as='select' type="text" name="categoryName" placeholder="Catégorie" >
+
                             <option>Choix...</option>
                             <option>Fruits et légumes</option>
                             <option>Boucherie</option>
                             <option>Produits laitiers</option>
                             <option>Boulangerie</option>
                             <option>Produits secs</option>
-                        </Form.Control>
+                        </form>
+                        )
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
@@ -77,6 +177,9 @@ function IngredientForm () {
                         <Form.Control type="text" name="brandName" placeholder="Marque" />
                     </Form.Group>
                 </Form.Row>
+                <Button variant="secondary" type="submit" style={{marginRight: "auto"}}>
+            Ajouter Ingrédient
+        </Button>
                 </StyledForm>
                 </Wrapper>
 
