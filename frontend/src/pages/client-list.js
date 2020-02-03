@@ -110,9 +110,9 @@ export default function ClientList({history}) {
             {clients.map(client =>
                 (
                     <ListGroup horizontal key={client._id}>
-                        <ListGroup.Item style={{ width: "50%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "10%" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>X</span></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "10%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>M</span></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-6" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>X</span></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>M</span></ListGroup.Item>
                     </ListGroup>
                 )
             )}
