@@ -45,15 +45,15 @@ export default function Ingredient({ history }) {
 
     function modifyIngredient(e) {
         e.preventDefault();
-        if (Object.keys(newIngredient).length >= 1) {
+        if(newIngredient.name!==target.name) {
             http.put("ingredient", newIngredient)
-                .then(() => {
-                    setShowMod(false);
-                    history.push("/ingredient");
-                })
-                .catch(err => {
-                    console.error(err);
-                })
+            .then(() => {
+                setShowMod(false);
+                history.push("/ingredient");
+            })
+            .catch(err => {
+                console.error(err);
+            })
         }
     }
 

@@ -20,11 +20,13 @@ const TitleList = styled(ListGroup)`
 `;
 
 const StyledForm = styled(Form)`
-margin: 45px;
-margin-block-start: 2.5em;
-border: solid;
-padding: 45px;
-border-color: rgba(239, 66, 35, 0.75);
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  text-align: center;
+  margin-block-start: 2.5em;
+  padding: 15px;
 `;
 
 export default function ClientList({history}) {

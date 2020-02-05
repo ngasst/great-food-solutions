@@ -7,6 +7,7 @@ import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
 
+
 const StyledForm = styled(Form)`
 margin: 45px;
 margin-block-start: 2.5em;
@@ -35,21 +36,41 @@ class IngredientForm extends Component {
         this.setState({ ...this.state, [name]: e.target.value });
     };
 
+
     handleSubmit(e) {
         e.preventDefault();
-        http.post("/ingredients", { name: this.state.ingredientName })
+        http.post("/ingredient", { name: this.state.ingredientName })
             .then(({ data: { payload } }) => {
                 const ingredientName = payload.name;
+                http.post("/ingredient", {
+                    category: this.state.categoryName,
+                    quantity: this.state.quantityNumber,
+                    price: this.state.priceAndCurrency,
+                    supplier: this.state.supplierName,
+                    brand: this.state.brandName,
+                    ingredient: payload._id
+                })
+                    .then(({ data }) => {
+                        if (data.ok) {
+                            const action = {
+                                type: "AUTH",
+                                token: this.props.token,
+                                message: `Ingredient ${ingredientName} is correctly registered !`
+                            }
+                            this.props.dispatch(action);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
             })
             .catch(err => {
                 console.log(err.message);
             })
-
     }
-
     render() {
         return (
-            <StyledForm onSubmit={this.handleSubmit}>
+            <StyledForm onSubmit={this.handleSubmit} >
                 <h1> Création d'un nouvel ingrédient</h1>
                 <Form.Row>
                     <Form.Group as={Col} controlId="nomIngredient">
@@ -91,10 +112,8 @@ class IngredientForm extends Component {
                         <Form.Control type="text" name="brandName" placeholder="Marque" />
                     </Form.Group>
                 </Form.Row>
-
-                <Button variant="primary" type="submit" style={{marginRight: "auto"}}>
-                    Ajouter Ingrédient
-  </Button>
+                <Button variant="secondary" type="submit" style={{ marginRight: "auto" }}>
+                    Ajouter Ingredient</Button>
             </StyledForm>
 
         )
