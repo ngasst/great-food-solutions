@@ -20,11 +20,13 @@ const TitleList = styled(ListGroup)`
 `;
 
 const StyledForm = styled(Form)`
-margin: 45px;
-margin-block-start: 2.5em;
-border: solid;
-padding: 45px;
-border-color: rgba(239, 66, 35, 0.75);
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  text-align: center;
+  margin-block-start: 2.5em;
+  padding: 15px;
 `;
 
 export default function ClientList({history}) {
@@ -110,9 +112,9 @@ export default function ClientList({history}) {
             {clients.map(client =>
                 (
                     <ListGroup horizontal key={client._id}>
-                        <ListGroup.Item style={{ width: "50%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "10%" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>X</span></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "10%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>M</span></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-6" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>X</span></ListGroup.Item>
+                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>M</span></ListGroup.Item>
                     </ListGroup>
                 )
             )}

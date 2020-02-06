@@ -11,7 +11,7 @@ ingredientRouter.get("/:id", ingredient.getOne);
 ingredientRouter.post("/multiple", ingredient.createMultiple);
 ingredientRouter.post("/", ingredient.create);
 // UPDATE
-ingredientRouter.put("/", ingredient.update);
+ingredientRouter.put("/", ingredient.put);
 // DELETE
 ingredientRouter.delete("/:id", ingredient.remove);
 

@@ -12,6 +12,7 @@ import "./header.css";
 const HeaderBox = styled.div`
 background-image: url('${({ bgUrl }) => bgUrl}');
 height: 65px;
+margin-bottom: 45px;
 `;
 
 const HeaderTitle = styled.h1`
@@ -59,6 +60,12 @@ export function Header() {
     }
     const redirectToClientForm = () => {
         history.push("/client-form");
+    }
+    const redirectToRecipeForm = () => {
+        history.push("/recipe-form");
+    }
+    const redirectToIngredientForm = () => {
+        history.push("/ingredient-form");
     }
     const redirectToOrder = () => {
         history.push("/order");
@@ -115,6 +122,12 @@ export function Header() {
                         <NavDropdown.Item href="" onClick={redirectToClientForm}>
                             Ajouter client
                         </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToRecipeForm}>
+                            Ajouter Recette
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="" onClick={redirectToIngredientForm}>
+                            Ajouter ingrédient
+                        </NavDropdown.Item>
                     </NavDropdown>
 
                     <NavDropdown title="Commandes" id="collasible-nav-dropdown">
@@ -156,6 +169,7 @@ export function Header() {
             )
         }
     }
+
     return (
         <div>
             <Navbar className="bg-light justify-content-between navbar">

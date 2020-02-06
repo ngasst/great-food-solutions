@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ingredient as http } from '../utils/http';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
- 
+
+
 const StyledForm = styled(Form)`
 margin: 45px;
 margin-block-start: 2.5em;
@@ -15,20 +17,70 @@ border-color: rgba(239, 66, 35, 0.75);
 `;
 
 class IngredientForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ingredientName: "",
+            categoryName: "",
+            quantityNumber: "",
+            priceAndCurrency: "",
+            supplierName: "",
+            brandName: ""
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(e) {
+        let name = e.target.name;
+        this.setState({ ...this.state, [name]: e.target.value });
+    };
+
+
+    handleSubmit(e) {
+        e.preventDefault();
+        http.post("/ingredient", { name: this.state.ingredientName })
+            .then(({ data: { payload } }) => {
+                const ingredientName = payload.name;
+                http.post("/ingredient", {
+                    category: this.state.categoryName,
+                    quantity: this.state.quantityNumber,
+                    price: this.state.priceAndCurrency,
+                    supplier: this.state.supplierName,
+                    brand: this.state.brandName,
+                    ingredient: payload._id
+                })
+                    .then(({ data }) => {
+                        if (data.ok) {
+                            const action = {
+                                type: "AUTH",
+                                token: this.props.token,
+                                message: `Ingredient ${ingredientName} is correctly registered !`
+                            }
+                            this.props.dispatch(action);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
+    }
     render() {
         return (
-            <StyledForm onSubmit={this.handleSubmit}>
-        <h1> Création d'un nouvel ingrédient</h1>
-            
+            <StyledForm onSubmit={this.handleSubmit} >
+                <h1> Création d'un nouvel ingrédient</h1>
                 <Form.Row>
                     <Form.Group as={Col} controlId="nomIngredient">
                         <Form.Label>Nom de l'ingrédient</Form.Label>
-                        <Form.Control type="text" name="ingredientName" placeholder="Nom de l'ingrédient" />
+                        <Form.Control onChange={this.handleChange} name="ingredientName" placeholder="Nom de l'ingrédient" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="categoryIngredient">
                         <Form.Label>Catégorie</Form.Label>
-                        <Form.Control type="text" name="categoryName" placeholder="Catégorie" >
+                        <Form.Control onChange={this.handleChange} name="categoryName" as="select">
                             <option>Choix...</option>
                             <option>Fruits et légumes</option>
                             <option>Boucherie</option>
@@ -41,18 +93,18 @@ class IngredientForm extends Component {
                 <Form.Row>
                     <Form.Group as={Col} controlId="quantityField">
                         <Form.Label>Quantité (en kg)</Form.Label>
-                        <Form.Control type="number" name="quantityNumber" placeholder="Quantité" />
+                        <Form.Control onChange={this.handleChange} type="number" name="quantityNumber" placeholder="Quantité" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="priceField">
                         <Form.Label>Prix (€)</Form.Label>
-                        <Form.Control type="number" name="priceAndCurrency" placeholder="Prix" />
+                        <Form.Control onChange={this.handleChange} type="number" name="priceAndCurrency" placeholder="Prix" />
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} controlId="supplierField">
                         <Form.Label>Fournisseur</Form.Label>
-                        <Form.Control type="text" name="supplierName" placeholder="Fournisseur" />
+                        <Form.Control onChange={this.handleChange} type="text" name="supplierName" placeholder="Fournisseur" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="brandField">
@@ -60,11 +112,9 @@ class IngredientForm extends Component {
                         <Form.Control type="text" name="brandName" placeholder="Marque" />
                     </Form.Group>
                 </Form.Row>
-
-                <Button variant="primary" type="submit">
-                    Ajouter Ingrédient
-  </Button>
-  </StyledForm>
+                <Button variant="secondary" type="submit" style={{ marginRight: "auto" }}>
+                    Ajouter Ingredient</Button>
+            </StyledForm>
 
         )
     }

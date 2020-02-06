@@ -82,7 +82,7 @@ class ClientForm extends Component {
           </Form.Group>
           </Form.Row>
           <Form.Group controlId="formGridAddress1">
-            <Form.Label>Addresse Restaurant</Form.Label>
+            <Form.Label>Adresse Restaurant</Form.Label>
             <Form.Control onChange={this.handleChange} name="street" placeholder="Rue / Avenue / Boulevard" />
           </Form.Group>
 
