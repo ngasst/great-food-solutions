@@ -16,6 +16,14 @@ margin: auto;
   padding: 20px;
 `;
 
+const ButtonClient = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px;
+  border-radius: 3px;
+`;
+
 export const Client = () => {
     const [state, setState] = useState({});
     const { id } = useParams();
@@ -35,8 +43,8 @@ export const Client = () => {
     return (
         <Table>
             <h1>{state.payload && state.payload.name}</h1>
-            <Link className="link-router" to={`/client/${id}/recipes`}><Button variant="secondary" >Recipes</Button></Link>
-            <Link className="link-router" to={`/client/${id}/restaurants`}><Button variant="secondary">Restaurants</Button></Link>
+            <Link className="link-router" to={`/client/${id}/recipes`}><ButtonClient variant="secondary" style={{height:"4rem", width:"4rem", padding:"30px"}}>Recipes</ButtonClient></Link>
+            <Link className="link-router" to={`/client/${id}/restaurants`}><ButtonClient variant="secondary" style={{height:"4rem", width:"4rem", padding:"30px"}}>Restaurants</ButtonClient></Link>
         </Table>
     )
 }
