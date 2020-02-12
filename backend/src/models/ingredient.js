@@ -11,13 +11,13 @@ const schema = new Schema({
 
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
 
     },
 
     quantity: {
-            type: Number,
+            type: String,
             required: true,
         },
 

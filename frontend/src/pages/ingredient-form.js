@@ -80,25 +80,19 @@ class IngredientForm extends Component {
 
                     <Form.Group as={Col} controlId="categoryIngredient">
                         <Form.Label>Catégorie</Form.Label>
-                        <Form.Control onChange={this.handleChange} name="categoryName" as="select">
-                            <option>Choix...</option>
-                            <option>Fruits et légumes</option>
-                            <option>Boucherie</option>
-                            <option>Produits laitiers</option>
-                            <option>Boulangerie</option>
-                            <option>Produits secs</option>
+                        <Form.Control onChange={this.handleChange} type="text" name="categoryName" placeholder="Catégorie">
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} controlId="quantityField">
                         <Form.Label>Quantité (en kg)</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="number" name="quantityNumber" placeholder="Quantité" />
+                        <Form.Control onChange={this.handleChange} type="text" name="quantityNumber" placeholder="Quantité" />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="priceField">
                         <Form.Label>Prix (€)</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="number" name="priceAndCurrency" placeholder="Prix" />
+                        <Form.Control onChange={this.handleChange} type="text" name="priceAndCurrency" placeholder="Prix" />
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
