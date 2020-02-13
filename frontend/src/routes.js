@@ -10,7 +10,7 @@ import RecipeClient from './pages/recipe-client';
 import RestaurantClient from './pages/restaurant-client';
 import Order from './pages/order';
 import Bill from './pages/bill';
-import Ingredient from './pages/ingredient';
+import IngredientList from './pages/ingredient-list';
 import { SignIn } from './pages/signin';
 import { SignUp } from './pages/signup';
 import RecipeDetails from './pages/recipeDetails';
@@ -37,7 +37,7 @@ export default function MainRouter() {
       <Route exact path="/recipelist" component={requireAuth(RecipeList)} />
       <Route exact path="/recipeDetails" component={requireAuth(RecipeDetails)} />
       <Route exact path="/bill" component={requireAuth(Bill)} />
-      <Route exact path="/ingredient" component={requireAuth(Ingredient)} />
+      <Route exact path="/ingredient-list" component={requireAuth(IngredientList)} />
       <Route exact path="/ingredient-form" component={requireAuth(IngredientForm)} />
       <Route exact path="/ingredient-day-list" component={requireAuth(IngredientDayList)} />
       <Route exact path="/production" component={requireAuth(Production)} />

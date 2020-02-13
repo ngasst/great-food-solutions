@@ -53,7 +53,7 @@ export default function ClientList({history}) {
         http.delete(`/clients/${target.id}`)
             .then(() => {
                 setShowRem(false);
-                history.push("/client");
+                history.push("/clientlist");
             })
             .catch(err => {
                 console.error(err);

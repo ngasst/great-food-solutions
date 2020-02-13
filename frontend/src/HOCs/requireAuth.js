@@ -3,8 +3,8 @@ import { useSelector } from  'react-redux';
 
 export const requireAuth = ComposedComponent => props => {
     const authenticated = useSelector(state => state.auth.token);
-      
-    if(!authenticated) props.history.push("/signin");
-    
-    return <ComposedComponent {...props} />
+    if(!authenticated) {
+        props.history.push("/signin");
+    }
+        return <ComposedComponent {...props} />
 } 

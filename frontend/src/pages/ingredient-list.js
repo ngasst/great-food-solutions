@@ -22,7 +22,7 @@ display: block;
   padding: 15px;
 `;
 
-export default function Ingredient({ history }) {
+export default function IngredientList({ history }) {
     const [ingredients, setIngredients] = useState([]);
     const [showRem, setShowRem] = useState(false);
     const [showMod, setShowMod] = useState(false);
@@ -34,7 +34,7 @@ export default function Ingredient({ history }) {
     }, [])
 
     function getIngredient() {
-        http.get("/ingredient")
+        http.get("/ingredients")
             .then(({ data: { payload } }) => {
                 setIngredients(payload);
             })
@@ -45,11 +45,20 @@ export default function Ingredient({ history }) {
 
     function modifyIngredient(e) {
         e.preventDefault();
-        if(newIngredient.name!==target.name) {
-            http.put("ingredient", newIngredient)
+        const ingredientInputs = {...newIngredient};
+        Object.keys(ingredientInputs).map(key => {
+            if(ingredientInputs[key]==="") {
+                ingredientInputs[key] = target[key];
+            }
+            if (ingredientInputs[key]==="undefined") {
+                ingredientInputs[key] = "";
+            }
+        })
+        if(!Object.values(ingredientInputs).includes("")) {
+            http.put("ingredients", ingredientInputs)
             .then(() => {
                 setShowMod(false);
-                history.push("/ingredient");
+                history.push("/ingredient-list");
             })
             .catch(err => {
                 console.error(err);
@@ -61,7 +70,7 @@ export default function Ingredient({ history }) {
         http.delete(`/ingredients/${target.id}`)
             .then(() => {
                 setShowRem(false);
-                history.push("/ingredient");
+                history.push("/ingredient-list");
             })
             .catch(err => {
                 console.error(err);

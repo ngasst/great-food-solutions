@@ -54,11 +54,11 @@ font-size: 30px;
                     <ListGroup.Item style={{ width: "50%" }}> Prix</ListGroup.Item>
                 </TitleList>
                 <ListGroup>
-                {recipes.map(recipe =>
+                {recipes.map((recipe, i) =>
                     (<>
-                        <ListGroup horizontal key={recipe._id}>
+                        <ListGroup horizontal key={i}>
                             <ListGroup.Item style={{ width: "50%" }} >
-                                <input type="checkbox" name="isActif" checked />
+                                <input type="checkbox" name="isActif" />
                             </ListGroup.Item>
                             <ListGroup.Item style={{ width: "50%" }}>{recipe.name}</ListGroup.Item>
                             <ListGroup.Item style={{ width: "50%" }}>

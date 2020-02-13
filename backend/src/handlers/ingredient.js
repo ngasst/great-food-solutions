@@ -76,7 +76,7 @@ function create(req, res) {
 }
 
 function put(req, res) {
-    const { name, category, quantity, price, supplier, brand } = req.body;
+    const { id, name, category, quantity, price, supplier, brand } = req.body;
     if (!name && !category && !quantity && !price && !supplier && !brand) {
         res.json({
             ok: false,
