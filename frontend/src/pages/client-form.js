@@ -39,7 +39,6 @@ class ClientForm extends Component {
     e.preventDefault();
     http.post("/clients", {name: this.state.clientName})
       .then(({ data: { payload } }) => {
-        const clientName = payload.name;
         http.post("/restaurants", {
           name:     this.state.restaurantName,
           street:   this.state.street,
@@ -48,13 +47,15 @@ class ClientForm extends Component {
           client:   payload._id
         })
           .then(({ data }) => {
-            if(data.ok) {
-              const action = {
-                type: "AUTH",
-                token: this.props.token,
-                message: `Client ${clientName} is correctly registered !` 
-              }
-              this.props.dispatch(action);
+            if(data.ok || data.payload.includes("E11000")) {
+              this.props.history.push("/clientlist");
+            } else {
+            // const action = {
+            //   type: "AUTH",
+            //   token: this.props.token,
+            //   message: `Client ${clientName} was not correctly registered !` 
+            // }
+            // this.props.dispatch(action);
             }
           })
           .catch(err => {

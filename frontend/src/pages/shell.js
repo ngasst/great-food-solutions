@@ -4,8 +4,9 @@ import { Footer } from '../Component/footer'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-height: 100%; 
 overflow-y: auto;
+margin: 30px;
+padding: 2rem;
 `;
 
 const Container = styled.div`

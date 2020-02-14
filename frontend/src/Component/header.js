@@ -56,7 +56,7 @@ export function Header() {
         history.push("/recipelist");
     }
     const redirectToIngredient = () => {
-        history.push("/ingredient");
+        history.push("/ingredient-list");
     }
     const redirectToClientForm = () => {
         history.push("/client-form");

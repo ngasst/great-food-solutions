@@ -1,4 +1,4 @@
-const { Schema, model, SchemaTypes } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const CATEGORYBASE = ["fruit and vegetables", "meat", "dairy", "bakery", "dried food products" ];
 
@@ -7,20 +7,16 @@ const schema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
-
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
-
     },
 
     quantity: {
-            type: Number,
+            type: String,
             required: true,
         },
-
 
     category: {
         type: String,

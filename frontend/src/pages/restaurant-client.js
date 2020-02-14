@@ -25,13 +25,11 @@ export default function RestaurantClient() {
     }
 
     const Table = styled.form` 
-display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 100%;
   text-align: center;
-  margin-block-start: 2.5em;
-  padding: 30px;
+  padding: 15px;
 `;
 
     const TitleList = styled(ListGroup)`
@@ -45,19 +43,19 @@ font-size: 30px;
                 <h1>{restaurants[0] && restaurants[0].client.name}</h1>
 
                 <TitleList horizontal>
-                    <ListGroup.Item style={{ width: "50%" }}> Name </ListGroup.Item>
-                    <ListGroup.Item style={{ width: "50%" }}> Street </ListGroup.Item>
-                    <ListGroup.Item style={{ width: "50%" }}> City </ListGroup.Item>
-                    <ListGroup.Item style={{ width: "50%" }}> Zip code </ListGroup.Item>
+                    <ListGroup.Item md="3"> Nom </ListGroup.Item>
+                    <ListGroup.Item xs> Rue </ListGroup.Item>
+                    <ListGroup.Item xs> Ville </ListGroup.Item>
+                    <ListGroup.Item xs> Code Postal </ListGroup.Item>
                 </TitleList>
                 <ListGroup>
                 {restaurants.map(restaurant =>
                     (<>
                         <ListGroup horizontal key={restaurant._id}>
-                            <ListGroup.Item style={{ width: "50%" }}>{restaurant.name}</ListGroup.Item>
-                            <ListGroup.Item style={{ width: "50%" }}>{restaurant.street}</ListGroup.Item>
-                            <ListGroup.Item style={{ width: "50%" }}>{restaurant.city}</ListGroup.Item>
-                            <ListGroup.Item style={{ width: "50%" }}>{restaurant.zipCode}</ListGroup.Item>
+                            <ListGroup.Item xs>{restaurant.name}</ListGroup.Item>
+                            <ListGroup.Item xs>{restaurant.street}</ListGroup.Item>
+                            <ListGroup.Item xs>{restaurant.city}</ListGroup.Item>
+                            <ListGroup.Item xs>{restaurant.zipCode}</ListGroup.Item>
                         </ListGroup>
                     </>
                     )

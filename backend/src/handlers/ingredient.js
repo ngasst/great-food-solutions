@@ -26,14 +26,14 @@ function create(req, res) {
         });
         return;
     }
-    if (!req.body.quantity || typeof req.body.quantity !== "number") {
+    if (!req.body.quantity || typeof req.body.quantity !== "string") {
         res.json({
             ok: false,
             payload: "Must provide a valid quantity !"
         });
         return;
     }
-    if (!req.body.price || typeof req.body.price !== "number") {
+    if (!req.body.price || typeof req.body.price !== "string") {
         res.json({
             ok: false,
             payload: "Must provide a valid price !"
@@ -76,7 +76,7 @@ function create(req, res) {
 }
 
 function put(req, res) {
-    const { name, category, quantity, price, supplier, brand } = req.body;
+    const { id, name, category, quantity, price, supplier, brand } = req.body;
     if (!name && !category && !quantity && !price && !supplier && !brand) {
         res.json({
             ok: false,
@@ -163,14 +163,14 @@ function createMultiple(req, res) {
             });
             return;
         }
-        if (!Number(doc.quantity)) {
+        if (!doc.quantity || typeof doc.quantity !== "string") {
             res.json({
                 ok: false,
                 payload: "Must provide a valid quantity !"
             });
             return;
         }
-        if (!Number(doc.price)) {
+        if (!doc.price || typeof doc.price !== "string") {
             res.json({
                 ok: false,
                 payload: "Must provide a valid price !"

@@ -5,28 +5,13 @@ import { Form, Col, ListGroup, Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const Table = styled.form` 
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    text-align: center;
-    margin-block-start: 2.5em;
-    padding: 30px;
-`;
-
-const TitleList = styled(ListGroup)`
-    font-style: italic ;
-    font-size: 30px;
-`;
-
-const StyledForm = styled(Form)`
-display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-  text-align: center;
-  margin-block-start: 2.5em;
-  padding: 15px;
+height: 100%;
+width: 80%;
+text-align: center;
+margin: auto;
+  width: 600px;
+  border: 15px;
+  padding: 20px;
 `;
 
 export default function ClientList({history}) {
@@ -68,7 +53,7 @@ export default function ClientList({history}) {
         http.delete(`/clients/${target.id}`)
             .then(() => {
                 setShowRem(false);
-                history.push("/client");
+                history.push("/clientlist");
             })
             .catch(err => {
                 console.error(err);
@@ -105,16 +90,14 @@ export default function ClientList({history}) {
     return (
         <Table>
             <h1>Liste des clients</h1>
-            <TitleList horizontal>
-                <ListGroup.Item style={{ width: "50%" }}> Nom </ListGroup.Item>
-            </TitleList>
-            <ListGroup>
+            
+            <ListGroup style={{ padding: "25px", alignItems: "center" }}>
             {clients.map(client =>
                 (
-                    <ListGroup horizontal key={client._id}>
-                        <ListGroup.Item style={{ width: "col-xs-6" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>X</span></ListGroup.Item>
-                        <ListGroup.Item style={{ width: "col-xs-2" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>M</span></ListGroup.Item>
+                    <ListGroup horizontal key={client._id} style={{ width: "600px" }}>
+                        <ListGroup.Item style={{ width: "70%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
+                        <Button variant="secondary" style={{ width: "15%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
+                        <Button variant="secondary" style={{ width: "15%", padding:"5px" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
                     </ListGroup>
                 )
             )}
@@ -137,7 +120,7 @@ export default function ClientList({history}) {
                 <Modal.Header closeButton>
                 <Modal.Title>Mise à jour de {target.name}</Modal.Title>
                 </Modal.Header>
-                <StyledForm onSubmit={modifyClient}>
+                <Form onSubmit={modifyClient}>
                     <Modal.Body>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridName">
@@ -154,9 +137,9 @@ export default function ClientList({history}) {
                             Mettre à jour
                         </Button>
                     </Modal.Footer>
-                </StyledForm>
+                </Form>
             </Modal>
-            <Button variant="primary" onClick={toCreateClient}>
+            <Button variant="secondary" onClick={toCreateClient}>
                 Nouveau client
             </Button>
         </Table>
