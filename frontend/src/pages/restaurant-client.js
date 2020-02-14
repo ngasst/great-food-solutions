@@ -4,6 +4,15 @@ import { client as http } from '../utils/http';
 import ListGroup from 'react-bootstrap/ListGroup';
 import styled from 'styled-components';
 
+const Table = styled.form` 
+height: 100%;
+width: 100%;
+text-align: center;
+margin: auto;
+align-content: "center";
+  border: 15px;
+  padding: 20px;
+`;
 
 export default function RestaurantClient() {
     const [restaurants, setRestaurants] = useState([]);
@@ -24,13 +33,7 @@ export default function RestaurantClient() {
             })
     }
 
-    const Table = styled.form` 
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  text-align: center;
-  padding: 15px;
-`;
+ 
 
     const TitleList = styled(ListGroup)`
 font-style: italic ;
@@ -42,20 +45,20 @@ font-size: 30px;
             <Table>
                 <h1>{restaurants[0] && restaurants[0].client.name}</h1>
 
-                <TitleList horizontal>
-                    <ListGroup.Item md="3"> Nom </ListGroup.Item>
-                    <ListGroup.Item xs> Rue </ListGroup.Item>
-                    <ListGroup.Item xs> Ville </ListGroup.Item>
-                    <ListGroup.Item xs> Code Postal </ListGroup.Item>
+                <TitleList horizontal style={{width: "800px"}}>
+                    <ListGroup.Item style={{width: "25%"}}> Nom </ListGroup.Item>
+                    <ListGroup.Item style={{width: "25%"}}> Rue </ListGroup.Item>
+                    <ListGroup.Item style={{width: "25%"}}> Ville </ListGroup.Item>
+                    <ListGroup.Item style={{width: "25%"}}> Code Postal </ListGroup.Item>
                 </TitleList>
                 <ListGroup>
                 {restaurants.map(restaurant =>
                     (<>
-                        <ListGroup horizontal key={restaurant._id}>
-                            <ListGroup.Item xs>{restaurant.name}</ListGroup.Item>
-                            <ListGroup.Item xs>{restaurant.street}</ListGroup.Item>
-                            <ListGroup.Item xs>{restaurant.city}</ListGroup.Item>
-                            <ListGroup.Item xs>{restaurant.zipCode}</ListGroup.Item>
+                        <ListGroup horizontal key={restaurant._id} style={{width: "800px"}}>
+                            <ListGroup.Item style={{width: "25%"}}>{restaurant.name}</ListGroup.Item>
+                            <ListGroup.Item style={{width: "25%"}}>{restaurant.street}</ListGroup.Item>
+                            <ListGroup.Item style={{width: "25%"}}>{restaurant.city}</ListGroup.Item>
+                            <ListGroup.Item style={{width: "25%"}}>{restaurant.zipCode}</ListGroup.Item>
                         </ListGroup>
                     </>
                     )
