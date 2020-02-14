@@ -6,7 +6,7 @@ import { Button, Form } from 'react-bootstrap';
 import styled from 'styled-components';
 
 
-const Table = styled.form` 
+const Table = styled(Form)` 
 height: 100%;
 width: 80%;
 text-align: center;
@@ -14,6 +14,13 @@ margin: auto;
   width: 600px;
   border: 15px;
   padding: 20px;
+`;
+
+const ButtonClient = styled(Button)`
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px;
+  border-radius: 3px;
 `;
 
 export const Client = () => {
@@ -35,8 +42,8 @@ export const Client = () => {
     return (
         <Table>
             <h1>{state.payload && state.payload.name}</h1>
-            <Link className="link-router" to={`/client/${id}/recipes`}><Button variant="secondary" >Recipes</Button></Link>
-            <Link className="link-router" to={`/client/${id}/restaurants`}><Button variant="secondary">Restaurants</Button></Link>
+            <Link className="link-router" to={`/client/${id}/recipes`}><ButtonClient>Recipes</ButtonClient></Link>
+            <Link className="link-router" to={`/client/${id}/restaurants`}><ButtonClient>Restaurants</ButtonClient></Link>
         </Table>
     )
 }
