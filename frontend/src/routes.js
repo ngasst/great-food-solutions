@@ -35,7 +35,7 @@ export default function MainRouter() {
       <Route exact path="/client-form" component={requireAuth(ClientForm)} />
       <Route exact path="/restaurant" component={requireAuth(Restaurant)} />
       <Route exact path="/recipelist" component={requireAuth(RecipeList)} />
-      <Route exact path="/recipeDetails" component={requireAuth(RecipeDetails)} />
+      <Route exact path="/recipeDetails/:id" component={requireAuth(RecipeDetails)} />
       <Route exact path="/bill" component={requireAuth(Bill)} />
       <Route exact path="/ingredient-list" component={requireAuth(IngredientList)} />
       <Route exact path="/ingredient-form" component={requireAuth(IngredientForm)} />

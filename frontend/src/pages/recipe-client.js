@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { client as http } from '../utils/http';
 import ListGroup from 'react-bootstrap/ListGroup';
 import styled from 'styled-components';
@@ -60,7 +61,7 @@ font-size: 30px;
                             <ListGroup.Item style={{ width: "50%" }} >
                                 <input type="checkbox" name="isActif" />
                             </ListGroup.Item>
-                            <ListGroup.Item style={{ width: "50%" }}>{recipe.name}</ListGroup.Item>
+                            <ListGroup.Item style={{ width: "50%" }}><Link className="link-router" to={`/recipeDetails/${recipe._id}`}>{recipe.name}</Link></ListGroup.Item>
                             <ListGroup.Item style={{ width: "50%" }}>
                                 <ul>
                                     {recipe.ingredients.map((ingredient, i) =>

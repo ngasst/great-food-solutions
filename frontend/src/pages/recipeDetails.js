@@ -1,72 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { Table, Form, Col, ButtonToolbar, Button } from "react-bootstrap";
-import { client as http } from "../utils/http";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { recipe as http } from '../utils/http';
+import styled from 'styled-components';
+import { Form } from 'react-bootstrap';
+import ListGroup from 'react-bootstrap/ListGroup';
 
-export default function RecipeDetails({ recipe }) {
-    const [client, setClient] = useState({});
-    const [ingredients, setIngredients] = useState([]);
+const TitleList = styled(ListGroup)`
+font-style: italic ;
+font-size: 30px;
+`;
+
+export default function RecipeDetails() {
+    const [recipes, setRecipes] = useState([]);
+    const { id } = useParams();
     useEffect(() => {
-        getRecipe();
-    }, []);
+        if (id) {
+            getRecipes();
+        }
+    }, [])
 
-    function getRecipe() {
-        const rID = recipe._id;
-        http.get(`/recipes/${rID}`)
+    function getRecipes() {
+        http.get(`/recipes/recipeDetails/${id}`)
             .then(({ data: { payload } }) => {
-                console.log(payload);
-                setClient(payload.client);
-                setIngredients(payload.ingredients);
+                setRecipes(payload);
             })
             .catch(err => {
                 console.error(err);
-            });
+            })
     }
 
+ 
     return (
+        <>
+            <Form>
+                <h1>{recipes.name}</h1>
+                <TitleList horizontal style={{ width: "800px" }}>
+                    <ListGroup.Item style={{ width: "25%" }}> Base unit </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "25%" }}> Client </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "25%" }}> Ingredient </ListGroup.Item>
+                    <ListGroup.Item style={{ width: "25%" }}> Instructions </ListGroup.Item>
+                </TitleList>
+                <ListGroup>
+                    {recipes.map(recipe =>
+                        (<>
+                            <ListGroup horizontal key={recipe._id} style={{ width: "800px" }}>
+                                <ListGroup.Item style={{ width: "25%" }}>{recipe.baseUnit}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "25%" }}>{recipe.client}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "25%" }}>{recipe.ingredient}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "25%" }}>{recipe.instructions}</ListGroup.Item>
+                            </ListGroup>
+                        </>
+                        )
+                    )}
+                </ListGroup>
 
-        <Table striped bordered hover className="mb-3">
-            <thead>
-                <tr>
-                    <th>Base unit</th>
-                    <th>Client</th>
-                    <th>Ingredients</th>
-                    <th>Instructions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{recipe.baseUnit}</td>
-                    <td>{client.name}</td>
-                    <td>
-                        <ul>
-                            {ingredients.map((ingredient, i) => (
-                                <li key={i}>{ingredient.name}</li>
-                            ))}
-                        </ul>
-                    </td>
-                    <td>
-                        <ol>
-                            {recipe.instructions.map((instructions, i) => (
-                                <li key={i}>{instructions}</li>
-                            ))}
-                        </ol>
-                    </td>
-                    <td>
-                        <Form>
-                            <Form.Row>
-                                <Col>
-                                    <Form.Control placeholder="Quantity" />
-                                </Col>
-                                <Col>
-                                    <ButtonToolbar>
-                                        <Button variant="primary">Order</Button>
-                                    </ButtonToolbar>
-                                </Col>
-                            </Form.Row>
-                        </Form>
-                    </td>
-                </tr>
-            </tbody>
-        </Table>
-    );
+            </Form>
+        </>
+    )
 }
