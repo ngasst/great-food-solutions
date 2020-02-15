@@ -121,13 +121,24 @@ function remove(req, res) {
 }
 
 function list(req, res) {
-    Ingredient.find({})
+    const keys = req.query;
+    if(Object.keys(keys).length>0) {
+        Ingredient.find({ category: keys.category })
         .then(ingredients => {
             res.json({ ok: true, payload: ingredients });
         })
         .catch(err => {
             res.json({ ok: false, payload: err.message || "FAILED" });
         });
+    } else {
+        Ingredient.find({})
+        .then(ingredients => {
+            res.json({ ok: true, payload: ingredients });
+        })
+        .catch(err => {
+            res.json({ ok: false, payload: err.message || "FAILED" });
+        });
+    }
 }
 
 function createMultiple(req, res) {
@@ -203,10 +214,10 @@ function createMultiple(req, res) {
 }
 
 module.exports = {
+    getOne,
     list,
     create,
     put,
     remove,
-    getOne,
     createMultiple
 };

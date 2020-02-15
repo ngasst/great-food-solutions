@@ -96,7 +96,6 @@ async function update(req, res) {
             res.json({ ok: true, payload: updatedDoc });
         })
         .catch(err => {
-            console.log(err);
             res.json({ ok: false, payload: err.message || "FAILED" });
         });
 }
@@ -142,7 +141,7 @@ function listByClient(req, res) {
     const clientID = req.params.id
     Recipe.find({client: clientID})
         .populate("client")
-        .populate("ingredients")
+        .populate("ingredients.ingredient")
         .then(recipes => {
             res.json({ ok: true, payload: recipes });
         })

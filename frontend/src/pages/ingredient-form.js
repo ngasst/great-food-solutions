@@ -29,8 +29,28 @@ export default class IngredientForm extends Component {
     }
 
     handleChange(e) {
-        let name = e.target.name;
-        this.setState({ ...this.state, [name]: e.target.value });
+        const name = e.target.name;
+        if(name==="category") {
+            const category = () => {
+                switch (e.target.value) {
+                    case "Fruits et légumes":
+                        return "fruit and vegetables";
+                    case "Viandes":
+                        return "meat";
+                    case "Produits laitier":
+                        return "dairy";
+                    case "Boulangerie":
+                        return "bakery";
+                    case "Produits alimentaires séchés":
+                        return "dried food products";
+                    default:
+                        console.log("Non recognized category");
+                }
+            }
+            this.setState({ ...this.state, [name]: category() });
+        } else {
+            this.setState({ ...this.state, [name]: e.target.value });
+        }
     };
 
     handleSubmit(e) {
@@ -58,13 +78,13 @@ export default class IngredientForm extends Component {
 
                     <Form.Group controlId="categoryIngredient">
                         <Form.Label>Catégorie</Form.Label>
-                        <Form.Control as="select" onChange={this.handleChange} name="category" placeholder="Catégorie">
-                            <option value="">Choose a category</option>
-                            <option>fruit and vegetables</option>
-                            <option>meat</option>
-                            <option>dairy</option>
-                            <option>bakery</option>
-                            <option>dried food products</option>
+                        <Form.Control as="select" onChange={this.handleChange} name="category">
+                            <option value="">Choissez une catégorie</option>
+                            <option>Fruits et légumes</option>
+                            <option>Viandes</option>
+                            <option>Produits laitier</option>
+                            <option>Boulangerie</option>
+                            <option>Produits alimentaires séchés</option>
                         </Form.Control>
                     </Form.Group>
                 </Form.Row>
