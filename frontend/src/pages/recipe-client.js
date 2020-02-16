@@ -17,6 +17,7 @@ export default function RecipeClient() {
     function getRecipes() {
         http.get(`/recipes/clients/${id}`)
             .then(({ data: { payload } }) => {
+                console.log(payload)
                 setRecipes(payload);
             })
             .catch(err => {
@@ -65,7 +66,7 @@ font-size: 30px;
                                 <ul>
                                     {recipe.ingredients.map((ingredient, i) =>
                                         (
-                                            <li key={i}>{ingredient.name}</li>
+                                            <li key={i}>{ingredient.ingredient.name}</li>
                                         )
                                     )}
                                 </ul>

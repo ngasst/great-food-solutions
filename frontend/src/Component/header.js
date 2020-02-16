@@ -53,7 +53,7 @@ export function Header() {
         history.push("/clientlist");
     }
     const redirectToRecipe = () => {
-        history.push("/recipelist");
+        history.push("/recipe-list");
     }
     const redirectToIngredient = () => {
         history.push("/ingredient-list");

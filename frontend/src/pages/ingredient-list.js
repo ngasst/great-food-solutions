@@ -45,14 +45,14 @@ export default function IngredientList({ history }) {
 
     function modifyIngredient(e) {
         e.preventDefault();
-        const ingredientInputs = {...newIngredient};
+        const ingredientInputs = { ...newIngredient };
         Object.keys(ingredientInputs).map(key => {
             if(ingredientInputs[key]==="") {
-                ingredientInputs[key] = target[key];
+                return ingredientInputs[key] = target[key];
             }
             if (ingredientInputs[key]==="undefined") {
-                ingredientInputs[key] = "";
-            }
+                return ingredientInputs[key] = "";
+            } else return ingredientInputs[key];
         })
         if(!Object.values(ingredientInputs).includes("")) {
             http.put("ingredients", ingredientInputs)
@@ -79,7 +79,27 @@ export default function IngredientList({ history }) {
 
     const handleChange = (e) => {
         const name = e.target.name;
-        setNewIngredient({ ...newIngredient, [name]: e.target.value });
+        if(name==="category") {
+            const category = () => {
+                switch (e.target.value) {
+                    case "Fruits et légumes":
+                        return "fruit and vegetables";
+                    case "Viandes":
+                        return "meat";
+                    case "Produits laitier":
+                        return "dairy";
+                    case "Boulangerie":
+                        return "bakery";
+                    case "Produits alimentaires séchés":
+                        return "dried food products";
+                    default:
+                        console.log("Non recognized category");
+                }
+            }
+            setNewIngredient({ ...newIngredient, [name]: category() });
+        } else {
+            setNewIngredient({ ...newIngredient, [name]: e.target.value });
+        }
     }
     const handleClose = () => {
         setShowRem(false);
@@ -182,7 +202,14 @@ export default function IngredientList({ history }) {
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridCategory">
                                 <Form.Label>Catégorie</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="category" placeholder={target.category} />
+                                <Form.Control as="select" onChange={handleChange} name="category">
+                                    <option value="">Choissez une catégorie</option>
+                                    <option>Fruits et légumes</option>
+                                    <option>Viandes</option>
+                                    <option>Produits laitier</option>
+                                    <option>Boulangerie</option>
+                                    <option>Produits alimentaires séchés</option>
+                                </Form.Control>
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>

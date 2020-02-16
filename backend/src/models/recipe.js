@@ -20,11 +20,14 @@ const schema = new Schema({
     ],
     ingredients: [
         {
-ingredient:{
-    type: SchemaTypes.ObjectId,
-    ref: "Ingredient"
-},
-quantity: Number,
+            ingredient: {
+                type: SchemaTypes.ObjectId,
+                ref: "Ingredient"
+            },
+            quantity: {
+                type: Number,
+                required: false
+            }
         }
     ],
     client: {
