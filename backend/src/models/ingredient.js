@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const CATEGORYBASE = ["fruit and vegetables", "meat", "dairy", "bakery", "dried food products" ];
+const BASEUNITTYPE = ["kg", "l", "piece"];
 
 const schema = new Schema({
 
@@ -9,14 +10,21 @@ const schema = new Schema({
         required: true,
     },
     price: {
-        type: String,
+        type: Number,
         required: true,
     },
 
     quantity: {
-            type: String,
+        number: {
+            type: Number,
             required: true,
         },
+        unitBase: {
+            type: String,
+            enum: BASEUNITTYPE,
+            required: true,
+        }
+    },
 
     category: {
         type: String,
