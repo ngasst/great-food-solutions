@@ -19,8 +19,9 @@ export default class IngredientForm extends Component {
         this.state = {
             name: "",
             category: "",
-            quantity: "",
-            price: "",
+            quantity: 0,
+            unitBase: "",
+            price: 0,
             supplier: "",
             brand: ""
         }
@@ -55,7 +56,17 @@ export default class IngredientForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const inputs = this.state;
+        const inputs = {
+            name: this.state.name,
+            category: this.state.category,
+            quantity: {
+                number: this.state.quantity,
+                unitBase: this.state.unitBase
+            },
+            price: this.state.price,
+            supplier: this.state.supplier,
+            brand: this.state.brand
+        };
         http.post("/ingredients", inputs)
             .then(({ data }) => {
                 if (data.ok) {
@@ -91,12 +102,20 @@ export default class IngredientForm extends Component {
                 <Form.Row>
                     <Form.Group as={Col} controlId="quantityField">
                         <Form.Label>Quantité</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="text" name="quantity" placeholder="Quantité" />
+                        <Form.Control onChange={this.handleChange} type="number" step="0.001" name="quantity" placeholder="Quantité" />
                     </Form.Group>
-
+                    <Form.Group as={Col} controlId="quantityField">
+                        <Form.Label>Unité de mesure</Form.Label>
+                        <Form.Control as="select" onChange={this.handleChange} name="unitBase">
+                            <option value="">Choissez l'unité</option>
+                            <option>kg</option>
+                            <option>l</option>
+                            <option>piece</option>
+                        </Form.Control>
+                    </Form.Group>
                     <Form.Group as={Col} controlId="priceField">
-                        <Form.Label>Prix (€)</Form.Label>
-                        <Form.Control onChange={this.handleChange} type="text" name="price" placeholder="Prix" />
+                        <Form.Label>Prix (€)/u</Form.Label>
+                        <Form.Control onChange={this.handleChange} type="number" step="0.01" min="0" name="price" placeholder="Prix" />
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>

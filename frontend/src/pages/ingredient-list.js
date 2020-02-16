@@ -27,7 +27,7 @@ export default function IngredientList({ history }) {
     const [showRem, setShowRem] = useState(false);
     const [showMod, setShowMod] = useState(false);
     const [target, setTarget] = useState({});
-    const [newIngredient, setNewIngredient] = useState({ id: "", name: "", price: "", quantity: "", category: "", supplier: "", brand: "" })
+    const [newIngredient, setNewIngredient] = useState({ id: "", name: "", price: "", number: 0, unitBase: "", category: "", supplier: "", brand: "" })
 
     useEffect(() => {
         getIngredient();
@@ -45,24 +45,47 @@ export default function IngredientList({ history }) {
 
     function modifyIngredient(e) {
         e.preventDefault();
-        const ingredientInputs = { ...newIngredient };
+        let quantityNumber = 0;
+        let quantityUnit = "";
+        if (newIngredient.number===0) {
+            quantityNumber = target.quantity.number;
+        } else {
+            quantityNumber = newIngredient.number;
+        }
+        if (newIngredient.unitBase==="") {
+            quantityUnit = target.quantity.unitBase;
+        } else {
+            quantityUnit = newIngredient.unitBase;
+        }
+        const ingredientInputs = {
+            id: newIngredient.id,
+            name: newIngredient.name,
+            price: newIngredient.price,
+            quantity: {
+                number: quantityNumber,
+                unitBase: quantityUnit
+            },
+            category: newIngredient.category,
+            supplier: newIngredient.supplier,
+            brand: newIngredient.brand
+        };
         Object.keys(ingredientInputs).map(key => {
-            if(ingredientInputs[key]==="") {
+            if (ingredientInputs[key] === "") {
                 return ingredientInputs[key] = target[key];
             }
-            if (ingredientInputs[key]==="undefined") {
+            if (ingredientInputs[key] === "undefined") {
                 return ingredientInputs[key] = "";
             } else return ingredientInputs[key];
         })
-        if(!Object.values(ingredientInputs).includes("")) {
+        if (!Object.values(ingredientInputs).includes("")) {
             http.put("ingredients", ingredientInputs)
-            .then(() => {
-                setShowMod(false);
-                history.push("/ingredient-list");
-            })
-            .catch(err => {
-                console.error(err);
-            })
+                .then(() => {
+                    setShowMod(false);
+                    history.push("/ingredient-list");
+                })
+                .catch(err => {
+                    console.error(err);
+                })
         }
     }
 
@@ -79,7 +102,7 @@ export default function IngredientList({ history }) {
 
     const handleChange = (e) => {
         const name = e.target.name;
-        if(name==="category") {
+        if (name === "category") {
             const category = () => {
                 switch (e.target.value) {
                     case "Fruits et légumes":
@@ -110,20 +133,26 @@ export default function IngredientList({ history }) {
             const id = e.target.getAttribute("id").split("-")[0];
             const name = e.target.getAttribute("name").split("-")[0];
             const price = e.target.getAttribute("name").split("-")[1];
-            const quantity = e.target.getAttribute("name").split("-")[2];
-            const category = e.target.getAttribute("name").split("-")[3];
-            const supplier = e.target.getAttribute("name").split("-")[4];
-            const brand = e.target.getAttribute("name").split("-")[5];
+            const quantity = {
+                number: Number(e.target.getAttribute("name").split("-")[2]),
+                unitBase: e.target.getAttribute("name").split("-")[3]
+            };
+            const category = e.target.getAttribute("name").split("-")[4];
+            const supplier = e.target.getAttribute("name").split("-")[5];
+            const brand = e.target.getAttribute("name").split("-")[6];
             setTarget({ id, name, price, quantity, category, supplier, brand });
             setShowRem(true);
         } else if (e.target.getAttribute("id").split("-")[1] === "m") {
             const id = e.target.getAttribute("id").split("-")[0];
             const name = e.target.getAttribute("name").split("-")[0];
             const price = e.target.getAttribute("name").split("-")[1];
-            const quantity = e.target.getAttribute("name").split("-")[2];
-            const category = e.target.getAttribute("name").split("-")[3];
-            const supplier = e.target.getAttribute("name").split("-")[4];
-            const brand = e.target.getAttribute("name").split("-")[5];
+            const quantity = {
+                number: Number(e.target.getAttribute("name").split("-")[2]),
+                unitBase: e.target.getAttribute("name").split("-")[3]
+            };
+            const category = e.target.getAttribute("name").split("-")[4];
+            const supplier = e.target.getAttribute("name").split("-")[5];
+            const brand = e.target.getAttribute("name").split("-")[6];
             setTarget({ id, name, price, quantity, category, supplier, brand });
             setNewIngredient({ ...newIngredient, id });
             setShowMod(true);
@@ -137,104 +166,117 @@ export default function IngredientList({ history }) {
     return (
         <StyledForm>
             <Table>
-            <h1>Liste des ingredients</h1>
-            <Form.Row horizontal>
-                <Col md={2}> Nom </Col>
-                <Col md={1}> prix </Col>
-                <Col md={1}>Quantité</Col>
-                <Col md={2}> Categorie </Col>
-                <Col md={2}> Fournisseur </Col>
-                <Col md={2}> Marque </Col>
+                <h1>Liste des ingredients</h1>
+                <Form.Row horizontal>
+                    <Col md={2}>Nom</Col>
+                    <Col md={1}>Prix (€)/u</Col>
+                    <Col md={1}>Quantité</Col>
+                    <Col md={1}>Unité</Col>
+                    <Col md={2}>Categorie</Col>
+                    <Col md={2}>Fournisseur</Col>
+                    <Col md={1}>Marque</Col>
 
-            </Form.Row>
-            <ListGroup>
-                {ingredients.map(ingredient =>
-                    (
-                        <ListGroup horizontal key={ingredient._id} variant="secondary" style={{border:"groove"}}>
-                            <Col md={2}>{ingredient.name}</Col>
-                            <Col md={1}>{ingredient.price}</Col>
-                            <Col md={1}>{ingredient.quantity}</Col>
-                            <Col md={2}>{ingredient.category}</Col>
-                            <Col md={2}>{ingredient.supplier}</Col>
-                            <Col md={2}>{ingredient.brand}</Col>
-                            <Col md={2}>
-                            <Button variant="secondary"><span id={`${ingredient._id}-m`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Modifier</span></Button>
-                            <Button variant="secondary"><span id={`${ingredient._id}-s`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Supprimer</span></Button>
-                            </Col>
-                        </ListGroup>
-                    )
-                )}
-            </ListGroup>
-            <Modal show={showRem} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>{target.name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Confirmez-vous la suppression ? (la suppression est irréversible)</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Non
-                    </Button>
-                    <Button variant="primary" onClick={removeIngredient}>
-                        Oui
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Modal show={showMod} onHide={handleClose} size="lg" centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Mise à jour de {target.name}</Modal.Title>
-                </Modal.Header>
-                <StyledForm onSubmit={modifyIngredient}>
-                    <Modal.Body>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="formGridName">
-                                <Form.Label>Nom</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="name" placeholder={target.name} />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridPrice">
-                                <Form.Label>Prix</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="price" placeholder={target.price} />
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="formGridQuantity">
-                                <Form.Label>Quantité</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="quantity" placeholder={target.quantity} />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridCategory">
-                                <Form.Label>Catégorie</Form.Label>
-                                <Form.Control as="select" onChange={handleChange} name="category">
-                                    <option value="">Choissez une catégorie</option>
-                                    <option>Fruits et légumes</option>
-                                    <option>Viandes</option>
-                                    <option>Produits laitier</option>
-                                    <option>Boulangerie</option>
-                                    <option>Produits alimentaires séchés</option>
-                                </Form.Control>
-                            </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="formGridQuantity">
-                                <Form.Label>Fournisseur</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="supplier" placeholder={target.supplier} />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridCategory">
-                                <Form.Label>Marque</Form.Label>
-                                <Form.Control onChange={handleChange} type="Nom" name="brand" placeholder={target.brand} />
-                            </Form.Group>
-                        </Form.Row>
-                    </Modal.Body>
+                </Form.Row>
+                <ListGroup>
+                    {ingredients.map(ingredient =>
+                        (
+                            <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ border: "groove" }}>
+                                <Col md={2}>{ingredient.name}</Col>
+                                <Col md={1}>{ingredient.price}</Col>
+                                <Col md={1}>{ingredient.quantity.number}</Col>
+                                <Col md={1}>{ingredient.quantity.unitBase}</Col>
+                                <Col md={2}>{ingredient.category}</Col>
+                                <Col md={2}>{ingredient.supplier}</Col>
+                                <Col md={1}>{ingredient.brand}</Col>
+                                <Col md={2}>
+                                    <Button variant="secondary"><span id={`${ingredient._id}-m`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Modifier</span></Button>
+                                    <Button variant="secondary"><span id={`${ingredient._id}-s`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Supprimer</span></Button>
+                                </Col>
+                            </ListGroup>
+                        )
+                    )}
+                </ListGroup>
+                <Modal show={showRem} onHide={handleClose} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{target.name}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Confirmez-vous la suppression ? (la suppression est irréversible)</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Non
-                        </Button>
-                        <Button type="submit" variant="primary">
-                            Mettre à jour
-                        </Button>
+                    </Button>
+                        <Button variant="primary" onClick={removeIngredient}>
+                            Oui
+                    </Button>
                     </Modal.Footer>
-                </StyledForm>
-            </Modal>
-            <Button variant="primary" onClick={toCreateIngredient}>
-                Nouveau ingredient
+                </Modal>
+                <Modal show={showMod} onHide={handleClose} size="lg" centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Mise à jour de {target.name}</Modal.Title>
+                    </Modal.Header>
+                    <StyledForm onSubmit={modifyIngredient}>
+                        <Modal.Body>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridName">
+                                    <Form.Label>Nom</Form.Label>
+                                    <Form.Control onChange={handleChange} type="text" name="name" placeholder={target.name} />
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="formGridPrice">
+                                    <Form.Label>Prix (€)/u</Form.Label>
+                                    <Form.Control onChange={handleChange} type="number" step="0.01" min="0" name="price" placeholder={target.price} />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridQuantityNumber">
+                                    <Form.Label>Quantité</Form.Label>
+                                    <Form.Control onChange={handleChange} type="number" step="0.001" min="0" name="number" />
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="formGridQuantityUnit">
+                                    <Form.Label>Unité de mesure</Form.Label>
+                                    <Form.Control as="select" onChange={handleChange} name="unitBase">
+                                        <option value="">Choissez l'unité</option>
+                                        <option>kg</option>
+                                        <option>l</option>
+                                        <option>piece</option>
+                                    </Form.Control>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridCategory">
+                                    <Form.Label>Catégorie</Form.Label>
+                                    <Form.Control as="select" onChange={handleChange} name="category">
+                                        <option value="">Choissez une catégorie</option>
+                                        <option>Fruits et légumes</option>
+                                        <option>Viandes</option>
+                                        <option>Produits laitier</option>
+                                        <option>Boulangerie</option>
+                                        <option>Produits alimentaires séchés</option>
+                                    </Form.Control>
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} controlId="formGridQuantity">
+                                    <Form.Label>Fournisseur</Form.Label>
+                                    <Form.Control onChange={handleChange} type="text" name="supplier" placeholder={target.supplier} />
+                                </Form.Group>
+                                <Form.Group as={Col} controlId="formGridCategory">
+                                    <Form.Label>Marque</Form.Label>
+                                    <Form.Control onChange={handleChange} type="text" name="brand" placeholder={target.brand} />
+                                </Form.Group>
+                            </Form.Row>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Non
+                        </Button>
+                            <Button type="submit" variant="primary">
+                                Mettre à jour
+                        </Button>
+                        </Modal.Footer>
+                    </StyledForm>
+                </Modal>
+                <Button variant="primary" onClick={toCreateIngredient}>
+                    Nouveau ingredient
             </Button>
             </Table>
         </StyledForm>

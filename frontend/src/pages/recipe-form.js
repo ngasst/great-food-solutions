@@ -132,11 +132,12 @@ export default function RecipeForm({ history }) {
             <StyledFormIngredient>
                 <Table>
                     <Form.Row horizontal>
-                        <Col md={2}> Nom </Col>
-                        <Col md={2}> prix </Col>
-                        <Col md={2}>Quantité</Col>
-                        <Col md={2}> Fournisseur </Col>
-                        <Col md={2}> Marque </Col>
+                        <Col md={2}>Nom</Col>
+                        <Col md={2}>Prix (€)/u</Col>
+                        <Col md={1}>Q.</Col>
+                        <Col md={1}>U.</Col>
+                        <Col md={2}>Fournisseur</Col>
+                        <Col md={2}>Marque</Col>
                     </Form.Row>
                     <ListGroup>
                         {Array.isArray(ingredients) && ingredients.map(ingredient =>
@@ -144,7 +145,8 @@ export default function RecipeForm({ history }) {
                                 <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ border: "groove" }}>
                                     <Col md={2}>{ingredient.name}</Col>
                                     <Col md={2}>{ingredient.price}</Col>
-                                    <Col md={2}>{ingredient.quantity}</Col>
+                                    <Col md={1}>{ingredient.quantity.number}</Col>
+                                    <Col md={1}>{ingredient.quantity.unitBase}</Col>
                                     <Col md={2}>{ingredient.supplier}</Col>
                                     <Col md={2}>{ingredient.brand}</Col>
                                     <Col md={1}>

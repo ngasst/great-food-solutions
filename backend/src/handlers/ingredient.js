@@ -26,7 +26,7 @@ function create(req, res) {
         });
         return;
     }
-    if (!req.body.quantity || typeof req.body.quantity !== "string") {
+    if (!req.body.quantity || Object.keys(req.body.quantity) > 0) {
         res.json({
             ok: false,
             payload: "Must provide a valid quantity !"
