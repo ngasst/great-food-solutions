@@ -30,7 +30,7 @@ padding: 45px;
 border-color: rgba(239, 66, 35, 0.75);
 `;
 
-const StyledFormIngredient = styled(Form)`
+const StyledFormIngredient = styled.div`
 margin: 45px;
 margin-block-start: 1em;
 border: solid;
@@ -164,11 +164,7 @@ export default function RecipeForm({ history }) {
             return (
                 ingredient.map((ingredient, index) => (
                     <IngredientList key={index}>
-                        <p
-                            style={{
-                                margin: '0'
-                            }}
-                        >{ingredient.name}</p>
+                        <ListGroup>{ingredient.name}</ListGroup>
                         <button
                             style={{
                                 backgroundColor: 'darkred',

@@ -90,7 +90,7 @@ export default class IngredientForm extends Component {
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} controlId="quantityField">
-                        <Form.Label>Quantité (en kg)</Form.Label>
+                        <Form.Label>Quantité</Form.Label>
                         <Form.Control onChange={this.handleChange} type="text" name="quantity" placeholder="Quantité" />
                     </Form.Group>
 
