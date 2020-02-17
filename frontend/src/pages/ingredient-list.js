@@ -163,6 +163,23 @@ export default function IngredientList({ history }) {
         history.push("/ingredient-form");
     }
 
+    const categoryToFrench = (category) => {
+        switch (category) {
+            case "fruit and vegetables":
+                return "Fruits et légumes";
+            case "meat":
+                return "Viandes";
+            case "dairy":
+                return "Produits laitier";
+            case "bakery":
+                return "Boulangerie";
+            case "dried food products":
+                return "Produits alimentaires séchés";
+            default:
+                console.log("Non recognized category");
+        }
+    }
+
     return (
         <StyledForm>
             <Table>
@@ -185,7 +202,7 @@ export default function IngredientList({ history }) {
                                 <Col md={1}>{ingredient.price}</Col>
                                 <Col md={1}>{ingredient.quantity.number}</Col>
                                 <Col md={1}>{ingredient.quantity.unitBase}</Col>
-                                <Col md={2}>{ingredient.category}</Col>
+                                <Col md={2}>{categoryToFrench(ingredient.category)}</Col>
                                 <Col md={2}>{ingredient.supplier}</Col>
                                 <Col md={1}>{ingredient.brand}</Col>
                                 <Col md={2}>
