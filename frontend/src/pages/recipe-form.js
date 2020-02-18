@@ -59,6 +59,7 @@ export default function RecipeForm({ history }) {
     const [recipeName, setRecipeName] = useState("");
     const [ingredient, setIngredient] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [quantity, setQuantity] = useState([]);
     const [client, setClient] = useState("");
     const [clients, setClients] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
@@ -133,25 +134,27 @@ export default function RecipeForm({ history }) {
                 <Table>
                     <Form.Row horizontal>
                         <Col md={2}>Nom</Col>
-                        <Col md={2}>Prix (€)/u</Col>
-                        <Col md={1}>Q.</Col>
+                        <Col md={1}>Prix (€)/u</Col>
+                        <Col md={2}>Q.</Col>
                         <Col md={1}>U.</Col>
                         <Col md={2}>Fournisseur</Col>
-                        <Col md={2}>Marque</Col>
+                        <Col md={1}>Marque</Col>
+                        <Col md={2}>Sél. quantité</Col>
                     </Form.Row>
                     <ListGroup>
                         {Array.isArray(ingredients) && ingredients.map(ingredient =>
                             (
                                 <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ border: "groove" }}>
                                     <Col md={2}>{ingredient.name}</Col>
-                                    <Col md={2}>{ingredient.price}</Col>
-                                    <Col md={1}>{ingredient.quantity.number}</Col>
+                                    <Col md={1}>{ingredient.price}</Col>
+                                    <Col md={2}>{ingredient.quantity.number}</Col>
                                     <Col md={1}>{ingredient.quantity.unitBase}</Col>
                                     <Col md={2}>{ingredient.supplier}</Col>
-                                    <Col md={2}>{ingredient.brand}</Col>
-                                    <Col md={1}>
-                                        <Button variant="secondary"><span id={ingredient._id} name={ingredient.name} onClick={handleIngredientChoice}>Ajouter</span></Button>
+                                    <Col md={1}>{ingredient.brand}</Col>
+                                    <Col md={2}>
+                                        <Form.Control onChange={handleQuantityChange} type="number" step="0.001" min="0" name={ingredient._id} />
                                     </Col>
+                                    <Button variant="secondary"><span id={ingredient._id} name={`${ingredient.name}-${ingredient.quantity.unitBase}`} onClick={handleIngredientChoice}>Ajouter</span></Button>
                                 </ListGroup>
                             )
                         )}
@@ -166,7 +169,7 @@ export default function RecipeForm({ history }) {
             return (
                 ingredient.map((ingredient, index) => (
                     <IngredientList key={index}>
-                        <ListGroup>{ingredient.name}</ListGroup>
+                        <ListGroup>{`${ingredient.name}, ${ingredient.quantity} ${ingredient.unit}`}</ListGroup>
                         <button
                             style={{
                                 backgroundColor: 'darkred',
@@ -187,15 +190,31 @@ export default function RecipeForm({ history }) {
     function handleIngredientChoice(e) {
         e.preventDefault();
         const id = e.target.getAttribute("id");
-        const name = e.target.getAttribute("name");
+        const name = e.target.getAttribute("name").split("-")[0];
+        const unit = e.target.getAttribute("name").split("-")[1];
+        const reducedQuantity = quantity.reduce((acc, curr) => {
+            if(acc.length>=2) {
+                acc = acc.filter(o => o.targetIngredient !== curr.targetIngredient)
+            }
+            acc.push(curr);
+            return acc;
+        },[])
+        const quantityObject = reducedQuantity.filter(object => id === object.targetIngredient);
         const findMatch = ingredient.reduce((findOnce, ingredient) => {
-            if(ingredient.id===id) {
+            if (ingredient.id === id) {
                 return findOnce += 1;
             } return findOnce;
         }, 0)
-        if(findMatch<=0) {
-            setIngredient([...ingredient, { id, name }]);
+        if (findMatch <= 0) {
+            setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
         }
+    }
+
+    function handleQuantityChange(e) {
+        e.preventDefault();
+        const q = e.target.value;
+        const targetIngredient = e.target.name;
+        setQuantity([...quantity, {targetIngredient, quantity: q}]);
     }
 
     function addInstruction(e) {
@@ -242,7 +261,7 @@ export default function RecipeForm({ history }) {
     function handleSubmit(e) {
         e.preventDefault();
         const ingredientIds = ingredient.map(ing => {
-            return {ingredient: ing.id, quantity: 1};
+            return { ingredient: ing.id, quantity: ing.quantity };
         });
         const inputs = {
             name: recipeName,
@@ -302,7 +321,7 @@ export default function RecipeForm({ history }) {
                                         <option>Boulangerie</option>
                                         <option>Produits alimentaires séchés</option>
                                     </Form.Control>
-                                    <Modal show={show} onHide={handleClose} size="lg" centered>
+                                    <Modal show={show} onHide={handleClose} size="xl" centered>
                                         <Modal.Header closeButton>
                                             <Modal.Title>{category}</Modal.Title>
                                         </Modal.Header>
@@ -356,14 +375,14 @@ export default function RecipeForm({ history }) {
                                 <Form.Label>Client</Form.Label>
                             </Form.Row>
                             <Form.Control as="select" onChange={handleClientChange} name="category">
-                                        <option value="">Selectionner le client</option>
-                                        {clients.map((client, index) => (
-                                            <option key={index} value={client._id}>{client.name}</option>
-                                        ))}
+                                <option value="">Selectionner le client</option>
+                                {clients.map((client, index) => (
+                                    <option key={index} value={client._id}>{client.name}</option>
+                                ))}
                             </Form.Control>
                         </Col>
                         <Col>
-                        <Form.Row>
+                            <Form.Row>
                                 <Form.Label>Unité</Form.Label>
                             </Form.Row>
                             <Form.Control as="select" onChange={handleUnitChange} name="category">
