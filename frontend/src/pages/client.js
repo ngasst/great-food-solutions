@@ -5,6 +5,15 @@ import { Link } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import styled from 'styled-components';
 
+const StyledForm = styled(Form)`
+margin: 45px;
+margin-block-start: 1em;
+border: solid;
+padding: center;
+padding-top: 20px;
+padding-bottom: 20px;
+border-color: rgba(239, 66, 35, 0.75);
+`;
 
 const Table = styled(Form)` 
 height: 100%;
@@ -40,10 +49,12 @@ export const Client = () => {
     }
 
     return (
+        <StyledForm>
         <Table>
             <h1>{state.payload && state.payload.name}</h1>
-            <Link className="link-router" to={`/client/${id}/recipes`}><ButtonClient>Recipes</ButtonClient></Link>
-            <Link className="link-router" to={`/client/${id}/restaurants`}><ButtonClient>Restaurants</ButtonClient></Link>
+            <Link style={{ padding: "25px"}} className="link-router" to={`/client/${id}/recipes`}><ButtonClient style={{ width: "300px"}} >Recettes</ButtonClient></Link>
+            <Link style={{ padding: "25px"}}className="link-router" to={`/client/${id}/restaurants`}><ButtonClient style={{ width: "300px"}} >Restaurants</ButtonClient></Link>
         </Table>
+        </StyledForm>
     )
 }

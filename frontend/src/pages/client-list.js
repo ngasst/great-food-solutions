@@ -4,15 +4,25 @@ import { Link } from 'react-router-dom';
 import { Form, Col, ListGroup, Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
-const Table = styled.form` 
-height: 100%;
-width: 80%;
-text-align: center;
-margin: auto;
-  width: 600px;
-  border: 15px;
-  padding: 20px;
+const StyledForm = styled(Form)`
+margin: 45px;
+margin-block-start: 1em;
+border: solid;
+padding: center;
+padding-top: 20px;
+padding-bottom: 20px;
+border-color: rgba(239, 66, 35, 0.75);
 `;
+
+const Table = styled.form` 
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  text-align: center;
+  font-size: 2,5vw;
+`;
+
 
 export default function ClientList({history}) {
     const [clients, setClients] = useState([]);
@@ -88,16 +98,17 @@ export default function ClientList({history}) {
     }
 
     return (
+        <StyledForm>
         <Table>
             <h1>Liste des clients</h1>
             
             <ListGroup style={{ padding: "25px", alignItems: "center" }}>
             {clients.map(client =>
                 (
-                    <ListGroup horizontal key={client._id} style={{ width: "600px" }}>
+                    <ListGroup horizontal key={client._id} style={{ width: "100%" }}>
                         <ListGroup.Item style={{ width: "70%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
-                        <Button variant="secondary" style={{ width: "15%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
-                        <Button variant="secondary" style={{ width: "15%", padding:"5px" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
+                        <Button variant="secondary" style={{ width: "20%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
+                        <Button variant="secondary" style={{ width: "20%" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
                     </ListGroup>
                 )
             )}
@@ -140,8 +151,9 @@ export default function ClientList({history}) {
                 </Form>
             </Modal>
             <Button variant="secondary" onClick={toCreateClient}>
-                Nouveau client
+                Créer un nouveau client
             </Button>
         </Table>
+        </StyledForm>
     )}
 
