@@ -2,8 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../utils/http';
 import styled from 'styled-components';
-import ListGroup from 'react-bootstrap/ListGroup';
+import {ListGroup, Form} from 'react-bootstrap';
 
+const StyledForm = styled(Form)`
+margin: 45px;
+margin-block-start: 1em;
+border: solid;
+padding: center;
+padding-top: 20px;
+padding-bottom: 20px;
+border-color: rgba(239, 66, 35, 0.75);
+`;
+
+const Table = styled(Form)` 
+display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  text-align: center;
+  padding: center;
+`;
+
+const TitleList = styled(ListGroup)`
+font-style: italic, bold ;
+font-size: 3vw;
+`;
 
 export default function RecipeList() {
     const [state, setState] = useState({ recipes: [] });
@@ -21,29 +44,15 @@ export default function RecipeList() {
             })
     }
 
-    const Table = styled.form` 
-display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-  text-align: center;
-  margin-block-start: 2.5em;
-  padding: 15px;
-`;
-
-const TitleList = styled(ListGroup)`
-font-style: italic ;
-font-size: 30px;
-`;
 
     return (
-        <>
+        <StyledForm>
             <Table>
-            <h1>Liste des recettes chez GFS</h1>
+            <h1>Liste des recettes</h1>
 
                 <TitleList horizontal>
                     <ListGroup.Item style={{width: "65%"}} variant="flush"> Recettes </ListGroup.Item>
-                    <ListGroup.Item style={{width: "65%"}} variant="flush"> Client</ListGroup.Item>
+                    <ListGroup.Item style={{width: "65%"}} variant="flush"> Clients</ListGroup.Item>
                 </TitleList>
                 <ListGroup>
                     {state.recipes && state.recipes.map((recipe, i) =>
@@ -56,6 +65,6 @@ font-size: 30px;
                     )}
                 </ListGroup>
             </Table>
-        </>
+        </StyledForm>
     );
 }

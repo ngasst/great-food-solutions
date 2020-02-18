@@ -2,16 +2,11 @@ import React from "react";
 import { Navbar, Col, Row } from "react-bootstrap";
 import styled from "styled-components";
 
-const MyList = styled.ul`
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-`;
 
 const Wrapper = styled.form`
-width: 101%;
-bottom: fixed;
+ position: fixed;
+  bottom: 0;
+  width: 100%;
 `;
 
 export function Footer() {
@@ -29,23 +24,10 @@ export function Footer() {
                             offering exceptional services and exclusive recipes.
                     </p>
                     </Col>
-                    <Col xs style={{textAlign: "center", padding: "0,5rem 0,5rem"}}>
-                        <h5 style={{fontSize: "1vw"}}>View</h5>
-                        <MyList>
-                            <li>
-                                <a href="Recipe" style={{fontSize: "1vw"}}>Recipe</a>
-                            </li>
-                            <li>
-                                <a href="client" style={{fontSize: "1vw"}}>Client</a>
-                            </li>
-                            <li>
-                                <a href="order" style={{fontSize: "1vw"}}>Order</a>
-                            </li>
-                        </MyList>
-                    </Col>
-                    <Col xs="3" style={{textAlign:"right"}} >
+                
+                    <Col xs="3" style={{textAlign:"right", padding: "3rem 0,5rem"}} >
                             <h5 style={{fontSize: "1vw"}}> GREAT FOOD SOLUTIONS</h5>
-                           <h5 style={{fontSize: "1vw"}}>
+                           <h5 style={{fontSize: "1vw", padding: "0,5rem 0,5rem"}}>
                            Chaussée d'Alsemberg 93,
                            Saint Gilles</h5>
                            

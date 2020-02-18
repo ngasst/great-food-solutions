@@ -6,10 +6,12 @@ import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
 margin: 45px;
-margin-block-start: 1em;
 border: solid;
-padding: 15px;
+padding: center;
+padding-top: 20px;
+padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
+margin-bottom:170px;
 `;
 
 const Table = styled.form` 
@@ -18,8 +20,12 @@ display: block;
   margin-right: auto;
   width: 90%;
   text-align: center;
-  margin-block-start: 2.5em;
   padding: 15px;
+`;
+
+const TitleList = styled(ListGroup)`
+font-style: italic ;
+font-size: 1.5vw;
 `;
 
 export default function IngredientList({ history }) {
@@ -47,12 +53,12 @@ export default function IngredientList({ history }) {
         e.preventDefault();
         let quantityNumber = 0;
         let quantityUnit = "";
-        if (newIngredient.number===0) {
+        if (newIngredient.number === 0) {
             quantityNumber = target.quantity.number;
         } else {
             quantityNumber = newIngredient.number;
         }
-        if (newIngredient.unitBase==="") {
+        if (newIngredient.unitBase === "") {
             quantityUnit = target.quantity.unitBase;
         } else {
             quantityUnit = newIngredient.unitBase;
@@ -184,31 +190,34 @@ export default function IngredientList({ history }) {
         <StyledForm>
             <Table>
                 <h1>Liste des ingredients</h1>
-                <Form.Row horizontal>
-                    <Col md={2}>Nom</Col>
-                    <Col md={1}>Prix (€)/u</Col>
-                    <Col md={1}>Quantité</Col>
-                    <Col md={1}>Unité</Col>
-                    <Col md={2}>Categorie</Col>
-                    <Col md={2}>Fournisseur</Col>
-                    <Col md={1}>Marque</Col>
+                <TitleList horizontal style={{ width: "1200px" }}>
+                    <ListGroup.Item style={{ width: "150px" }}>Nom</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}>Prix (€)/u</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}>Quantité</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}> Unité</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}>Categorie</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}>Fournisseur</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}>Marque</ListGroup.Item>
+                    <ListGroup.Item style={{ width: "150px" }}></ListGroup.Item>
 
-                </Form.Row>
+                </TitleList>
                 <ListGroup>
                     {ingredients.map(ingredient =>
                         (
-                            <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ border: "groove" }}>
-                                <Col md={2}>{ingredient.name}</Col>
-                                <Col md={1}>{ingredient.price}</Col>
-                                <Col md={1}>{ingredient.quantity.number}</Col>
-                                <Col md={1}>{ingredient.quantity.unitBase}</Col>
-                                <Col md={2}>{categoryToFrench(ingredient.category)}</Col>
-                                <Col md={2}>{ingredient.supplier}</Col>
-                                <Col md={1}>{ingredient.brand}</Col>
-                                <Col md={2}>
-                                    <Button variant="secondary"><span id={`${ingredient._id}-m`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Modifier</span></Button>
-                                    <Button variant="secondary"><span id={`${ingredient._id}-s`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Supprimer</span></Button>
+                            <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ width: "1200px" }}>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.name}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.price}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.quantity.number}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.quantity.unitBase}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{categoryToFrench(ingredient.category)}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.supplier}</ListGroup.Item>
+                                <ListGroup.Item style={{ width: "150px" }}>{ingredient.brand}</ListGroup.Item>
+                                <ListGroup.Item>
+                                <Col style={{ width: "150px" }} style={{ alignItems: "center" }}>
+                                    <Form.Row><Button variant="secondary"style={{fontSize:"1vw"}}><span id={`${ingredient._id}-m`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Modifier</span></Button></Form.Row>
+                                    <Button variant="secondary" style={{fontSize:"1vw"}}><span id={`${ingredient._id}-s`} name={`${ingredient.name}-${ingredient.price}-${ingredient.quantity.number}-${ingredient.quantity.unitBase}-${ingredient.category}-${ingredient.supplier}-${ingredient.brand}`} onClick={handleShow}>Supprimer</span></Button>
                                 </Col>
+                                </ListGroup.Item>
                             </ListGroup>
                         )
                     )}
@@ -292,7 +301,7 @@ export default function IngredientList({ history }) {
                         </Modal.Footer>
                     </StyledForm>
                 </Modal>
-                <Button variant="primary" onClick={toCreateIngredient}>
+                <Button variant="primary" onClick={toCreateIngredient} style={{margin: "15px"}}>
                     Nouveau ingredient
             </Button>
             </Table>
