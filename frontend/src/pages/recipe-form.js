@@ -63,6 +63,7 @@ export default function RecipeForm({ history }) {
     const [client, setClient] = useState("");
     const [clients, setClients] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
+    const [defaultCategory, setDefaultCategory] = useState("");
     const [category, setCategory] = useState("");
     const [instructions, setInstructions] = useState([]);
     const [unit, setUnit] = useState("");
@@ -100,6 +101,7 @@ export default function RecipeForm({ history }) {
     function handleCategoryChange(e) {
         const selectedCategory = e.target.value;
         setCategory(selectedCategory);
+        setDefaultCategory("");
         setShow(true);
     }
 
@@ -193,7 +195,7 @@ export default function RecipeForm({ history }) {
         const name = e.target.getAttribute("name").split("-")[0];
         const unit = e.target.getAttribute("name").split("-")[1];
         const reducedQuantity = quantity.reduce((acc, curr) => {
-            if(acc.length>=2) {
+            if(acc.length>1) {
                 acc = acc.filter(o => o.targetIngredient !== curr.targetIngredient)
             }
             acc.push(curr);
@@ -205,8 +207,9 @@ export default function RecipeForm({ history }) {
                 return findOnce += 1;
             } return findOnce;
         }, 0)
-        if (findMatch <= 0) {
+        if (findMatch === 0 && quantityObject.length>0) {
             setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
+            e.target.parentElement.setAttribute("disabled", "");
         }
     }
 
@@ -283,6 +286,7 @@ export default function RecipeForm({ history }) {
 
     const handleClose = () => {
         setShow(false);
+        setDefaultCategory(true);
     }
 
     return (
@@ -302,7 +306,7 @@ export default function RecipeForm({ history }) {
                             <Form.Row>
                                 <Form.Label>Ingrédients</Form.Label>
                             </Form.Row>
-                            <Button onClick={addCategoryList}>Ingrédient</Button>
+                            <Button onClick={addCategoryList}>Ajouter ingrédients</Button>
                             {displaySelectedIngredients()}
                             {categoryList.map((cat, index) => (
                                 <div
@@ -314,7 +318,7 @@ export default function RecipeForm({ history }) {
                                     key={index}
                                 >
                                     <Form.Control as="select" onChange={handleCategoryChange} name="category">
-                                        <option value="">Choissez une catégorie</option>
+                                        <option value="" selected={defaultCategory}>Choissez une catégorie</option>
                                         <option>Fruits et légumes</option>
                                         <option>Viandes</option>
                                         <option>Produits laitier</option>
@@ -339,7 +343,7 @@ export default function RecipeForm({ history }) {
                             <Form.Row>
                                 <Form.Label>Instructions</Form.Label>
                             </Form.Row>
-                            <Button onClick={addInstruction}>Instructions</Button>
+                            <Button onClick={addInstruction}>Ajouter instructions</Button>
                             {instructions.map((instructions, index) => (
                                 <div
                                     styled={{

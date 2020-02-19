@@ -28,11 +28,40 @@ font-style: italic ;
 font-size: 2vw;
 `;
 
+const IngredientList = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+const InstructionList = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+const StyledFormIngredient = styled.div`
+margin: 45px;
+margin-block-start: 1em;
+border: solid;
+padding: 15px;
+border-color: rgba(239, 66, 35, 0.75);
+`;
 
 export default function RecipeClient({ history }) {
     const [recipes, setRecipes] = useState([]);
+    const [ingredient, setIngredient] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
+    const [existingIngIds, setExistingIngIds] = useState([]);
+    const [removedIngredients, setRemovedIngredients] = useState([]);
+    const [newInstructions, setNewInstructions] = useState([]);
+    const [removedInstructions, setRemovedInstructions] = useState([]);
+    const [category, setCategory] = useState("");
+    const [defaultCategory, setDefaultCategory] = useState("");
+    const [categoryList, setCategoryList] = useState([]);
+    const [quantity, setQuantity] = useState([]);
     const [showRem, setShowRem] = useState(false);
     const [showMod, setShowMod] = useState(false);
+    const [showCategory, setShowCategory] = useState(false);
     const [target, setTarget] = useState({});
     const [newRecipe, setNewRecipe] = useState({ id: "", name: "", ingredient: "", instruction: "" })
     const { id } = useParams();
@@ -40,16 +69,44 @@ export default function RecipeClient({ history }) {
         if (id) {
             getRecipes();
         }
-    }, [])
+        if (category) {
+            getIngredients();
+        }
+    }, [category])
 
     function getRecipes() {
         http.get(`/recipes/clients/${id}`)
             .then(({ data: { payload } }) => {
-                console.log(payload)
                 setRecipes(payload);
             })
             .catch(err => {
                 console.error(err);
+            })
+    }
+
+    function getIngredients() {
+        const input = () => {
+            switch (category) {
+                case "Fruits et légumes":
+                    return "fruit and vegetables";
+                case "Viandes":
+                    return "meat";
+                case "Produits laitier":
+                    return "dairy";
+                case "Boulangerie":
+                    return "bakery";
+                case "Produits alimentaires séchés":
+                    return "dried food products";
+                default:
+                    console.log("Non recognized category");
+            }
+        }
+        http.get(`/ingredients?category=${input()}`)
+            .then(({ data: { payload } }) => {
+                setIngredients(payload);
+            })
+            .catch(err => {
+                console.log(err.message);
             })
     }
 
@@ -92,15 +149,84 @@ export default function RecipeClient({ history }) {
             })
     }
 
+    function addInstruction(e) {
+        e.preventDefault();
+        setNewInstructions([...newInstructions, '']);
+    }
+
+    function addCategoryList(e) {
+        e.preventDefault();
+        const count = categoryList.reduce((emptyCount, cat) => {
+            if (cat === "" || categoryList.length === 0) {
+                return emptyCount += 1;
+            } return emptyCount;
+        }, 0)
+        if (count < 1) {
+            setCategoryList([...categoryList, ""]);
+        }
+    }
+
+    function removeInstruction(e, i) {
+        e.preventDefault();
+        setRemovedInstructions([...removedInstructions, { id: target.id, index: i }]);
+    }
+
+    function removeNewInstruction(e, i) {
+        e.preventDefault();
+        setNewInstructions(newInstructions.filter((el, idx) => idx !== i));
+    }
+
+    function removeIngredient(e, i) {
+        e.preventDefault();
+        setRemovedIngredients([...removedIngredients, { id: target.id, index: i }]);
+    }
+
+    function removeNewIngredient(e, i) {
+        e.preventDefault();
+        setIngredient(ingredient.filter((el, idx) => idx !== i));
+    }
+
     const handleChange = (e) => {
         const name = e.target.name;
         setNewRecipe({ ...newRecipe, [name]: e.target.value });
 
     }
 
+    function handleInstructionChange(e, index) {
+        e.preventDefault();
+        const value = e.target.value;
+        const updatedInstructions = newInstructions.map((element, i) => {
+            if (i === index) {
+                return value;
+            } else return element;
+        });
+        setNewInstructions(updatedInstructions);
+    }
+
+    function handleCategoryChange(e) {
+        const selectedCategory = e.target.value;
+        setCategory(selectedCategory);
+        setDefaultCategory("");
+        setShowCategory(true);
+    }
+
     const handleClose = () => {
         setShowRem(false);
         setShowMod(false);
+        setRemovedInstructions([]);
+        setRemovedIngredients([]);
+    }
+
+    const handleCloseCategory = () => {
+        setShowCategory(false);
+        setDefaultCategory(true);
+    }
+
+    function handleQuantityChange(e) {
+        e.preventDefault();
+        const q = e.target.value;
+        const targetIngredient = e.target.name;
+        setQuantity([...quantity, {targetIngredient, quantity: q}]);
     }
 
     const handleShow = (e) => {
@@ -121,6 +247,118 @@ export default function RecipeClient({ history }) {
             setTarget({ id, name, ingredient, instruction, price });
             setNewRecipe({ ...newRecipe, id });
             setShowMod(true);
+        }
+    }
+
+    function displayExistingIngredients() {
+        const existingIng = [];
+        if (target.id) {
+            return (
+                recipes.filter(recipe => recipe._id === target.id)[0].ingredients.map((ingredient, i) => {
+                    if (!removedIngredients.map(ing => ing.index).includes(i)) {
+                        existingIng.push(ingredient.ingredient._id);
+                        return (
+                            <IngredientList key={i}>
+                            <ListGroup>{`${ingredient.ingredient.name}, ${ingredient.quantity} ${ingredient.ingredient.quantity.unitBase}`}</ListGroup>
+                            <button
+                                style={{
+                                    backgroundColor: 'darkred',
+                                    color: 'white',
+                                    border: 'none',
+                                    marginLeft: '0.5rem',
+                                }}
+                                onClick={e => removeIngredient(e, i)}
+                            >
+                                x
+                            </button>
+                        </IngredientList>
+                        )
+                    }
+                })
+            )
+        }
+    }
+
+    function displaySelectedIngredients() {
+        if (ingredient.length > 0) {
+            return (
+                ingredient.map((ingredient, i) => (
+                    <IngredientList key={i}>
+                        <ListGroup>{`${ingredient.name}, ${ingredient.quantity} ${ingredient.unit}`}</ListGroup>
+                        <button
+                            style={{
+                                backgroundColor: 'darkred',
+                                color: 'white',
+                                border: 'none',
+                                marginLeft: '0.5rem',
+                            }}
+                            onClick={e => removeNewIngredient(e, i)}
+                        >
+                            x
+                        </button>
+                    </IngredientList>
+                ))
+            )
+        }
+    }
+
+    function displayIngredients() {
+        return (
+            <StyledFormIngredient>
+                <Table>
+                    <Form.Row horizontal>
+                        <Col md={2}>Nom</Col>
+                        <Col md={1}>Prix (€)/u</Col>
+                        <Col md={2}>Q.</Col>
+                        <Col md={1}>U.</Col>
+                        <Col md={2}>Fournisseur</Col>
+                        <Col md={1}>Marque</Col>
+                        <Col md={2}>Sél. quantité</Col>
+                    </Form.Row>
+                    <ListGroup>
+                        {Array.isArray(ingredients) && ingredients.map(ingredient =>
+                            (
+                                <ListGroup horizontal key={ingredient._id} variant="secondary" style={{ border: "groove" }}>
+                                    <Col md={2}>{ingredient.name}</Col>
+                                    <Col md={1}>{ingredient.price}</Col>
+                                    <Col md={2}>{ingredient.quantity.number}</Col>
+                                    <Col md={1}>{ingredient.quantity.unitBase}</Col>
+                                    <Col md={2}>{ingredient.supplier}</Col>
+                                    <Col md={1}>{ingredient.brand}</Col>
+                                    <Col md={2}>
+                                        <Form.Control onChange={handleQuantityChange} type="number" step="0.001" min="0" name={ingredient._id} />
+                                    </Col>
+                                    <Button variant="secondary"><span id={ingredient._id} name={`${ingredient.name}-${ingredient.quantity.unitBase}`} onClick={handleIngredientChoice}>Ajouter</span></Button>
+                                </ListGroup>
+                            )
+                        )}
+                    </ListGroup>
+                </Table>
+            </StyledFormIngredient>
+        )
+    }
+
+    function handleIngredientChoice(e) {
+        e.preventDefault();
+        const id = e.target.getAttribute("id");
+        const name = e.target.getAttribute("name").split("-")[0];
+        const unit = e.target.getAttribute("name").split("-")[1];
+        const reducedQuantity = quantity.reduce((acc, curr) => {
+            if(acc.length>1) {
+                acc = acc.filter(o => o.targetIngredient !== curr.targetIngredient)
+            }
+            acc.push(curr);
+            return acc;
+        },[])
+        const quantityObject = reducedQuantity.filter(object => id === object.targetIngredient);
+        const findMatch = ingredient.reduce((findOnce, ingredient) => {
+            if (ingredient.id === id) {
+                return findOnce += 1;
+            } return findOnce;
+        }, 0)
+        if (findMatch === 0 && quantityObject.length>0) {
+            setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
+            e.target.parentElement.setAttribute("disabled", "");
         }
     }
 
@@ -206,21 +444,101 @@ export default function RecipeClient({ history }) {
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridIngredient">
-                                    <Form.Label>Ingrédients</Form.Label>
-                                    <Form.Control onChange={handleChange} type="text" name="street" placeholder={target.street} />
+                                    <Form.Row>
+                                        <Form.Label>Ingrédients</Form.Label>
+                                    </Form.Row>
+                                    {displayExistingIngredients()}
+                                    <Button onClick={addCategoryList}>Ajouter ingrédients</Button>
+                                    {displaySelectedIngredients()}
+                                    {categoryList.map((cat, index) => (
+                                        <div
+                                            styled={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'left',
+                                            }}
+                                            key={index}
+                                        >
+                                            <Form.Control as="select" onChange={handleCategoryChange} name="category">
+                                                <option value="" selected={defaultCategory}>Choissez une catégorie</option>
+                                                <option>Fruits et légumes</option>
+                                                <option>Viandes</option>
+                                                <option>Produits laitier</option>
+                                                <option>Boulangerie</option>
+                                                <option>Produits alimentaires séchés</option>
+                                            </Form.Control>
+                                            <Modal show={showCategory} onHide={handleCloseCategory} size="xl" centered>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>{category}</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>{displayIngredients()}</Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button variant="secondary" onClick={handleCloseCategory}>
+                                                        Fermer
+                                            </Button>
+                                                </Modal.Footer>
+                                            </Modal>
+                                        </div>
+                                    ))}
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridInstruction">
-                                    <Form.Label>Instructions</Form.Label>
-                                    <Form.Control onChange={handleChange} type="text" name="zipCode" placeholder={target.zipCode} />
-                                </Form.Group>
-                                <Form.Group as={Col} controlId="formGridPrice">
-                                    <Form.Label>Prix</Form.Label>
-                                    <Form.Control onChange={handleChange} type="text" name="city" placeholder={target.city} />
+                                    <Form.Row>
+                                        <Form.Label>Instructions</Form.Label>
+                                    </Form.Row>
+                                    {target.id && recipes.filter(recipe => recipe._id === target.id)[0].instructions.map((instruction, i) => {
+                                        if (!removedInstructions.map(ins => ins.index).includes(i)) {
+                                            return (
+                                                    <InstructionList key={i}>
+                                                        <ListGroup>{instruction}</ListGroup>
+                                                        <button
+                                                            style={{
+                                                                backgroundColor: 'darkred',
+                                                                color: 'white',
+                                                                border: 'none',
+                                                                marginLeft: '0.5rem',
+                                                            }}
+                                                            onClick={e => removeInstruction(e, i)}
+                                                        >
+                                                            x
+                                                        </button>
+                                                    </InstructionList>
+                                            )
+                                        }
+                                    })}
+                                    <Form.Row>
+                                        <Button onClick={addInstruction}>Ajouter instructions</Button>
+                                    </Form.Row>
+                                    {newInstructions.map((instructions, index) => (
+                                        <div
+                                            styled={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }}
+                                            key={index}
+                                        >
+                                            <input
+                                                type="text"
+                                                onChange={e => handleInstructionChange(e, index)}
+                                                value={instructions}
+                                            />
+                                            <button
+                                                style={{
+                                                    backgroundColor: 'darkred',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    marginLeft: '0.5rem',
+                                                }}
+                                                onClick={e => removeNewInstruction(e, index)}
+                                            >
+                                                x
+                                                </button>
+                                        </div>
+                                    ))}
                                 </Form.Group>
                             </Form.Row>
-
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
