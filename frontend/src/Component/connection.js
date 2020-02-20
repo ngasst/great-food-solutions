@@ -5,11 +5,11 @@ import { Button, ButtonToolbar } from "react-bootstrap";
 export const Connection = () => {
     const history = useHistory();
     const redirectToSingIn = () => {
-        history.push("/Signin");
+        history.push("/Signup");
     }
     return (
         <ButtonToolbar>
-            <Button variant="secondary" onClick={redirectToSingIn}>CONNECTION</Button>
+            <Button variant="secondary" onClick={redirectToSingIn}>S'ENREGISTRER</Button>
         </ButtonToolbar>
     )
 }

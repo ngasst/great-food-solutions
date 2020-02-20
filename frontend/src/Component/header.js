@@ -23,8 +23,8 @@ const HeaderTitle = styled.h1`
     font-family: "Roboto", sans-serif;
     font-style: bold;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 2vw;
+    line-height: 3vw;
     text-align: center;
     padding-top: 15px;
     letter-spacing: 0.22em;
@@ -177,8 +177,11 @@ export function Header() {
                     <img className="gfs_img" src={GFS} alt="" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Collapse style={{ fontSize: "22px"}} id="responsive-navbar-nav">
                     {navBar()}
+                    </Navbar.Collapse>
+                <Navbar.Collapse style={{position: 'absolute', right:"0", padding: "25px"}} id="responsive-navbar-nav">
+
                     {coDeco()}
                 </Navbar.Collapse>
             </Navbar>

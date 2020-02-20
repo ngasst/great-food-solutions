@@ -6,27 +6,25 @@ import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
 margin: 45px;
-margin-block-start: 1em;
+margin-bottom: 170px;
 border: solid;
-padding: center;
 padding-top: 20px;
 padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
 `;
 
-const Table = styled(Form)` 
+const Table = styled.form` 
 display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   width: 90%;
   text-align: center;
-  margin-block-start: 2.5em;
-  padding: center;
-  font-size: 1vw;
+  padding: 20px;
 `;
 
 const TitleList = styled(ListGroup)`
-font-style: italic ;
+font-weight: bold;
+text-align: center;
+font-style: italic;
 font-size: 2vw;
 `;
 
@@ -136,7 +134,7 @@ export default function RestaurantClient({ history }) {
                 <Table >
                     <h1>{restaurants[0] && restaurants[0].client.name}</h1>
 
-                    <TitleList horizontal style={{ width: "1100px" }}>
+                    <TitleList horizontal style={{ width: "100%" }}>
                         <ListGroup.Item style={{ width: "20%" }}> Nom </ListGroup.Item>
                         <ListGroup.Item style={{ width: "20%" }}> Rue </ListGroup.Item>
                         <ListGroup.Item style={{ width: "20%" }}> Ville </ListGroup.Item>
@@ -147,14 +145,14 @@ export default function RestaurantClient({ history }) {
                     <ListGroup>
                         {restaurants.map(restaurant =>
                             (<>
-                                <ListGroup horizontal key={restaurant._id} style={{ width: "1100px" }}>
+                                <ListGroup horizontal key={restaurant._id} style={{ width: "100%" }}>
                                     <ListGroup.Item style={{ width: "20%" }}>{restaurant.name}</ListGroup.Item>
                                     <ListGroup.Item style={{ width: "20%" }}>{restaurant.street}</ListGroup.Item>
                                     <ListGroup.Item style={{ width: "20%" }}>{restaurant.city}</ListGroup.Item>
                                     <ListGroup.Item style={{ width: "20%" }}>{restaurant.zipCode}</ListGroup.Item>
                                     <Col style={{ width: "20%", padding: "5px" }}>
-                                        <Button variant="secondary" style={{padding:"5px"}}><span id={`${restaurant._id}-m`} name={`${restaurant.name}-${restaurant.street}-${restaurant.zipCode}-${restaurant.city}`} onClick={handleShow}>Modifier</span></Button>
-                                        <Button variant="secondary"style={{padding:"5px"}}><span id={`${restaurant._id}-s`} name={`${restaurant.name}-${restaurant.street}-${restaurant.zipCode}-${restaurant.city}`} onClick={handleShow}>Supprimer</span></Button>
+                                        <Button variant="secondary" style={{fontSize:"1vw", padding: "5px", margin: "1px"}}><span id={`${restaurant._id}-m`} name={`${restaurant.name}-${restaurant.street}-${restaurant.zipCode}-${restaurant.city}`} onClick={handleShow}>Modifier</span></Button>
+                                        <Button variant="secondary" style={{fontSize:"1vw", padding: "5px", margin: "1px"}}><span id={`${restaurant._id}-s`} name={`${restaurant.name}-${restaurant.street}-${restaurant.zipCode}-${restaurant.city}`} onClick={handleShow}>Supprimer</span></Button>
                                     </Col>
                                 </ListGroup>
                             </>
@@ -216,8 +214,7 @@ export default function RestaurantClient({ history }) {
                         </StyledForm>
                     </Modal>
                     <Button variant="primary" onClick={toCreateRestaurant} style={{margin:"15px"}}>
-                        Nouveau Restaurant
-            </Button>
+Créer un nouveau restaurant            </Button>
                 </Table>
             </StyledForm>
 
