@@ -51,7 +51,6 @@ export default function RecipeClient({ history }) {
     const [recipes, setRecipes] = useState([]);
     const [ingredient, setIngredient] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const [existingIngIds, setExistingIngIds] = useState([]);
     const [removedIngredients, setRemovedIngredients] = useState([]);
     const [newInstructions, setNewInstructions] = useState([]);
     const [removedInstructions, setRemovedInstructions] = useState([]);
@@ -215,18 +214,22 @@ export default function RecipeClient({ history }) {
         setShowMod(false);
         setRemovedInstructions([]);
         setRemovedIngredients([]);
+        setIngredient([]);
     }
 
     const handleCloseCategory = () => {
         setShowCategory(false);
         setDefaultCategory(true);
+        setQuantity([]);
     }
 
     function handleQuantityChange(e) {
         e.preventDefault();
         const q = e.target.value;
         const targetIngredient = e.target.name;
-        setQuantity([...quantity, {targetIngredient, quantity: q}]);
+        if(q>0) {
+            setQuantity([...quantity, {targetIngredient, quantity: q}]);
+        }
     }
 
     const handleShow = (e) => {
@@ -249,9 +252,8 @@ export default function RecipeClient({ history }) {
             setShowMod(true);
         }
     }
-
+    const existingIng = [];
     function displayExistingIngredients() {
-        const existingIng = [];
         if (target.id) {
             return (
                 recipes.filter(recipe => recipe._id === target.id)[0].ingredients.map((ingredient, i) => {
@@ -356,7 +358,7 @@ export default function RecipeClient({ history }) {
                 return findOnce += 1;
             } return findOnce;
         }, 0)
-        if (findMatch === 0 && quantityObject.length>0) {
+        if (findMatch === 0 && quantityObject.length>0 && !existingIng.includes(id)) {
             setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
             e.target.parentElement.setAttribute("disabled", "");
         }
