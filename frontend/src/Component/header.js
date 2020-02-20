@@ -177,7 +177,7 @@ export function Header() {
                     <img className="gfs_img" src={GFS} alt="" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse style={{ fontSize: "22px"}} id="responsive-navbar-nav">
+                <Navbar.Collapse style={{ fontSize: "20px"}} id="responsive-navbar-nav">
                     {navBar()}
                     </Navbar.Collapse>
                 <Navbar.Collapse style={{position: 'absolute', right:"0", padding: "25px"}} id="responsive-navbar-nav">
