@@ -11,8 +11,6 @@ border: solid;
 padding-top: 20px;
 padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
-
-
 `;
 
 const Table = styled.form` 

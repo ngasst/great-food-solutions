@@ -80,10 +80,10 @@ export default function RestaurantClient({ history }) {
     }
 
     function removeRestaurant() {
-        http.delete(`/restaurants/clients/${target.id}`)
+        http.delete(`/restaurants/${target.id}`)
             .then(() => {
                 setShowRem(false);
-                history.push("/restaurants/clients/${id}");
+                history.push(`/client/${id}/restaurants`);
             })
             .catch(err => {
                 console.error(err);
