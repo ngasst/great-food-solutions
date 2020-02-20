@@ -13,18 +13,19 @@ margin-block-start: 2.5em;
 border: solid;
 padding: 45px;
 border-color: rgba(239, 66, 35, 0.75);
+margin-bottom: 170px;
 `;
 
 class ClientForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientName:     "",
+      clientName: "",
       restaurantName: "",
-      street:         "",
-      area:           "",
-      zipCode:        "",
-      city:           ""
+      street: "",
+      area: "",
+      zipCode: "",
+      city: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,30 +33,30 @@ class ClientForm extends Component {
 
   handleChange(e) {
     let name = e.target.name;
-    this.setState({...this.state, [name]: e.target.value});
+    this.setState({ ...this.state, [name]: e.target.value });
   };
 
   handleSubmit(e) {
     e.preventDefault();
-    http.post("/clients", {name: this.state.clientName})
+    http.post("/clients", { name: this.state.clientName })
       .then(({ data: { payload } }) => {
         http.post("/restaurants", {
-          name:     this.state.restaurantName,
-          street:   this.state.street,
-          city:     this.state.city,
-          zipCode:  this.state.zipCode,
-          client:   payload._id
+          name: this.state.restaurantName,
+          street: this.state.street,
+          city: this.state.city,
+          zipCode: this.state.zipCode,
+          client: payload._id
         })
           .then(({ data }) => {
-            if(data.ok || data.payload.includes("E11000")) {
+            if (data.ok || data.payload.includes("E11000")) {
               this.props.history.push("/clientlist");
             } else {
-            // const action = {
-            //   type: "AUTH",
-            //   token: this.props.token,
-            //   message: `Client ${clientName} was not correctly registered !` 
-            // }
-            // this.props.dispatch(action);
+              // const action = {
+              //   type: "AUTH",
+              //   token: this.props.token,
+              //   message: `Client ${clientName} was not correctly registered !` 
+              // }
+              // this.props.dispatch(action);
             }
           })
           .catch(err => {
@@ -81,56 +82,34 @@ class ClientForm extends Component {
             <Form.Label>Restaurant</Form.Label>
             <Form.Control onChange={this.handleChange} type="Restaurant" name="restaurantName" placeholder="Restaurant" />
           </Form.Group>
-          </Form.Row>
-          <Form.Group controlId="formGridAddress1">
-            <Form.Label>Adresse Restaurant</Form.Label>
-            <Form.Control onChange={this.handleChange} name="street" placeholder="Rue / Avenue / Boulevard" />
+        </Form.Row>
+        <Form.Group controlId="formGridAddress1">
+          <Form.Label>Adresse Restaurant</Form.Label>
+          <Form.Control onChange={this.handleChange} name="street" placeholder="Rue / Avenue / Boulevard" />
+        </Form.Group>
+
+        <Form.Row>
+    
+          <Form.Group as={Col} controlId="formGridCodePostal">
+            <Form.Label>Code Postal</Form.Label>
+            <Form.Control onChange={this.handleChange} name="zipCode" />
           </Form.Group>
 
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridCommune">
-              <Form.Label>Commune</Form.Label>
-              <Form.Control onChange={this.handleChange} name="area" as="select">
-                <option>Choix...</option>
-                <option>Saint-Gilles</option>
-                <option>Etterbeek</option>
-                <option>Woluwe-Saint-Pierre</option>
-                <option>Woluwe-Saint-Lambert</option>
-                <option>Ixelles</option>
-                <option>Kraainem</option>
-                <option>Saint-Josse</option>
-                <option>Bruxelles</option>
-                <option>Uccle</option>
-                <option>Forest</option>
-                <option>Auderghem</option>
-                <option>Anderlecht</option>
-              </Form.Control>
-            </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridCodePostal">
-              <Form.Label>Code Postal</Form.Label>
-              <Form.Control onChange={this.handleChange} name="zipCode" />
-            </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridVille">
-              <Form.Label>Ville</Form.Label>
-              <Form.Control onChange={this.handleChange} name="city" />
-            </Form.Group>
-
-
-          </Form.Row>
-
-          <Form.Group id="formGridCheckbox">
-            <Form.Check type="checkbox" label="Confirmer" />
+          <Form.Group as={Col} controlId="formGridVille">
+            <Form.Label>Ville</Form.Label>
+            <Form.Control onChange={this.handleChange} name="city" />
           </Form.Group>
 
-          <Button variant="secondary" type="submit" style={{marginRight: "auto"}}>
-            Ajouter Client
+
+        </Form.Row>
+
+        <Button variant="secondary" type="submit" style={{ marginRight: "auto" }}>
+          Ajouter Client
         </Button>
       </StyledForm>
 
-        )
-      }
-    };
+    )
+  }
+};
 
 export default connect()(ClientForm);

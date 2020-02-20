@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux';
 import { Form, Col, Row, Button } from 'react-bootstrap';
 import { client } from '../utils/http';
 import styled from 'styled-components';
+import GFS from "../Assets/image/GFS.png";
+
 
 const BoxForm = styled(Form)`
   align-items: center;
   margin: auto;
-  margin-top: 70px;
+  margin-top: 50px;
   padding: 50px;
   width: 50%;
   border: 5px solid;
@@ -16,8 +18,10 @@ const BoxForm = styled(Form)`
 `;
 
 const Titre = styled.h1`
-  margin-top: 50px;
+  margin: 45px;
+  background-image: url('${({ bgUrl }) => bgUrl}');
 `;
+
 export const SignIn = ({ history }) => {
   const [state, setState] = useState({});
   const dispatch = useDispatch();
@@ -49,7 +53,10 @@ export const SignIn = ({ history }) => {
 
   return (
     <>
-      <Titre> Bienvenu</Titre>
+      <Titre>
+      <img className="gfs_img" src={GFS} alt="" style={{ width: "200px",
+  height: "90px"}}/>
+      </Titre>
       <BoxForm onSubmit={handleSubmit}>
         <Form.Group as={Row} controlId="formHorizontalEmail">
           <Form.Label column sm={2}>

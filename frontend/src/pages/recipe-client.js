@@ -8,22 +8,23 @@ const StyledForm = styled(Form)`
 margin: 45px;
 margin-block-start: 1em;
 border: solid;
-padding: center;
 padding-top: 20px;
 padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
+
 `;
 
 const Table = styled(Form)` 
 display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   width: 90%;
   text-align: center;
   font-size: 1vw;
 `;
 
 const TitleList = styled(ListGroup)`
+font-weight: bold;
+text-align: center;
 font-style: italic ;
 font-size: 2vw;
 `;
@@ -170,8 +171,8 @@ export default function RecipeClient({ history }) {
                                 </ListGroup.Item>
                                 <ListGroup.Item style={{ width: "17%" }}>To Be Calculated</ListGroup.Item>
                                 <ListGroup.Item style={{ width: "22%" }}>
-                                    <Button variant="secondary" style={{ padding: "5px" }}><span id={`${recipe._id}-m`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Modifier</span></Button>
-                                    <Button variant="secondary" style={{ padding: "5px" }}><span id={`${recipe._id}-s`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Supprimer</span></Button></ListGroup.Item>
+                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-m`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Modifier</span></Button>
+                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-s`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Supprimer</span></Button></ListGroup.Item>
 
                             </ListGroup>
                         </>

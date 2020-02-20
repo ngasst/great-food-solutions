@@ -107,8 +107,8 @@ export default function ClientList({history}) {
                 (
                     <ListGroup horizontal key={client._id} style={{ width: "100%" }}>
                         <ListGroup.Item style={{ width: "70%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
-                        <Button variant="secondary" style={{ width: "20%" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
-                        <Button variant="secondary" style={{ width: "20%" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
+                        <Button variant="secondary" style={{ width: "20%", margin: "5px" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
+                        <Button variant="secondary" style={{ width: "20%", margin: "5px" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
                     </ListGroup>
                 )
             )}

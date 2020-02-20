@@ -10,15 +10,15 @@ export const Deconnection = () => {
         const action = {
             type: "AUTH",
             token: null,
-            message: "Disconnected."
+            message: "Déconnecté"
         }
         dispatch(action);
         localStorage.removeItem("token");
         history.push("/");
     }
     return (
-        <ButtonToolbar>
-            <Button variant="secondary" onClick={disconnect}>DECONNECTION</Button>
+        <ButtonToolbar >
+            <Button variant="secondary" onClick={disconnect}>DECONNEXION</Button>
         </ButtonToolbar>
     )
 }

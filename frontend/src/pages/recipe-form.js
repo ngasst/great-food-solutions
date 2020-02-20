@@ -28,6 +28,7 @@ margin-block-start: 2.5em;
 border: solid;
 padding: 45px;
 border-color: rgba(239, 66, 35, 0.75);
+margin-bottom: 170px;
 `;
 
 const StyledFormIngredient = styled.div`
@@ -392,10 +393,6 @@ export default function RecipeForm({ history }) {
                             </Form.Control>
                         </Col>
                     </Form.Row>
-                </Form.Group>
-
-                <Form.Group id="formGridCheckbox">
-                    <Form.Check type="checkbox" label="Confirmer" />
                 </Form.Group>
 
                 <Button variant="secondary" type="submit" style={{ marginRight: "auto" }}>
