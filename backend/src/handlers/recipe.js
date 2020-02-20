@@ -139,7 +139,7 @@ function list(req, res) {
 
 function listByClient(req, res) {
     const clientID = req.params.id
-    Recipe.find({client: clientID})
+    Recipe.find({ client: clientID })
         .populate("client")
         .populate("ingredients.ingredient")
         .then(recipes => {

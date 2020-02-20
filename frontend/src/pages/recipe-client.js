@@ -63,8 +63,10 @@ export default function RecipeClient({ history }) {
     const [showMod, setShowMod] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [target, setTarget] = useState({});
-    const [newRecipe, setNewRecipe] = useState({ id: "", name: "", ingredient: "", instruction: "" })
+    const [newRecipe, setNewRecipe] = useState({});
     const { id } = useParams();
+    const existingIng = [];
+    const existingIns = [];
     useEffect(() => {
         if (id) {
             getRecipes();
@@ -112,37 +114,62 @@ export default function RecipeClient({ history }) {
 
     function modifyRecipe(e) {
         e.preventDefault();
-        const recipeInputs = {
-            name: newRecipe.name,
-            ingredient: newRecipe.ingredient,
-            instruction: newRecipe.instruction,
-            zipcpriceode: newRecipe.price,
-        };
-        Object.keys(recipeInputs).map(key => {
-            if (recipeInputs[key] === "") {
-                return recipeInputs[key] = target[key];
-            }
-            if (recipeInputs[key] === "undefined") {
-                return recipeInputs[key] = "";
-            } else return recipeInputs[key];
-        })
-        if (!Object.values(recipeInputs).includes("")) {
-            http.put("recipe", recipeInputs)
-                .then(() => {
-                    setShowMod(false);
-                    history.push("/recipes/clients/${id}");
-                })
-                .catch(err => {
-                    console.error(err);
-                })
+        const ingredients = [];
+        const instructions = [];
+        let recipeInputs = {};
+        existingIng.length>0 && existingIng.map(ing => ingredients.push(ing));
+        ingredient.length>0 && ingredient.map(ing => ingredients.push({ingredient: ing.id, quantity: ing.quantity}));
+        existingIns.length>0 && existingIns.map(ins => instructions.push(ins));
+        if(instructions.length>0 && instructions.length===existingIns.length) {
+            newInstructions.map(ins => instructions.push(ins));
         }
+        if(instructions.length===0) {
+            newInstructions.map(ins => instructions.push(ins));
+        }
+        if(newRecipe.name) {
+            recipeInputs = {
+                id: newRecipe.id,
+                name: newRecipe.name,
+                instructions,
+                ingredients
+            }
+        } else {
+            recipeInputs = {
+                id: newRecipe.id,
+                name: target.name,
+                instructions,
+                ingredients
+            }
+        }
+        // function isEquivalent(a, b) {
+        //     var aProps = Object.getOwnPropertyNames(a);
+        //     var bProps = Object.getOwnPropertyNames(b);
+        //     if (aProps.length !== bProps.length) {
+        //         console.log("b:", bProps)
+        //         return false;
+        //     }
+        //     for (var i = 0; i < aProps.length; i++) {
+        //         var propName = aProps[i];
+        //         if (a[propName] !== b[propName]) {
+        //             console.log("a:", aProps)
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
+        http.put("/recipes", recipeInputs)
+            .then(() => {
+                history.push(`/client/${id}/recipes`);
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     function removeRecipe() {
-        http.delete(`/recipes/clients/${target.id}`)
+        http.delete(`/recipes/${target.id}`)
             .then(() => {
-                setShowRem(false);
-                history.push("/recipes/clients/${id}");
+                history.push(`/client/${id}/recipes`);
             })
             .catch(err => {
                 console.error(err);
@@ -215,6 +242,7 @@ export default function RecipeClient({ history }) {
         setShowMod(false);
         setRemovedInstructions([]);
         setRemovedIngredients([]);
+        setNewRecipe({});
         setIngredient([]);
     }
 
@@ -226,7 +254,7 @@ export default function RecipeClient({ history }) {
 
     function handleQuantityChange(e) {
         e.preventDefault();
-        const q = e.target.value;
+        const q = Number(e.target.value);
         const targetIngredient = e.target.name;
         if(q>0) {
             setQuantity([...quantity, {targetIngredient, quantity: q}]);
@@ -236,44 +264,39 @@ export default function RecipeClient({ history }) {
     const handleShow = (e) => {
         if (e.target.getAttribute("id").split("-")[1] === "s") {
             const id = e.target.getAttribute("id").split("-")[0];
-            const name = e.target.getAttribute("name").split("-")[0];
-            const ingredient = e.target.getAttribute("name").split("-")[1];
-            const instruction = e.target.getAttribute("name").split("-")[2];
-            const price = e.target.getAttribute("name").split("-")[3];
-            setTarget({ id, name, ingredient, instruction, price });
+            const name = e.target.getAttribute("name");
+            const recipe = recipes.filter(recipe => recipe._id === id);
+            setTarget({ id, name, ingredients: recipe[0].ingredients, instructions: recipe[0].instructions });
             setShowRem(true);
         } else if (e.target.getAttribute("id").split("-")[1] === "m") {
             const id = e.target.getAttribute("id").split("-")[0];
-            const name = e.target.getAttribute("name").split("-")[0];
-            const ingredient = e.target.getAttribute("name").split("-")[1];
-            const instruction = e.target.getAttribute("name").split("-")[2];
-            const price = e.target.getAttribute("name").split("-")[3];
-            setTarget({ id, name, ingredient, instruction, price });
+            const name = e.target.getAttribute("name");
+            const recipe = recipes.filter(recipe => recipe._id === id);
+            setTarget({ id, name, ingredients: recipe[0].ingredients, instructions: recipe[0].instructions });
             setNewRecipe({ ...newRecipe, id });
             setShowMod(true);
         }
     }
-    const existingIng = [];
     function displayExistingIngredients() {
         if (target.id) {
             return (
                 recipes.filter(recipe => recipe._id === target.id)[0].ingredients.map((ingredient, i) => {
                     if (!removedIngredients.map(ing => ing.index).includes(i)) {
-                        existingIng.push(ingredient.ingredient._id);
+                        existingIng.push({ingredient: ingredient.ingredient._id, quantity: ingredient.quantity});
                         return (
                             <IngredientList key={i}>
-                            <ListGroup>{`${ingredient.ingredient.name}, ${ingredient.quantity} ${ingredient.ingredient.quantity.unitBase}`}</ListGroup>
-                            <button
-                                style={{
-                                    backgroundColor: 'darkred',
-                                    color: 'white',
-                                    border: 'none',
-                                    marginLeft: '0.5rem',
-                                }}
-                                onClick={e => removeIngredient(e, i)}
-                            >
-                                x
-                            </button>
+                                <ListGroup>{`${ingredient.ingredient.name}, ${ingredient.quantity} ${ingredient.ingredient.quantity.unitBase}`}</ListGroup>
+                                <button
+                                    style={{
+                                        backgroundColor: 'darkred',
+                                        color: 'white',
+                                        border: 'none',
+                                        marginLeft: '0.5rem',
+                                    }}
+                                    onClick={e => removeIngredient(e, i)}
+                                >
+                                    x
+                                </button>
                         </IngredientList>
                         )
                     }
@@ -359,7 +382,8 @@ export default function RecipeClient({ history }) {
                 return findOnce += 1;
             } return findOnce;
         }, 0)
-        if (findMatch === 0 && quantityObject.length>0 && !existingIng.includes(id)) {
+        const existingIngIds = existingIng.map(ing => ing.id);
+        if (findMatch === 0 && quantityObject.length>0 && !existingIngIds.includes(id)) {
             setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
             e.target.parentElement.setAttribute("disabled", "");
         }
@@ -411,8 +435,8 @@ export default function RecipeClient({ history }) {
                                 </ListGroup.Item>
                                 <ListGroup.Item style={{ width: "17%" }}>To Be Calculated</ListGroup.Item>
                                 <ListGroup.Item style={{ width: "22%" }}>
-                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-m`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Modifier</span></Button>
-                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-s`} name={`${recipe.name}-${recipe.ingredient}-${recipe.instruction}`} onClick={handleShow}>Supprimer</span></Button></ListGroup.Item>
+                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-m`} name={`${recipe.name}`} onClick={handleShow}>Modifier</span></Button>
+                                    <Button variant="secondary" style={{ margin: "5px" }}><span id={`${recipe._id}-s`} name={`${recipe.name}`} onClick={handleShow}>Supprimer</span></Button></ListGroup.Item>
 
                             </ListGroup>
                         </>
@@ -492,6 +516,7 @@ export default function RecipeClient({ history }) {
                                     </Form.Row>
                                     {target.id && recipes.filter(recipe => recipe._id === target.id)[0].instructions.map((instruction, i) => {
                                         if (!removedInstructions.map(ins => ins.index).includes(i)) {
+                                            existingIns.push(instruction);
                                             return (
                                                     <InstructionList key={i}>
                                                         <ListGroup>{instruction}</ListGroup>
