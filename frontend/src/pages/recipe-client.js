@@ -382,7 +382,7 @@ export default function RecipeClient({ history }) {
                 return findOnce += 1;
             } return findOnce;
         }, 0)
-        const existingIngIds = existingIng.map(ing => ing.id);
+        const existingIngIds = existingIng.map(ing => ing.ingredient);
         if (findMatch === 0 && quantityObject.length>0 && !existingIngIds.includes(id)) {
             setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
             e.target.parentElement.setAttribute("disabled", "");
