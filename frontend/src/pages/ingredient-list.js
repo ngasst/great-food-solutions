@@ -224,7 +224,7 @@ export default function IngredientList({ history }) {
                 </ListGroup>
                 <Modal show={showRem} onHide={handleClose} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title>{target.name}</Modal.Title>
+                        <Modal.Title>Mise à jour de {target.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Confirmez-vous la suppression ? (la suppression est irréversible)</Modal.Body>
                     <Modal.Footer>
