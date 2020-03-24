@@ -7,6 +7,7 @@ const Wrapper = styled.form`
  position: fixed;
   bottom: 0;
   width: 101%;
+  margin-top: 25px;
 `;
 
 export function Footer() {

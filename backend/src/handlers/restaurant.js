@@ -39,6 +39,48 @@ function create(req, res) {
         });
         return;
     }
+    if (!req.body.TVA) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {TVA: "20 numbers"}'
+        });
+        return;
+    }
+    if (!req.body.contact) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {name: "xxxx"}'
+        });
+        return;
+    }
+    if (!req.body.emailContact) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {email: "xxxx"}'
+        });
+        return;
+    }
+    if (!req.body.telContact) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {telephone number: "13 numbers"}'
+        });
+        return;
+    }
+    if (!req.body.siteInternet) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {site internet: "www.xxxxx.xx"}'
+        });
+        return;
+    }
+    if (!req.body.deliveryDay) {
+        res.json({
+            ok: false,
+            payload: 'Must provide an object like: {informations livraison: "Informations livraison"}'
+        });
+        return;
+    }
     if (!req.body.client) {
         res.json({
             ok: false,
@@ -46,13 +88,19 @@ function create(req, res) {
         });
         return;
     }
-    const { name, street, city, zipCode, client } = req.body;
+    const { name, street, city, zipCode, client, TVA, contact, emailContact, telContact, siteInternet, deliveryDay  } = req.body;
 
     const restaurant = new Restaurant({
         name,
         street,
         city,
         zipCode,
+        TVA,
+        contact,
+        emailContact,
+        telContact,
+        siteInternet,
+        deliveryDay,
         client
     });
     restaurant
@@ -89,8 +137,8 @@ function listByClient(req, res) {
 }
 
 function put(req, res) {
-    const { name, street, city, zipCode, client, id } = req.body;
-    if (!name && !street && !city && !zipCode && !client) {
+    const { name, street, city, zipCode, TVA, contact, emailContact, telContact, siteInternet, deliveryDay, client, id } = req.body;
+    if (!name && !street && !city && !zipCode && !TVA && !contact && !emailContact && !telContact && !siteInternet &&!deliveryDay && !client) {
         res.json({ ok: false, payload: "Nothing to update!" });
     }
 
@@ -100,6 +148,12 @@ function put(req, res) {
     street && (update.street = street);
     city && (update.city = city);
     zipCode && (update.zipCode = zipCode);
+    TVA && (update.TVA = TVA);
+    contact && (update.contact = contact);
+    emailContact && (update.emailContact = emailContact);
+    telContact && (update.telContact = telContact);
+    siteInternet && (update.siteInternet = siteInternet);
+    deliveryDay && (update.deliveryDay = deliveryDay);
     client && (update.client = client);
 
     Restaurant.findOneAndUpdate({ _id: id }, { ...update }, { new: true })

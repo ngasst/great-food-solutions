@@ -12,6 +12,8 @@ padding: center;
 padding-top: 20px;
 padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
+margin-bottom: 170px;
+
 `;
 
 const Table = styled.form` 
@@ -26,7 +28,6 @@ display: block;
 
 export default function ClientList({history}) {
     const [clients, setClients] = useState([]);
-    const [showRem, setShowRem] = useState(false);
     const [showMod, setShowMod] = useState(false);
     const [target, setTarget] = useState({});
     const [newClient, setNewClient] = useState({id: "", name: ""})
@@ -51,7 +52,7 @@ export default function ClientList({history}) {
             http.put("clients", newClient)
             .then(() => {
                 setShowMod(false);
-                history.push("/client");
+                history.push("/clientlist");
             })
             .catch(err => {
                 console.error(err);
@@ -59,23 +60,12 @@ export default function ClientList({history}) {
         }
     }
 
-    function removeClient() {
-        http.delete(`/clients/${target.id}`)
-            .then(() => {
-                setShowRem(false);
-                history.push("/clientlist");
-            })
-            .catch(err => {
-                console.error(err);
-            })
-    }
 
     const handleChange = (e) => {
         const name = e.target.name;
         setNewClient({...newClient, [name]: e.target.value});
     }
     const handleClose = () => {
-        setShowRem(false);
         setShowMod(false);
     }
     const handleShow = (e) => {
@@ -83,7 +73,6 @@ export default function ClientList({history}) {
             const id = e.target.getAttribute("id").split("-")[0];
             const name = e.target.getAttribute("name");
             setTarget({ id, name });
-            setShowRem(true);
         } else if(e.target.getAttribute("id").split("-")[1]==="m") {
             const id = e.target.getAttribute("id").split("-")[0];
             const name = e.target.getAttribute("name");
@@ -108,25 +97,11 @@ export default function ClientList({history}) {
                     <ListGroup horizontal key={client._id} style={{ width: "100%" }}>
                         <ListGroup.Item style={{ width: "70%" }}><Link className="link-router" to={`/client/${client._id}`}>{client.name}</Link></ListGroup.Item>
                         <Button variant="secondary" style={{ width: "20%", margin: "5px" }}><span id={`${client._id}-m`} name={client.name} onClick={handleShow}>Modifier</span></Button>
-                        <Button variant="secondary" style={{ width: "20%", margin: "5px" }}><span id={`${client._id}-s`} name={client.name} onClick={handleShow}>Supprimer</span></Button>
                     </ListGroup>
                 )
             )}
             </ListGroup>
-            <Modal show={showRem} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>{target.name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Confirmez-vous la suppression ? (la suppression est irréversible)</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Non
-                    </Button>
-                    <Button variant="primary" onClick={removeClient}>
-                        Oui
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+           
             <Modal show={showMod} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>
                 <Modal.Title>Mise à jour de {target.name}</Modal.Title>

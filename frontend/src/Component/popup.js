@@ -22,7 +22,7 @@ export const PopUp = () => {
   const handleClose = () => {
     setTimeout(function() {
       setFlash('');
-    }, 100000);
+    }, 2000);
   };
 
   return (

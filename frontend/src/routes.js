@@ -5,9 +5,7 @@ import Home from './pages/home';
 import ClientList from './pages/client-list';
 import Restaurant from './pages/restaurant';
 import RecipeList from './pages/recipe-list';
-import { Client } from './pages/client';
-import RecipeClient from './pages/recipe-client';
-import RestaurantClient from './pages/restaurant-client';
+import {Client} from './pages/client';
 import Order from './pages/order';
 import Bill from './pages/bill';
 import IngredientList from './pages/ingredient-list';
@@ -29,8 +27,6 @@ export default function MainRouter() {
     <>
       <Route exact path="/" component={requireAuth(Home)} />
       <Route exact path="/client/:id" component={requireAuth(Client)} />
-      <Route exact path="/client/:id/recipes" component={requireAuth(RecipeClient)} />
-      <Route exact path="/client/:id/restaurants" component={requireAuth(RestaurantClient)} />
       <Route exact path="/clientlist" component={requireAuth(ClientList)} />
       <Route exact path="/client-form" component={requireAuth(ClientForm)} />
       <Route exact path="/restaurant" component={requireAuth(Restaurant)} />
@@ -48,8 +44,6 @@ export default function MainRouter() {
       <Route exact path="/signin" component={requireNoAuth(SignIn)} />
       <Route exact path="/signup" component={requireNoAuth(SignUp)} />
       <Route exact path="/recipe-form" component={requireAuth(RecipeForm)} />
-
-
     </>
   );
 }

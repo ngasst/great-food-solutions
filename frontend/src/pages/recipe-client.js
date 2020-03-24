@@ -5,21 +5,19 @@ import { Form, ListGroup, Button, Modal, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
-margin: 45px;
-margin-block-start: 1em;
 border: solid;
-padding-top: 20px;
-padding-bottom: 20px;
 border-color: rgba(239, 66, 35, 0.75);
-
+margin-top: 25px;
 `;
 
 const Table = styled(Form)` 
 display: block;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 90%;
   text-align: center;
-  font-size: 1vw;
+  padding: 25px;
+  
 `;
 
 const TitleList = styled(ListGroup)`
@@ -117,16 +115,16 @@ export default function RecipeClient({ history }) {
         const ingredients = [];
         const instructions = [];
         let recipeInputs = {};
-        existingIng.length>0 && existingIng.map(ing => ingredients.push(ing));
-        ingredient.length>0 && ingredient.map(ing => ingredients.push({ingredient: ing.id, quantity: ing.quantity}));
-        existingIns.length>0 && existingIns.map(ins => instructions.push(ins));
-        if(instructions.length>0 && instructions.length===existingIns.length) {
+        existingIng.length > 0 && existingIng.map(ing => ingredients.push(ing));
+        ingredient.length > 0 && ingredient.map(ing => ingredients.push({ ingredient: ing.id, quantity: ing.quantity }));
+        existingIns.length > 0 && existingIns.map(ins => instructions.push(ins));
+        if (instructions.length > 0 && instructions.length === existingIns.length) {
             newInstructions.map(ins => instructions.push(ins));
         }
-        if(instructions.length===0) {
+        if (instructions.length === 0) {
             newInstructions.map(ins => instructions.push(ins));
         }
-        if(newRecipe.name) {
+        if (newRecipe.name) {
             recipeInputs = {
                 id: newRecipe.id,
                 name: newRecipe.name,
@@ -256,8 +254,8 @@ export default function RecipeClient({ history }) {
         e.preventDefault();
         const q = Number(e.target.value);
         const targetIngredient = e.target.name;
-        if(q>0) {
-            setQuantity([...quantity, {targetIngredient, quantity: q}]);
+        if (q > 0) {
+            setQuantity([...quantity, { targetIngredient, quantity: q }]);
         }
     }
 
@@ -282,7 +280,7 @@ export default function RecipeClient({ history }) {
             return (
                 recipes.filter(recipe => recipe._id === target.id)[0].ingredients.map((ingredient, i) => {
                     if (!removedIngredients.map(ing => ing.index).includes(i)) {
-                        existingIng.push({ingredient: ingredient.ingredient._id, quantity: ingredient.quantity});
+                        existingIng.push({ ingredient: ingredient.ingredient._id, quantity: ingredient.quantity });
                         return (
                             <IngredientList key={i}>
                                 <ListGroup>{`${ingredient.ingredient.name}, ${ingredient.quantity} ${ingredient.ingredient.quantity.unitBase}`}</ListGroup>
@@ -297,7 +295,7 @@ export default function RecipeClient({ history }) {
                                 >
                                     x
                                 </button>
-                        </IngredientList>
+                            </IngredientList>
                         )
                     }
                 })
@@ -370,12 +368,12 @@ export default function RecipeClient({ history }) {
         const name = e.target.getAttribute("name").split("-")[0];
         const unit = e.target.getAttribute("name").split("-")[1];
         const reducedQuantity = quantity.reduce((acc, curr) => {
-            if(acc.length>1) {
+            if (acc.length > 1) {
                 acc = acc.filter(o => o.targetIngredient !== curr.targetIngredient)
             }
             acc.push(curr);
             return acc;
-        },[])
+        }, [])
         const quantityObject = reducedQuantity.filter(object => id === object.targetIngredient);
         const findMatch = ingredient.reduce((findOnce, ingredient) => {
             if (ingredient.id === id) {
@@ -383,7 +381,7 @@ export default function RecipeClient({ history }) {
             } return findOnce;
         }, 0)
         const existingIngIds = existingIng.map(ing => ing.id);
-        if (findMatch === 0 && quantityObject.length>0 && !existingIngIds.includes(id)) {
+        if (findMatch === 0 && quantityObject.length > 0 && !existingIngIds.includes(id)) {
             setIngredient([...ingredient, { id, name, quantity: quantityObject[0].quantity, unit }]);
             e.target.parentElement.setAttribute("disabled", "");
         }
@@ -396,7 +394,7 @@ export default function RecipeClient({ history }) {
     return (
         <StyledForm>
             <Table>
-                <h1>{recipes[0] && recipes[0].client.name}</h1>
+                <h1>Recettes</h1>
 
                 <TitleList horizontal style={{ width: "100%" }}>
                     <ListGroup.Item style={{ width: "10%" }}> Actif </ListGroup.Item>
@@ -518,20 +516,20 @@ export default function RecipeClient({ history }) {
                                         if (!removedInstructions.map(ins => ins.index).includes(i)) {
                                             existingIns.push(instruction);
                                             return (
-                                                    <InstructionList key={i}>
-                                                        <ListGroup>{instruction}</ListGroup>
-                                                        <button
-                                                            style={{
-                                                                backgroundColor: 'darkred',
-                                                                color: 'white',
-                                                                border: 'none',
-                                                                marginLeft: '0.5rem',
-                                                            }}
-                                                            onClick={e => removeInstruction(e, i)}
-                                                        >
-                                                            x
+                                                <InstructionList key={i}>
+                                                    <ListGroup>{instruction}</ListGroup>
+                                                    <button
+                                                        style={{
+                                                            backgroundColor: 'darkred',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            marginLeft: '0.5rem',
+                                                        }}
+                                                        onClick={e => removeInstruction(e, i)}
+                                                    >
+                                                        x
                                                         </button>
-                                                    </InstructionList>
+                                                </InstructionList>
                                             )
                                         }
                                     })}
@@ -578,7 +576,7 @@ export default function RecipeClient({ history }) {
                         </Modal.Footer>
                     </StyledForm>
                 </Modal>
-                <Button variant="secondary" onClick={toCreateRecipe} style={{ margin: "15px" }}>
+                <Button variant="primary" onClick={toCreateRecipe} style={{ margin: "15px" }}>
                     Créer une nouvelle recette
             </Button>
             </Table>
